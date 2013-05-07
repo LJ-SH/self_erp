@@ -1,0 +1,26 @@
+<%= form_for @search, :url => collection_path, :as => :q, :builder => ActiveAdmin::Filters::FormBuilder, :html => {method: :get, :class => :filter_form} do |f| %>
+  <div>
+    <%= f.label :level0, t('label.component_category.level0'), :class => 'label' %>
+    <%= f.select :level0_eq, collection_ary[0], :selected => level_val_ary[0] %>
+  </div>
+  <div>
+    <%= f.label :level1, t('label.component_category.level1'), :class => 'label' %>
+    <%= f.select :level1_eq, collection_ary[1], :selected => level_val_ary[1] %>
+  </div>
+  <div>
+    <%= f.label :level2, t('label.component_category.level2'), :class => 'label' %>
+    <%= f.select :level2_eq, collection_ary[2], :selected => level_val_ary[2] %>
+  </div>    
+  <%=   
+    f.filter :name, :as => :string
+    f.filter :updated_by_email, :as => :select, 
+             :collection => proc {ComponentCategory.uniq.pluck(:updated_by_email)}
+    f.form_buffers.last %>
+
+  <%= content_tag :div, :class => "buttons" do %>
+    <%=  f.submit I18n.t('active_admin.filter') %>
+    <%=  link_to(I18n.t('active_admin.clear_filters'), "#", :class => "clear_filters_btn") %>
+    <%=  hidden_field_tags_for(params, :except => [:q, :page]) %>
+  <% end %>
+
+<% end %> 

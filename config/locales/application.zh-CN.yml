@@ -1,0 +1,21 @@
+zh-CN:
+# system level defintion
+  self_erp: "自助企业管理系统"
+  system_setting: "系统设置"
+  active_admin:
+    access_denied:
+      message:  "没有权限访问!"  
+  sign_in:
+    placeholder:
+      login_hint: 请输入用户名或者电子邮件
+      password_hint: 请输入密码  
+  role:
+    :role_super: "超级管理员"        
+    :role_admin:   "管理员"
+    :role_dev: "研发"
+    :role_fin: "财务" 
+    :role_plm: "产品经理"
+    :role_sales: "销售"
+    :role_material_controller: "物料专员"
+    :role_service: "售后服务"
+    :role_others: "其他" 

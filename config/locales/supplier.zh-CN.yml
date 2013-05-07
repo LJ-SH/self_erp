@@ -1,0 +1,18 @@
+zh-CN:
+  label:
+    supplier:
+      basic_info: 基本信息
+      company_profile: 公司分类信息
+      sign_in_info: 登陆分类信息   
+  link:
+    supplier:
+      add_new_sign_in: 增加新登陆用户
+      remove: 删除
+      user_no: "第%{index}用户"
+      back_to_suppliers_index: 返回供应商列表
+  table:
+    supplier:
+      email: 邮件
+      company_name: 公司名称
+      contact:  公司联系人
+      sign_in_info: 公司登陆信息

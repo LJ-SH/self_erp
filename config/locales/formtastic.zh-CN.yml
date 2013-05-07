@@ -1,0 +1,12 @@
+zh-CN:
+  formtastic:
+    :create: "新建%{model}"
+    :update: "更新%{model}"
+    :submit: '提交 %{model}'
+    :cancel: '取消'
+    :reset: '复位 %{model}'
+    :required: '必选'
+    titles:
+      component_category_sel_category_type: 选择分类级别
+      component_category_list_category_details:  填写分类详细信息
+      supplier_basic_info: 基本信息 

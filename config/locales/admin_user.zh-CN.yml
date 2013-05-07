@@ -1,0 +1,6 @@
+zh-CN:
+  admin_users:
+    admin_user_form_title: "用户详细信息"
+    insufficient_permission_on_role_assignment: "用户权限设置超限"
+    destroy_fails_if_last_admin: "缺省的管理员用户不能被删除"
+    destroy_fails_if_current_admin_user: "当前的登录用户不能被删除"

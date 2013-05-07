@@ -1,0 +1,7 @@
+<div id="locale_selection">
+  <%= form_tag '', :method => :get , :class => 'locale' do %>
+    <%= select_tag 'locale', options_for_select(LANGUAGES, I18n.locale.to_s), :onchange => 'this.form.submit()' %>
+    <%= submit_tag 'submit' %>
+    <%= javascript_tag "$('.locale input').hide()" %>
+  <% end %>
+</div>

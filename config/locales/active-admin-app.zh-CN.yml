@@ -1,0 +1,77 @@
+zh-CN:
+  activerecord:
+    models:
+      admin_user: 
+        one: "用户管理"
+        other: "用户管理"
+      component_category:
+        one: '元件分类'
+        other: '元件分类'   
+      supplier:
+        one: '供货商'
+        other: '供货商'     
+    attributes:
+      admin_user:
+        email: "电子邮件"
+        password: "密码"
+        password_confirmation: "再次确认密码"
+        current_sign_in_at: "当前登录时间"
+        role:  "角色"
+        user_name: "用户名"
+        last_sign_in_at:  "最近一次登录时间"
+        sign_in_count:  "登录次数"
+        tlogin: 登录名
+        organization:  公司名
+        telephone:  电话号码      
+      component_category:
+        name: 名称
+        comment: 备注
+        updated_by_email: 最近更新帐号
+        updated_at:  更新时间
+        code:  编号(2位数字)
+        ancestry: 父类信息
+        ancestry_depth: 分类类别
+        level0: 一级父类
+        level1: 二级父类
+        level2: 三级父类
+        level3: 四级父类          
+        actions:  操作     
+      supplier:
+        name: 登陆名
+        status: 状态
+        company_name: 公司名称
+        contact:  公司联系人  
+        email: 电子邮件              
+      company_profile:
+        company_name: 公司名称
+        company_addr: 公司地址
+        postcode: 公司邮编
+        company_desc: 公司简介
+        contact:  公司联系人
+        primary_phone: 公司联系电话
+        secondary_phone: 备用联系电话
+        distribution_list: 邮件列表
+        appendix: 公司附件  
+      user:
+        email: "电子邮件"
+        password: "密码"
+        password_confirmation: "再次确认密码"          
+  errors:
+    messages:    
+      destroy_fails_if_last_admin: 最后一个系统管理员不能被删除
+      destroy_fails_if_in_use:  "(子)模型-%{categoryname}-正在被使用"
+      destroy_fails_if_children_exist: "子节点-%{childname}-不能被删除"      
+  devise:
+    failure:
+      invalid: 登录名（用户名或邮箱）或密码错误  
+  active_admin:
+    sidebars:
+      help: "帮助"
+    scopes:
+      depth0: 一级分类
+      depth1: 二级分类      
+      depth2: 三级分类
+      depth3: 四级分类   
+      company_active: 经常业务往来
+      company_outdated: 不在业务往来
+      company_transient: 很少业务往来    
