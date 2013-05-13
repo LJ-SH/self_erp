@@ -1,4 +1,4 @@
-class Supplier < ActiveRecord::Base
+class SupplyAgent < ActiveRecord::Base
   # attr_accessible :title, :body
   attr_accessible :name, :users_attributes, :company_profile_attributes, :comment, :status
   attr_accessor :appendix, :file

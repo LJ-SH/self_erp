@@ -3,6 +3,7 @@ class AddSeedDataToComponentCategories < ActiveRecord::Migration
   def migrate(direction)
     super
     if direction == :up then
+      ComponentCategory.delete_all
       ComponentCategory.create!(:updated_by_email => 'super@example.com', :name =>'电子料',:code => '81')
 	  ComponentCategory.create!(:updated_by_email => 'super@example.com', :name =>'电阻', :parent => ComponentCategory.find_by_name('电子料'), :code => '01')
 	  ComponentCategory.create!(:updated_by_email => 'super@example.com', :name =>'贴片电阻', :parent => ComponentCategory.find_by_name('电阻'), :code => '01')

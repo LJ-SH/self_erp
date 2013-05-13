@@ -1,0 +1,31 @@
+<% if f.object.new_record? %>
+  <%= f.inputs :class => 'new_child_list' do %>
+  <legend> 
+    <span>
+      <a href="#" class="dumb_sub_link_for_hide_and_show_only">
+      	  <%= t("link.corporate.user_no", :index => "#{index}") %>
+      </a> &nbsp&nbsp
+      <%= link_to_function t("link.corporate.remove"), "remove_fields(this)" %>
+    </span>
+  </legend>
+  <%= f.hidden_field :_destroy %>
+  <%= f.input :email %>
+  <%= f.input :password %>
+  <%= f.input :password_confirmation %>  
+  <% end %>
+<% else %>
+  <%= f.inputs :class => 'child_list' do %>
+  <legend> 
+    <span>
+      <a href="#" class="dumb_sub_link_for_hide_and_show_only">
+          <%= "#{f.object.email}" %>
+      </a> &nbsp&nbsp
+      <%= link_to_function t("link.corporate.remove"), "remove_fields(this)" %>
+    </span>
+  </legend>
+  <%= f.hidden_field :_destroy %>
+  <%= f.input :email %>
+  <%= f.input :password %>
+  <%= f.input :password_confirmation %>  
+  <% end %>  
+<% end %>

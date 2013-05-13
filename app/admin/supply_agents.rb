@@ -1,4 +1,4 @@
-ActiveAdmin.register Supplier do
+ActiveAdmin.register SupplyAgent do
   config.batch_actions = false
   config.clear_sidebar_sections!
 
@@ -31,7 +31,7 @@ ActiveAdmin.register Supplier do
 
   # customize filter panel, comment-by-LJ on 2-May-2013
   sidebar :filters, :only => :index do
-    render :partial => '/admin/corporate/search', :locals=>{:corporate_collection => Supplier.all}
+    render :partial => '/admin/corporate/search', :locals=>{:corporate_collection => SupplyAgent.all}
   end
 
 
@@ -62,7 +62,7 @@ ActiveAdmin.register Supplier do
   end
 
   sidebar I18n.t("label.corporate.basic_info"), :only => [:show] do
-    attributes_table_for supplier do
+    attributes_table_for supply_agent do
       row :name
       row :comment
     end
@@ -73,10 +73,10 @@ ActiveAdmin.register Supplier do
   # here are the controller portion, comment-by-LJ on 2-May-2013
   controller do
     def new
-      @supplier = Supplier.new
-      @supplier.users.build
-      @supplier.build_company_profile
+      @supply_agent = SupplyAgent.new
+      @supply_agent.users.build
+      @supply_agent.build_company_profile
       new!
     end
-  end
+  end  
 end

@@ -41,7 +41,8 @@ zh-CN:
         status: 状态
         company_name: 公司名称
         contact:  公司联系人  
-        email: 电子邮件              
+        email: 电子邮件         
+        company_desc: 公司简介             
       company_profile:
         company_name: 公司名称
         company_addr: 公司地址

@@ -1,0 +1,16 @@
+<%= f.input :company_name %>
+<%= f.input :company_addr %>
+<%= f.input :postcode %>
+<%= f.input :company_desc %>
+<%= f.input :contact %>
+<%= f.input :primary_phone %>
+<%= f.input :secondary_phone %>
+<%= f.input :distribution_list %>
+<li>
+  <%= f.label :appendix %>
+  <% if f.object.appendix? %>
+    <%= f.object.appendix_name %> &nbsp&nbsp
+    <%= f.check_box :remove_appendix %> Remove &nbsp&nbsp
+  <% end %> 
+  <%= f.file_field :appendix %>
+</li>
