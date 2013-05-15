@@ -1,5 +1,5 @@
-class SupplyAgent < ActiveRecord::Base
-  attr_accessible :name, :users_attributes, :company_profile_attributes, :comment, :status, :sa_id
+class Customer < ActiveRecord::Base
+  attr_accessible :name, :users_attributes, :company_profile_attributes, :comment, :status, :c_id
   attr_accessor :appendix, :file
 
   has_many :users, :as => :companyable, :dependent => :destroy, :inverse_of => :companyable 
@@ -17,13 +17,13 @@ class SupplyAgent < ActiveRecord::Base
   end
 
   # scope and search function areas, comment-by-LJ on 4-May-2013
-  scope :company_name_eq, lambda{|id| SupplyAgent.joins(:company_profile).where(:sa_id => id)}
-  scope :company_desc_contains, lambda{|c| SupplyAgent.joins(:company_profile).where("company_desc LIKE ?", "%#{c}%")}
-  scope :contact_contains, lambda{|c| SupplyAgent.joins(:company_profile).where("contact LIKE ?", "%#{c}%")}
-  scope :email_contains, lambda{|e| SupplyAgent.uniq.joins(:users).where("email LIKE ?", "%#{e}%")}
+  scope :company_name_eq, lambda{|id| Customer.joins(:company_profile).where(:c_id => id)}
+  scope :company_desc_contains, lambda{|c| Customer.joins(:company_profile).where("company_desc LIKE ?", "%#{c}%")}
+  scope :contact_contains, lambda{|c| Customer.joins(:company_profile).where("contact LIKE ?", "%#{c}%")}
+  scope :email_contains, lambda{|e| Customer.uniq.joins(:users).where("email LIKE ?", "%#{e}%")}
   search_methods :company_name_eq, :contact_contains, :email_contains, :company_desc_contains
 
   def self.find_by_id (id)
-    find_by_sa_id(id) rescue nil
-  end  
+    find_by_c_id(id) rescue nil
+  end
 end

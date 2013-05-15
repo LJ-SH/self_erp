@@ -1,4 +1,5 @@
 ActiveAdmin.register Supplier do
+  menu :parent => 'menu_supplychain'  
   config.batch_actions = false
   config.clear_sidebar_sections!
 
@@ -74,7 +75,7 @@ ActiveAdmin.register Supplier do
   controller do
     def new
       @supplier = Supplier.new
-      @supplier.users.build
+      #@supplier.users.build
       @supplier.build_company_profile
       new!
     end

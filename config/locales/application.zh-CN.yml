@@ -1,7 +1,11 @@
 zh-CN:
 # system level defintion
   self_erp: "自助企业管理系统"
-  system_setting: "系统设置"
+  menu_supplychain: '供应链'
+  menu_sales: 销售
+  menu_inventory: 库存
+  menu_rnd: 研发
+  menu_system_setting: "系统设置"
   active_admin:
     access_denied:
       message:  "没有权限访问!"  

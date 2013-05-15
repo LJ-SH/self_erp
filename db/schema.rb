@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130511072105) do
+ActiveRecord::Schema.define(:version => 20130514155810) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -80,7 +80,23 @@ ActiveRecord::Schema.define(:version => 20130511072105) do
 
   add_index "component_categories", ["ancestry"], :name => "index_component_categories_on_ancestry"
 
-  create_table "suppliers", :force => true do |t|
+  create_table "customers", :primary_key => "c_id", :force => true do |t|
+    t.string   "name"
+    t.enum     "status",     :limit => [:company_active, :company_outdated, :company_transient], :default => :company_active
+    t.string   "comment"
+    t.datetime "created_at",                                                                                                  :null => false
+    t.datetime "updated_at",                                                                                                  :null => false
+  end
+
+  create_table "oems", :primary_key => "o_id", :force => true do |t|
+    t.string   "name"
+    t.enum     "status",     :limit => [:company_active, :company_outdated, :company_transient], :default => :company_active
+    t.string   "comment"
+    t.datetime "created_at",                                                                                                  :null => false
+    t.datetime "updated_at",                                                                                                  :null => false
+  end
+
+  create_table "suppliers", :primary_key => "s_id", :force => true do |t|
     t.string   "name"
     t.datetime "created_at",                                                                                                  :null => false
     t.datetime "updated_at",                                                                                                  :null => false
@@ -88,7 +104,7 @@ ActiveRecord::Schema.define(:version => 20130511072105) do
     t.string   "comment"
   end
 
-  create_table "supply_agents", :force => true do |t|
+  create_table "supply_agents", :primary_key => "sa_id", :force => true do |t|
     t.string   "name"
     t.enum     "status",     :limit => [:company_active, :company_outdated, :company_transient], :default => :company_active
     t.string   "comment"

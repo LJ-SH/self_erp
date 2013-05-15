@@ -1,5 +1,5 @@
 ActiveAdmin.register AdminUser do     
-  menu :parent => I18n.t('system_setting') 
+  menu :parent => "menu_system_setting"
   config.comments = false  
   config.batch_actions = false 
   config.sort_order = "id_asc"

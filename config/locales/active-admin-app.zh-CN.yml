@@ -9,7 +9,16 @@ zh-CN:
         other: '元件分类'   
       supplier:
         one: '供货商'
-        other: '供货商'     
+        other: '供货商'    
+      supply_agent:
+        one: '供货代理'
+        other: '供货代理'  
+      customer:
+        one: '客户'
+        other: '客户' 
+      oem:
+        one: '代工厂'
+        other: '代工厂'                        
     attributes:
       admin_user:
         email: "电子邮件"
@@ -42,7 +51,28 @@ zh-CN:
         company_name: 公司名称
         contact:  公司联系人  
         email: 电子邮件         
-        company_desc: 公司简介             
+        company_desc: 公司简介    
+      supply_agent:
+        name: 登陆名
+        status: 状态
+        company_name: 公司名称
+        contact:  公司联系人  
+        email: 电子邮件         
+        company_desc: 公司简介 
+      customer:
+        name: 登陆名
+        status: 状态
+        company_name: 公司名称
+        contact:  公司联系人  
+        email: 电子邮件         
+        company_desc: 公司简介 
+      oem:
+        name: 登陆名
+        status: 状态
+        company_name: 公司名称
+        contact:  公司联系人  
+        email: 电子邮件         
+        company_desc: 公司简介                                
       company_profile:
         company_name: 公司名称
         company_addr: 公司地址

@@ -1,6 +1,7 @@
 class Supplier < ActiveRecord::Base
+  set_primary_key :s_id  
   # attr_accessible :title, :body
-  attr_accessible :name, :users_attributes, :company_profile_attributes, :comment, :status
+  attr_accessible :name, :users_attributes, :company_profile_attributes, :comment, :status,:s_id
   attr_accessor :appendix, :file
 
   has_many :users, :as => :companyable, :dependent => :destroy, :inverse_of => :companyable 
@@ -18,7 +19,7 @@ class Supplier < ActiveRecord::Base
   end
 
   # scope and search function areas, comment-by-LJ on 4-May-2013
-  scope :company_name_eq, lambda{|id| Supplier.joins(:company_profile).where(:id => id)}
+  scope :company_name_eq, lambda{|id| Supplier.joins(:company_profile).where(:s_id => id)}
   scope :company_desc_contains, lambda{|c| Supplier.joins(:company_profile).where("company_desc LIKE ?", "%#{c}%")}
   scope :contact_contains, lambda{|c| Supplier.joins(:company_profile).where("contact LIKE ?", "%#{c}%")}
   scope :email_contains, lambda{|e| Supplier.uniq.joins(:users).where("email LIKE ?", "%#{e}%")}

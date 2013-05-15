@@ -1,5 +1,5 @@
 ActiveAdmin.register ComponentCategory do
-  menu :parent => I18n.t('system_setting') 
+  menu :parent => "menu_system_setting"
   actions :all, :except => :show
   config.sort_order = "id_asc"
   config.batch_actions = false

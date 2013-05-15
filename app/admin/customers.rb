@@ -1,5 +1,5 @@
-ActiveAdmin.register SupplyAgent do
-  menu :parent => 'menu_supplychain'	
+ActiveAdmin.register Customer do
+  menu :parent => 'menu_sales'  
   config.batch_actions = false
   config.clear_sidebar_sections!
 
@@ -32,7 +32,7 @@ ActiveAdmin.register SupplyAgent do
 
   # customize filter panel, comment-by-LJ on 2-May-2013
   sidebar :filters, :only => :index do
-    render :partial => '/admin/corporate/search', :locals=>{:corporate_collection => SupplyAgent.all}
+    render :partial => '/admin/corporate/search', :locals=>{:corporate_collection => Customer.all}
   end
 
 
@@ -63,7 +63,7 @@ ActiveAdmin.register SupplyAgent do
   end
 
   sidebar I18n.t("label.corporate.basic_info"), :only => [:show] do
-    attributes_table_for supply_agent do
+    attributes_table_for customer do
       row :name
       row :comment
     end
@@ -74,10 +74,10 @@ ActiveAdmin.register SupplyAgent do
   # here are the controller portion, comment-by-LJ on 2-May-2013
   controller do
     def new
-      @supply_agent = SupplyAgent.new
-      #@supply_agent.users.build
-      @supply_agent.build_company_profile
+      @customer = Customer.new
+      #@customer.users.build
+      @customer.build_company_profile
       new!
     end
-  end  
+  end   
 end

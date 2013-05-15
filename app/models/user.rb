@@ -10,9 +10,8 @@ class User < ActiveRecord::Base
   # attr_accessible :title, :body
 
   belongs_to :companyable, :polymorphic => true, :inverse_of => :users
-  validates_presence_of :companyable
 
-  validates :email, :uniqueness => true, :presence => { :case_sensitive => false }
+  #validates_uniqueness_of :email, :presence => { :case_sensitive => false }, :scope => :companyable_type
   validates_format_of :email, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i
   validates :password, :presence => { :case_sensitive => false }, :on => :create  
 end
