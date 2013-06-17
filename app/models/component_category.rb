@@ -3,7 +3,10 @@ class ComponentCategory < ActiveRecord::Base
   has_ancestry(:cache_depth => true)
   # attr_accessible :title, :body
   attr_accessible :name, :code, :updated_by_email, :parent, :ancestry,:ancestry_depth,
-                  :level0, :level1, :level2, :comment
+                  :level0, :level1, :level2, :comment, :part_numbers_attributes
+
+  has_many :part_numbers, :dependent => :destroy, :inverse_of => :component_category
+  accepts_nested_attributes_for :part_numbers, :allow_destroy => true 
 
   validates_presence_of :name
   validates_presence_of :code
@@ -17,6 +20,8 @@ class ComponentCategory < ActiveRecord::Base
   scope :depth1, where(:ancestry_depth => 1)
   scope :depth2, where(:ancestry_depth => 2)
   scope :depth3, where(:ancestry_depth => 3) 
+  scope :valid_depth0_collection, depth0.select{|c| c.descendants.exists?(:ancestry_depth => 3)}
+
   attr_accessor :level0, :level1, :level2
 
   def level0
@@ -36,11 +41,33 @@ class ComponentCategory < ActiveRecord::Base
     self.children.empty?
   end  
 
+  def full_display
+    unless self.ancestors.nil? 
+      @full_name = self.path.to_ary.map{|c| "#{c.name}(#{c.code})"}
+      @full_name.join("-")
+    end    
+  end
+
   def ancestor_display
     unless self.ancestors.nil? 
-      @parents_name = self.ancestors.to_ary.map{|c| "#{c.name}(#{c.id})"}
-      @parents_name.join(" - ")
+      @parents_name = self.ancestors.to_ary.map{|c| "#{c.name}(#{c.code})"}
+      @parents_name.join("-")
     end
+  end
+
+  def code_generator
+    unless (self.ancestors.nil? || self.ancestry_depth != 3) 
+      @code = self.path.to_ary.map{|c| "#{c.code}"}
+      @code.join
+    end
+  end
+
+  def partial_code
+    self.path.to_ary.map{|c| "#{c.code}"}.join
+  end
+
+  def associated_parts (part_id)
+    self.part_numbers.reject{|pn| !pn.replaceable || pn.id == part_id}
   end
 
   def check_and_delete_children

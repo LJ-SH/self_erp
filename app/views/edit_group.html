@@ -1,0 +1,13 @@
+<%= semantic_form_for [:admin, @component_category] do |f| %>
+  <%= f.inputs :for =>:part_numbers do |part_number| %>
+    <%= part_number.input :name, :input_html => {:readonly => "readonly"}%>
+    <%= part_number.input :replaceable %>
+    <%= part_number.input :preference %>
+  <% end %> 
+  <%= f.actions do %>
+    <%= f.action :submit %>
+    <li class="cancel"> 
+      <%=link_to I18n.t("active_admin.cancel"), component_category_collection_url_help(f.object.ancestry_depth)%>
+    </li>
+  <% end %>
+<% end %>

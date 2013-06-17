@@ -1,16 +1,7 @@
-<%= form_for @search, :url => collection_path, :as => :q, :builder => ActiveAdmin::Filters::FormBuilder, :html => {method: :get, :class => :filter_form} do |f| %>
-  <div>
-    <%= f.label :level0, t('label.component_category.level0'), :class => 'label' %>
-    <%= f.select :level0_eq, collection_ary[0], :selected => level_val_ary[0] %>
-  </div>
-  <div>
-    <%= f.label :level1, t('label.component_category.level1'), :class => 'label' %>
-    <%= f.select :level1_eq, collection_ary[1], :selected => level_val_ary[1] %>
-  </div>
-  <div>
-    <%= f.label :level2, t('label.component_category.level2'), :class => 'label' %>
-    <%= f.select :level2_eq, collection_ary[2], :selected => level_val_ary[2] %>
-  </div>    
+<%= form_for @search, :url => collection_path, :as => :q, :builder => ActiveAdmin::Filters::FormBuilder, :html => {method: :get, :class => "component_category_filter_form filter_form"} do |f| %>
+  <%= f.input :level0, :as => :select, :collection => collection_ary[0], :selected => level_val_ary[0], :input_html => {:class => "search_cc_selection"} %>
+  <%= f.input :level1, :as => :select, :collection => collection_ary[1], :selected => level_val_ary[1], :input_html => {:class => "search_cc_selection"} %>  
+  <%= f.input :level2, :as => :select, :collection => collection_ary[2], :selected => level_val_ary[2], :input_html => {:class => "search_cc_selection"} %>    
   <%=   
     f.filter :name, :as => :string
     f.filter :updated_by_email, :as => :select, 

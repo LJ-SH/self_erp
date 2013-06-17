@@ -47,58 +47,6 @@ $(document).on('change', '#component_category_ancestry_depth', function() {
   })
 });
 
-$(document).on('change', '#component_category_level0', function() {   
-  $.ajax({
-    url: "/admin/component_categories/level1_collection",
-    type: "GET",
-    data: "level0=" + $(this).val(),
-    dataType: "json",
-    success: function(data){
-      var level1 = $("#component_category_level1");
-      level1.empty();
-      level1.append("<option value=''></option>");       
-      $.each(data, function(index, value) {
-        // append an option
-        var opt = $('<option/>');
-        // value is an array: [:id, :name]
-        opt.attr('value', value[0]);
-        // set text
-        opt.text(value[1]);
-        // append to select
-        opt.appendTo(level1);
-      });    
-      var level2 = $("#component_category_level2");
-      level2.empty();
-      level2.append("<option value=''></option>");
-      level2.append("<option value=''>请选择分类类型</option>");        
-    }
-  })
-}); 
-
-$(document).on('change', '#component_category_level1', function() {     
-  $.ajax({
-    url: "/admin/component_categories/level2_collection",
-    type: "GET",
-    data: "level1=" + $(this).val(),
-    dataType: "json",
-    success: function(data){
-      var level2 = $("#component_category_level2");
-      level2.empty();
-      level2.append("<option value=''></option>");       
-      $.each(data, function(index, value) {
-        // append an option
-        var opt = $('<option/>');
-        // value is an array: [:id, :name]
-        opt.attr('value', value[0]);
-        // set text
-        opt.text(value[1]);
-        // append to category_select
-        opt.appendTo(level2);
-      });      
-    }
-  })
-});
-
 //$("#new_component_category").live('submit', function() {
 $(document).on('submit', '#new_component_category', function() {  
     var form = $(this);
@@ -205,68 +153,154 @@ function fn_integer_id_validate(value) {
 // end-of-jQuery-code-for-component_category_edit&new_form ===================
 
 // start-of-jQuery-code-for-component_category_search_panel ===================
-$(document).on('change', '#q_level0_eq', function() { 
-  $.ajax({
-    url: "/admin/component_categories/level1_collection",
-    type: "GET",
-    data: "level0=" + $(this).val(),
-    dataType: "json",
-    success: function(data){
-      var level1 = $("#q_level1_eq");
-      level1.empty();
-      level1.append("<option value=''>任何</option>");
-      $.each(data, function(index, value) {
-        // append an option
-        var opt = $('<option/>');
-        // value is an array: [:id, :name]
-        opt.attr('value', value[0]);
-        // set text
-        opt.text(value[1]);
-        // append to select
-        opt.appendTo(level1);
-      });      
-      //reset level2 settings
-      var level2 = $("#q_level2_eq");
-      level2.empty();
-      level2.append("<option value=''>任何</option>");
-    }
-  })
-});
-
-$(document).on('change', '#q_level1_eq', function() {  
-  $.ajax({
-    url: "/admin/component_categories/level2_collection",
-    type: "GET",
-    data: "level1=" + $(this).val(),
-    dataType: "json",
-    success: function(data){
-      var level2 = $("#q_level2_eq");
-      level2.empty();
-      level2.append("<option value=''>任何</option>");
-      $.each(data, function(index, value) {
-        // append an option
-        var opt = $('<option/>');
-        // value is an array: [:id, :name]
-        opt.attr('value', value[0]);
-        // set text
-        opt.text(value[1]);
-        // append to select
-        opt.appendTo(level2);
-      });      
-    }
-  })
-});
-
 $(document).ready(function() {
-  $("#q_search").submit(function() {
-    if ($("#q_level2_eq").val() != "") {
-      $("#q_level0_eq").attr("disabled", true);
-      $("#q_level1_eq").attr("disabled", true);     
-    } else {
-      if ($("#q_level1_eq").val() != "") {
-        $("#q_level0_eq").attr("disabled", true); 
-      } 
-    }
-  });
+  $("form.component_category_filter_form").submit(component_category_end_node_selection);
 });
 // end-of-jQuery-code-for-component_category_search_panel ===================
+
+// start-of-jQuery-code-for-part_number_selection_edit&new_form ===================
+$(document).on('change', 'select.cc_leaf_node', function() {   
+  $.ajax({
+    url: "/component_category_select/cc_code",
+    context: this,
+    type: "GET",
+    data: "node=" + $(this).val(),
+    dataType: "text",
+    success: function(data){
+      $("#part_number_cc_code").val(data);
+    }
+  })
+});
+
+//$(document).on('submit', '#new_part_number', part_number_form_pre_check);  
+$(document).on('submit', 'form.part_number', function() {  
+  var form = $(this);
+  var supplier_val = form.find("#part_number_supplier_id").val();
+  var reserved_code_val = form.find("#part_number_reserved_code").val();
+  var cc_code_val = form.find("#part_number_cc_code").val();
+  var supplier = form.find("#part_number_supplier_id");
+  var reserved_code = form.find("#part_number_reserved_code");
+  //var cc_code = form.find("#part_number_cc_code");  
+  var errMsg = "请选择正确的值";
+
+  var regExp_8digits = new RegExp(/^\d{8}$/);
+  if (!regExp_8digits.test(cc_code_val)) {
+    if($("#code_err_tip").length == 0) {
+      var errTip = $('<p class="inline-errors" id="code_err_tip"></p>').html(errMsg);
+      form.find("#part_number_component_category_id").after(errTip);
+    }
+    return false;
+  } else {
+    $("#code_err_tip").remove();
+  }
+
+  var regExp_4digits = new RegExp(/^\d{4}$/);
+  if (!regExp_4digits.test(reserved_code_val)) {
+    if($("#reserved_code_err_tip").length == 0) {
+      var errTip = $('<p class="inline-errors" id="reserved_code_err_tip"></p>').html(errMsg);
+      reserved_code.after(errTip);
+    }
+    return false;
+  } else {
+    $("#reserved_code_err_tip").remove();
+  } 
+  
+  if(supplier_val=="") {
+    if($("#supplier_err_tip").length == 0) {
+      var errTip = $('<p class="inline-errors" id="supplier_err_tip"></p>').html(errMsg);
+      supplier.after(errTip);
+    }
+    return false;
+  } else {
+    $("#supplier_err_tip").remove();
+  } 
+  supplier_str = "";
+  supplier_len = 3;
+  supplier_str = Array(supplier_len>supplier_val.length? (supplier_len-supplier_val.length+1):0).join(0)+supplier_val
+  
+  form.find("#part_number_code").val(cc_code_val+"-"+reserved_code_val+"-"+supplier_str);
+});
+
+// end-of-jQuery-code-for-part_number_edit&new_form ===================
+
+// start-of-jQuery-code-for-part_number_search_form ===================
+$(document).on('submit', 'form.part_number_filter_form', component_category_end_node_selection);  
+// end-of-jQuery-code-for-part_number_search_form ===================
+
+// start-of-jQuery-code-for-common_component_category_ajax_methods ============
+$(document).on('change', 'select.cc_selection', function() {   
+  $.ajax({
+    url: "/component_category_select/children_collection",
+    context: this,
+    type: "GET",
+    data: "node=" + $(this).val(),
+    dataType: "json",
+    success: function(data){
+      var next_level_index = $('select.cc_selection').index($(this))+1;
+      var level = $('select.cc_selection:eq('+ next_level_index + ')');
+      level.empty();
+      level.append("<option value=''></option>");       
+      $.each(data, function(index, value) {
+        // append an option
+        var opt = $('<option/>');
+        // value is an array: [:id, :name]
+        opt.attr('value', value[0]);
+        // set text
+        opt.text(value[1]);
+        // append to select
+        opt.appendTo(level);
+      });    
+      $('select.cc_selection:gt('+next_level_index+')').each(function() {
+        var blank_level = $(this);
+        blank_level.empty();
+        blank_level.append("<option value=''></option>");
+        blank_level.append("<option value=''>请选择分类类型</option>");        
+      });         
+    }
+  })
+});
+
+$(document).on('change', 'select.search_cc_selection', function() {   
+  $.ajax({
+    url: "/component_category_select/children_collection",
+    context: this,
+    type: "GET",
+    data: "node=" + $(this).val(),
+    dataType: "json",
+    success: function(data){
+      var next_level_index = $('select.search_cc_selection').index($(this))+1;
+      var level = $('select.search_cc_selection:eq('+ next_level_index + ')');
+      level.empty();
+      level.append("<option value=''>任何</option>");       
+      $.each(data, function(index, value) {
+        // append an option
+        var opt = $('<option/>');
+        // value is an array: [:id, :name]
+        opt.attr('value', value[0]);
+        // set text
+        opt.text(value[1]);
+        // append to select
+        opt.appendTo(level);
+      });    
+      $('select.search_cc_selection:gt('+next_level_index+')').each(function() {
+        var blank_level = $(this);
+        blank_level.empty();
+        blank_level.append("<option value=''>任何</option>");       
+      });         
+    }
+  })
+});
+
+function component_category_end_node_selection() {
+  var level_idx = "";
+  $('select.search_cc_selection').each(function(index) {
+    if ($(this).val() != "") {
+      level_idx = index;
+    }       
+  });
+  $('select.search_cc_selection:lt('+level_idx+')').each(function() {
+   $(this).attr("disabled", true);
+  });  
+}
+// end-of-jQuery-code-for-common_component_category_ajax_methods ==============
+

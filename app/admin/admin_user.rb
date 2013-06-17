@@ -29,7 +29,8 @@ ActiveAdmin.register AdminUser do
       f.input :email   
       f.input :password              
       f.input :password_confirmation  
-      if [:role_super, :role_admin].include?(current_admin_user.role)
+      #if [:role_super, :role_admin].include?(current_admin_user.role)
+      if current_admin_user.admin?
         @collection = ROLE_DEFINITION.dup.drop_while{|x| x>current_admin_user.role}
       else
         @collection = [current_admin_user.role]

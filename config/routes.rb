@@ -9,6 +9,8 @@ SelfErp::Application.routes.draw do
   ActiveAdmin.routes(self)
 
   get "welcome/index"
+  get "component_category_select/children_collection"
+  get "component_category_select/cc_code"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

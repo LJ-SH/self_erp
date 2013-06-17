@@ -24,6 +24,6 @@ class SupplyAgent < ActiveRecord::Base
   search_methods :company_name_eq, :contact_contains, :email_contains, :company_desc_contains
 
   def self.find_by_id (id)
-    find_by_sa_id(id) rescue nil
+    find_by_s_id(id) rescue nil
   end  
 end

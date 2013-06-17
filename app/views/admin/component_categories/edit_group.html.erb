@@ -1,0 +1,35 @@
+<%= semantic_form_for [:admin, @component_category], :url => set_group_admin_component_category_path do |f| %>
+  <table border="0" cellspacing="0" cellpadding="0">
+    <thead>
+      <tr>
+        <th><%= I18n.t 'activerecord.attributes.part_number.name' %></th>
+        <th><%= I18n.t 'activerecord.attributes.part_number.code' %></th>
+        <th><%= I18n.t 'activerecord.attributes.part_number.vendor_code' %></th>
+        <th><%= I18n.t 'activerecord.attributes.part_number.status' %></th>  
+        <th><%= I18n.t 'activerecord.attributes.part_number.supplier' %></th>
+        <th><%= I18n.t 'activerecord.attributes.part_number.replaceable' %></th>
+        <th><%= I18n.t 'activerecord.attributes.part_number.preference' %></th>        
+      </tr>
+    </thread>            
+    <tbody>
+      <%= f.fields_for :part_numbers do |part_number|%>
+        <tr>
+          <td><%= part_number.object.name %></td>
+          <td><%= part_number.object.code %></td>
+          <td><%= part_number.object.vendor_code %></td>
+          <td><%= i18n_status_helper(part_number.object.status) %></td>
+          <td><%= part_number.object.associated_supplier %></td>
+          <td><%= part_number.check_box :replaceable %></td>
+          <td><%= part_number.select :preference, [""]+Array.new(@component_category.part_numbers.size) {|i| i+1} %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <%= f.actions do %>
+    <%= f.action :submit %>
+    <li class="cancel"> 
+      <%=link_to I18n.t("active_admin.cancel"), admin_part_numbers_url%>
+    </li>
+  <% end %>
+<% end %>

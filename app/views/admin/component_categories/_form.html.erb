@@ -5,25 +5,25 @@
                     :collection => COMPONENT_CATEGORY_MAP.each_with_index.map { |x,i| [I18n.t("label.component_category.#{x}"),i]} %>
     		<% case f.object.ancestry_depth %>
     			<% when 1 %>
-     				<%= 	f.input :level0, :as => :select, :collection => ComponentCategory.depth0.map{|r| [r.name, r.id]} %>
+     				<%= 	f.input :level0, :as => :select, :collection => ComponentCategory.depth0.map{|r| [r.name, r.id]}, :input_html => {:class => "cc_selection"} %>
     			<% when 2 %>
-            <%=   f.input :level0, :as => :select, :collection => ComponentCategory.depth0.map{|r| [r.name, r.id]} %>
+            <%=   f.input :level0, :as => :select, :collection => ComponentCategory.depth0.map{|r| [r.name, r.id]}, :input_html => {:class => "cc_selection"} %>
             <% if f.object.level0.blank? %>
-              <%= f.input :level1, :as => :select, :collection => [[I18n.t('form.category_sel_tip_option'),""]] %>
+              <%= f.input :level1, :as => :select, :collection => [[I18n.t('form.category_sel_tip_option'),""]], :input_html => {:class => "cc_selection"} %>
             <% else %>
-              <%=f.input :level1, :as => :select, :collection => ComponentCategory.find(f.object.level0).children.map{|r| [r.name, r.id]} %>
+              <%=f.input :level1, :as => :select, :collection => ComponentCategory.find(f.object.level0).children.map{|r| [r.name, r.id]}, :input_html => {:class => "cc_selection"} %>
             <% end %>
           <% when 3 %>
-            <%=   f.input :level0, :as => :select, :collection => ComponentCategory.depth0.map{|r| [r.name, r.id]} %>
+            <%=   f.input :level0, :as => :select, :collection => ComponentCategory.depth0.map{|r| [r.name, r.id]}, :input_html => {:class => "cc_selection"} %>
             <% if f.object.level0.blank? %>
-              <%= f.input :level1, :as => :select, :collection => [[I18n.t('form.category_sel_tip_option'),""]] %>
+              <%= f.input :level1, :as => :select, :collection => [[I18n.t('form.category_sel_tip_option'),""]], :input_html => {:class => "cc_selection"} %>
             <% else %>
-              <%=f.input :level1, :as => :select, :collection => ComponentCategory.find(f.object.level0).children.map{|r| [r.name, r.id]} %>
+              <%=f.input :level1, :as => :select, :collection => ComponentCategory.find(f.object.level0).children.map{|r| [r.name, r.id]}, :input_html => {:class => "cc_selection"} %>
             <% end %>
             <% if f.object.level1.blank? %>
-              <%= f.input :level2, :as => :select, :collection => [[I18n.t('form.category_sel_tip_option'),""]] %>
+              <%= f.input :level2, :as => :select, :collection => [[I18n.t('form.category_sel_tip_option'),""]], :input_html => {:class => "cc_selection"} %>
             <% else %>
-              <%=f.input :level2, :as => :select, :collection => ComponentCategory.find(f.object.level1).children.map{|r| [r.name, r.id]} %>
+              <%=f.input :level2, :as => :select, :collection => ComponentCategory.find(f.object.level1).children.map{|r| [r.name, r.id]}, :input_html => {:class => "cc_selection"} %>
             <% end %>        
     			<% else %>
   			<% end %>        

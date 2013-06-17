@@ -1,0 +1,12 @@
+zh-CN:
+  label:
+    part_number:
+      group_info: 元件分组信息
+      change_history_info: 元件更改历史纪录
+      complementary_info: 其他相关信息 
+      component_category: 元件对应分类
+      supplier: 元件供应商
+      associated_parts: 替代元件信息
+  link:
+    part_number:
+      back_to_index: 返回元件列表

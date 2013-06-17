@@ -18,7 +18,10 @@ zh-CN:
         other: '客户' 
       oem:
         one: '代工厂'
-        other: '代工厂'                        
+        other: '代工厂'     
+      part_number:
+        one: 元器件
+        other: 元器件                   
     attributes:
       admin_user:
         email: "电子邮件"
@@ -86,16 +89,47 @@ zh-CN:
       user:
         email: "电子邮件"
         password: "密码"
-        password_confirmation: "再次确认密码"          
+        password_confirmation: "再次确认密码"    
+      part_number:
+        name: 元器件名称
+        code: 元器件编码
+        old_code: 旧元器件编码
+        vendor_code: 元器件供货商编码
+        status: 状态
+        latest_price: 最新价格
+        prepared_by: 准备人
+        approved_by: 批准人
+        component_category_id: 元器件所属分类
+        created_at: 创建日期
+        replaceable: 是否可替代
+        preference: 替代优先级
+        min_amount: 最小订货量
+        description: 元器件描述
+        appendix: 附件
+        cc_level0: 一级父类
+        cc_level1: 二级父类
+        cc_level2: 三级父类
+        cc_level3: 四级父类 
+        supplier: 供货商       
+        reserved_code: 保留编码（4位数字）
+      change_history:
+        notes: 更改说明
+        updated_by: 更改人
+        updated_at: 更改时间
   errors:
     messages:    
       destroy_fails_if_last_admin: 最后一个系统管理员不能被删除
       destroy_fails_if_in_use:  "(子)模型-%{categoryname}-正在被使用"
-      destroy_fails_if_children_exist: "子节点-%{childname}-不能被删除"      
+      destroy_fails_if_children_exist: "子节点-%{childname}-不能被删除"   
+      pn_taken: "该元件编码(%{value})已经被使用"
+      pn_invalid: 元件编号格式不正确，应为8位类型编码+4位保留字＋3位供货商编码
+      pn_preference_taken: "元件对应的替换优先级(%{value})已经被使用"
+      pn_preference_empty: 元件设置为可以替换时，对应优先级不能为空         
   devise:
     failure:
       invalid: 登录名（用户名或邮箱）或密码错误  
   active_admin:
+    edit_group: 设置替代
     sidebars:
       help: "帮助"
     scopes:
@@ -105,4 +139,8 @@ zh-CN:
       depth3: 四级分类   
       company_active: 经常业务往来
       company_outdated: 不在业务往来
-      company_transient: 很少业务往来    
+      company_transient: 很少业务往来  
+      status_active: 有效
+      status_outdated: 过期
+      status_transient: 过渡 
+      status_pending_approval: 等待审批

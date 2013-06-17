@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130514155810) do
+ActiveRecord::Schema.define(:version => 20130617135629) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -50,6 +50,14 @@ ActiveRecord::Schema.define(:version => 20130514155810) do
   add_index "admin_users", ["email"], :name => "index_admin_users_on_email", :unique => true
   add_index "admin_users", ["reset_password_token"], :name => "index_admin_users_on_reset_password_token", :unique => true
   add_index "admin_users", ["user_name"], :name => "index_admin_users_on_user_name", :unique => true
+
+  create_table "change_histories", :force => true do |t|
+    t.string   "updated_by"
+    t.string   "notes"
+    t.datetime "updated_at"
+    t.integer  "trackable_obj_id"
+    t.string   "trackable_obj_type"
+  end
 
   create_table "company_profiles", :force => true do |t|
     t.string   "company_name"
@@ -94,6 +102,26 @@ ActiveRecord::Schema.define(:version => 20130514155810) do
     t.string   "comment"
     t.datetime "created_at",                                                                                                  :null => false
     t.datetime "updated_at",                                                                                                  :null => false
+  end
+
+  create_table "part_numbers", :force => true do |t|
+    t.string   "name"
+    t.string   "code",                  :limit => 17
+    t.string   "old_code"
+    t.string   "vendor_code"
+    t.enum     "status",                :limit => [:status_pending_approval, :status_active, :status_transient, :status_outdated],                               :default => :status_pending_approval
+    t.decimal  "latest_price",                                                                                                     :precision => 8, :scale => 2
+    t.string   "prepared_by"
+    t.string   "approved_by"
+    t.integer  "part_group_id"
+    t.integer  "supplier_id",                                                                                                                                                                          :null => false
+    t.integer  "component_category_id",                                                                                                                                                                :null => false
+    t.datetime "created_at"
+    t.boolean  "replaceable",                                                                                                                                    :default => false
+    t.integer  "preference"
+    t.integer  "min_amount",                                                                                                                                     :default => 1
+    t.string   "description"
+    t.string   "appendix"
   end
 
   create_table "suppliers", :primary_key => "s_id", :force => true do |t|

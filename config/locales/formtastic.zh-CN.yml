@@ -10,3 +10,9 @@ zh-CN:
       component_category_sel_category_type: 选择分类级别
       component_category_list_category_details:  填写分类详细信息
       supplier_basic_info: 基本信息 
+      part_number_component_category_sel: 选择元件分类
+      part_number_supplier_sel: 选择元件供应商 
+      part_number_basic_info: 元件基本信息
+      part_number_group_info: 元件分组信息
+      part_number_change_history: 元件更改历史纪录
+      part_number_complementary_info: 元件补充信息

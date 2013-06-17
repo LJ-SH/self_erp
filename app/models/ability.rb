@@ -27,21 +27,23 @@ class Ability
 
     user ||= AdminUser.new
 
-    can :read, ActiveAdmin::Page, :name => "Dashboard"  
+    can :read, ActiveAdmin::Page, :name => ["Dashboard", "menu_system_setting", "menu_supplychain", "menu_sales", "menu_rnd"]
     can [:read, :update], AdminUser, :id => user.id    
-    
+
     case user.role
     when :role_super
       can :manage, :all
-    when :role_admin  
+    when :role_admin       
       can :manage, AdminUser, :role => ROLE_DEFINITION.drop(1) << nil
       can :manage, ComponentCategory
       can :manage, Supplier
+      can :manage, PartNumber
     when :role_material_controller
       can :manage, ComponentCategory
       can [:read], Supplier
-    when :role_dev
+    when :role_dev 
       can [:read], ComponentCategory
+      can :manage, PartNumber
     when :role_fin 
       can [:read], Supplier
     else

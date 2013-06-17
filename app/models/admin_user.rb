@@ -20,6 +20,10 @@ class AdminUser < ActiveRecord::Base
 
   before_destroy :prevent_if_last_admin
 
+  def admin?
+    [:role_super, :role_admin].include?(self.role)
+  end
+
   def prevent_if_last_admin
     if self.role == :role_super && AdminUser.where("role=?", :role_super).count < 2
       errors.add(:base, :destroy_fails_if_last_admin)
