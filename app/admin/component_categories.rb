@@ -30,9 +30,9 @@ ActiveAdmin.register ComponentCategory do
 
   member_action :set_group, :method => :put do
     @component_category = ComponentCategory.find(params[:id])
-    # disable preference if replaceable is false
+    # disable preference if group_id is blank
     params[:component_category][:part_numbers_attributes].each do |key, value|
-      value[:preference]="" if value[:replaceable]=='0'
+      value[:preference]="" if value[:group_id].blank?
     end
     update! do |success, failure|
       success.html {redirect_to admin_part_numbers_url}

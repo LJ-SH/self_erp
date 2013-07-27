@@ -6,6 +6,11 @@ class Oem < ActiveRecord::Base
   has_one :company_profile, :as => :companyable, :dependent => :destroy, :inverse_of => :companyable
   accepts_nested_attributes_for :users, :company_profile, :allow_destroy => true
 
+  has_many :inventories, :as => :location, :dependent => :destroy, :inverse_of => :location
+  accepts_nested_attributes_for :inventories, :allow_destroy => true  
+  has_many :transaction_histories, :as => :location, :dependent => :destroy, :inverse_of => :location
+  accepts_nested_attributes_for :transaction_histories, :allow_destroy => true
+
   validates :name, :uniqueness => true,  :presence => { :case_sensitive => false }
 
   scope :company_active, where(:status => :company_active)

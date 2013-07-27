@@ -299,8 +299,32 @@ function component_category_end_node_selection() {
     }       
   });
   $('select.search_cc_selection:lt('+level_idx+')').each(function() {
-   $(this).attr("disabled", true);
+    $(this).attr("disabled", true);
   });  
 }
-// end-of-jQuery-code-for-common_component_category_ajax_methods ==============
 
+/* end-of-jQuery-code-for-common_component_category_ajax_methods ==============
+$(document).ready(function(){
+  $('form.bom_part_number_filter_form').bind('ajax:success', function(evt,data,status,xhr) {
+    var level = $('select.part_number_collection_in_bom_part');
+    level.empty();
+    //level.append("<option value=''>任何</option>");     
+    $.each(data, function(index, value) {
+        // append an option
+        var opt = $('<option/>');
+        // value is an array: [:id, :name]
+        opt.attr('value', value[0]);
+        // set text
+        opt.text(value[1]);
+        // append to select
+        opt.appendTo(level);      
+    })
+  }).bind('ajax:beforeSend', function(evt,xhr,settings){
+    alert(settings.url);
+  });  
+});*/
+
+$(document).on('change', 'input.bom_part_part_number_sel[type=radio]', function() {
+  $("#bom_part_part_number_id").val($(this).val());
+});
+ 

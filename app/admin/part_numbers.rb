@@ -19,7 +19,13 @@ ActiveAdmin.register PartNumber do
       pn.associated_supplier
     end
     #column :vendor_code    
-    column :latest_price
+    if current_admin_user.admin?
+      column  :latest_price
+    end
+    column :group_id
+    column :inventories do |pn|
+      pn.inventories.blank?? 0:(pn.inventories.sum(:quantity_of_surplus)+pn.inventories.sum(:quantity_of_in_manufacturing))
+    end
     #actions :defaults => true do |resource|
     #  link = link_to 'edit_group', edit_group_admin_component_category_path(resource.component_category_id), :class=>"member_link"
     #end   
@@ -43,7 +49,7 @@ ActiveAdmin.register PartNumber do
       if current_admin_user.admin?
         row  :latest_price
       end
-      rows :preference, :description
+      rows :group_id, :preference, :description
       row   :appendix do
         unless pn.appendix.blank? then
           link_to "#{pn.appendix_name}", "#{pn.appendix.url}" 
@@ -54,7 +60,7 @@ ActiveAdmin.register PartNumber do
     end
 
     panel t 'label.part_number.associated_parts' do 
-      table_for pn.component_category.associated_parts(pn.id), i18n: PartNumber do 
+      table_for pn.associated_parts, i18n: PartNumber do 
         column :code do |part|
           link_to "#{part.code}", admin_part_number_url(part)
         end
@@ -77,7 +83,7 @@ ActiveAdmin.register PartNumber do
   end
 
   # complementary sidebar for show method
-  sidebar I18n.t("label.part_number.complementary_info"), :only => [:show] do
+  sidebar :part_number_complementary_info, :only => [:show] do
     attributes_table_for part_number.component_category do 
       row t "label.part_number.component_category" do
         part_number.associated_component_category

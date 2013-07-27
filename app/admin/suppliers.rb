@@ -62,7 +62,7 @@ ActiveAdmin.register Supplier do
     end
   end
 
-  sidebar I18n.t("label.corporate.basic_info"), :only => [:show] do
+  sidebar :corporate_basic_info, :only => [:show] do
     attributes_table_for supplier do
       row :name
       row :comment

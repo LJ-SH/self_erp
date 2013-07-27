@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130617135629) do
+ActiveRecord::Schema.define(:version => 20130708072249) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -50,6 +50,28 @@ ActiveRecord::Schema.define(:version => 20130617135629) do
   add_index "admin_users", ["email"], :name => "index_admin_users_on_email", :unique => true
   add_index "admin_users", ["reset_password_token"], :name => "index_admin_users_on_reset_password_token", :unique => true
   add_index "admin_users", ["user_name"], :name => "index_admin_users_on_user_name", :unique => true
+
+  create_table "bom_parts", :force => true do |t|
+    t.integer  "bom_id"
+    t.integer  "part_number_id"
+    t.integer  "amount",         :default => 1
+    t.string   "location"
+    t.string   "comments"
+    t.datetime "created_at",                    :null => false
+    t.datetime "updated_at",                    :null => false
+  end
+
+  create_table "boms", :force => true do |t|
+    t.string   "name"
+    t.string   "description"
+    t.string   "code"
+    t.string   "version"
+    t.string   "prepared_by"
+    t.string   "approved_by"
+    t.enum     "status",      :limit => [:status_in_progress, :status_pending_approval, :status_active, :status_transient, :status_outdated], :default => :status_in_progress
+    t.datetime "created_at",                                                                                                                                                   :null => false
+    t.datetime "updated_at",                                                                                                                                                   :null => false
+  end
 
   create_table "change_histories", :force => true do |t|
     t.string   "updated_by"
@@ -96,6 +118,17 @@ ActiveRecord::Schema.define(:version => 20130617135629) do
     t.datetime "updated_at",                                                                                                  :null => false
   end
 
+  create_table "inventories", :force => true do |t|
+    t.integer  "item_id"
+    t.string   "item_type"
+    t.integer  "location_id"
+    t.string   "location_type"
+    t.integer  "quantity_of_in_manufacturing",                               :default => 0
+    t.integer  "quantity_of_surplus",                                        :default => 0
+    t.decimal  "average_price",                :precision => 8, :scale => 2, :default => 1.0
+    t.datetime "updated_at"
+  end
+
   create_table "oems", :primary_key => "o_id", :force => true do |t|
     t.string   "name"
     t.enum     "status",     :limit => [:company_active, :company_outdated, :company_transient], :default => :company_active
@@ -113,15 +146,14 @@ ActiveRecord::Schema.define(:version => 20130617135629) do
     t.decimal  "latest_price",                                                                                                     :precision => 8, :scale => 2
     t.string   "prepared_by"
     t.string   "approved_by"
-    t.integer  "part_group_id"
     t.integer  "supplier_id",                                                                                                                                                                          :null => false
     t.integer  "component_category_id",                                                                                                                                                                :null => false
     t.datetime "created_at"
-    t.boolean  "replaceable",                                                                                                                                    :default => false
     t.integer  "preference"
     t.integer  "min_amount",                                                                                                                                     :default => 1
     t.string   "description"
     t.string   "appendix"
+    t.integer  "group_id"
   end
 
   create_table "suppliers", :primary_key => "s_id", :force => true do |t|
@@ -138,6 +170,20 @@ ActiveRecord::Schema.define(:version => 20130617135629) do
     t.string   "comment"
     t.datetime "created_at",                                                                                                  :null => false
     t.datetime "updated_at",                                                                                                  :null => false
+  end
+
+  create_table "transaction_histories", :force => true do |t|
+    t.integer  "item_id"
+    t.string   "item_type"
+    t.integer  "location_id"
+    t.string   "location_type"
+    t.integer  "quantity",                                                                                                                       :default => 0
+    t.decimal  "average_price",                                                                                    :precision => 8, :scale => 2, :default => 1.0
+    t.string   "created_by"
+    t.enum     "transaction_type",   :limit => [:buy_in, :in_manufacturing, :used, :manual_adjustment, :obsolete]
+    t.datetime "created_at"
+    t.string   "reference_obj_type"
+    t.integer  "reference_obj_id"
   end
 
   create_table "users", :force => true do |t|

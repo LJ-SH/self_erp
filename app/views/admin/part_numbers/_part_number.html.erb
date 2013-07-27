@@ -1,0 +1,19 @@
+<tr>
+  <td>
+  	<% if selected_id.nil? || selected_id != part_number.id %>
+  	<input type="radio" name="bom_part_part_number_sel" 
+  	       value="<%= part_number.id %>" class="bom_part_part_number_sel">
+  	  <%= part_number.name %>
+  	</input>
+ 	<% else %>
+  	<input type="radio" name="bom_part_part_number_sel" checked="checked"
+  	       value="<%= part_number.id %>" class="bom_part_part_number_sel">
+  	  <%= part_number.name %>
+  	</input> 	
+  	<% end %>
+  </td>
+  <td><%= part_number.status %></td>
+  <td><%= part_number.supplier.name %></td>
+  <td><%= part_number.description %></td>
+  <td></td>
+</tr>

@@ -1,0 +1,38 @@
+<%= form_for @part_number, :url => part_number_sel_admin_bom_bom_parts_path, :as => :q, :builder => ActiveAdmin::Filters::FormBuilder, :html => {method: :get, :class => "filter_form bom_part_number_filter_form", :remote => true} do |f| %>
+
+  <div class="filter_form_field filter_select">
+    <%= f.label :cc_level0 %>
+    <%= f.select :cc_level0_eq, ComponentCategory.valid_depth0_collection.map{|r| [r.name, r.id]}, {:include_blank => true  }, :class => "search_cc_selection" %>
+  </div>
+
+  <div class="filter_form_field filter_select">
+    <%= f.label :cc_level1 %>
+    <%= f.select :cc_level1_eq, {}, {:include_blank => true  }, :class => "search_cc_selection" %>
+  </div>
+
+  <div class="filter_form_field filter_select">
+    <%= f.label :cc_level2 %>
+    <%= f.select :cc_level2_eq, {}, {:include_blank => true  }, :class => "search_cc_selection" %>
+  </div>
+
+  <div class="filter_form_field filter_select">
+    <%= f.label :cc_level3 %>
+    <%= f.select :cc_level3_eq, {}, {:include_blank => true  }, :class => "search_cc_selection" %>
+  </div>    
+
+  <div class="filter_form_field filter_select">
+    <%= f.label :code %>
+    <%= f.text_field :code_contains %>
+  </div>
+
+  <div class="filter_form_field filter_select">
+    <%= f.label :supplier_id %>
+    <%= f.select :supplier_id_eq, Supplier.all.map{|r| [r.company_profile.company_name, r.id]}, { include_blank: true } %>
+  </div>
+
+  <%= content_tag :div, :class => "buttons" do %>
+    <%=  f.submit I18n.t('active_admin.filter'), :class => "filter_part_number" %>
+    <%=  link_to(I18n.t('active_admin.clear_filters'), "#", :class => "clear_filters_btn") %>
+    <%=  hidden_field_tags_for(params, :except => [:q, :page]) %>
+  <% end %>
+<% end %> 

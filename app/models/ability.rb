@@ -44,6 +44,7 @@ class Ability
     when :role_dev 
       can [:read], ComponentCategory
       can :manage, PartNumber
+      can [:read], Supplier
     when :role_fin 
       can [:read], Supplier
     else

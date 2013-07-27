@@ -3,7 +3,7 @@ class CreateChangeHistories < ActiveRecord::Migration
     create_table :change_histories do |t|
       t.string :updated_by
       t.string :notes
-      t.column :updated_at, :datetime
+      t.datetime :updated_at
     end
   end
 end

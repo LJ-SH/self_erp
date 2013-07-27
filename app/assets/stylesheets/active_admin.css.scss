@@ -33,3 +33,7 @@ body.active_admin form fieldset.child_list {
 body.active_admin form fieldset.new_child_list {
 	margin-bottom: 0px;
 }
+th.set_min_column_width { min-width: 50px;}
+div#sidebar th {min-width: 30px;}
+div#sidebar td {word-wrap: break-word;}
+div#sidebar table {table-layout: fixed}

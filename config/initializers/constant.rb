@@ -4,3 +4,5 @@ COMPONENT_CATEGORY_MAP = [:level0, :level1, :level2, :level3]
 COMPANY_STATUS_DEFINITION = [:company_active, :company_outdated, :company_transient]
 COURIER_DEFINTION = { "自提" => 1, "亲自送货" => 2, "众邦" => 3, "圆通" => 4, "顺丰" => 5, "其他" => 6 }
 STATUS_DEFINITION = [:status_pending_approval, :status_active, :status_transient, :status_outdated]
+BOM_STATUS_DEFINITION = [:status_in_progress, :status_pending_approval, :status_active, :status_transient, :status_outdated]
+TRANSACTION_DEFINITION = [:buy_in, :in_manufacturing, :used, :manual_adjustment, :obsolete]

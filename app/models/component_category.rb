@@ -6,7 +6,7 @@ class ComponentCategory < ActiveRecord::Base
                   :level0, :level1, :level2, :comment, :part_numbers_attributes
 
   has_many :part_numbers, :dependent => :destroy, :inverse_of => :component_category
-  accepts_nested_attributes_for :part_numbers, :allow_destroy => true 
+  accepts_nested_attributes_for :part_numbers, :allow_destroy => true  
 
   validates_presence_of :name
   validates_presence_of :code
@@ -66,8 +66,21 @@ class ComponentCategory < ActiveRecord::Base
     self.path.to_ary.map{|c| "#{c.code}"}.join
   end
 
-  def associated_parts (part_id)
-    self.part_numbers.reject{|pn| !pn.replaceable || pn.id == part_id}
+  #def associated_parts (id, group_id)
+    #self.part_numbers.reject{|pn| pn.group_id.blank? || pn.group_id != group_id || pn.id == id}
+    #self.part_numbers.select{|pn| pn.group_id? && pn.group_id == group_id && pn.id != id}
+  #end
+
+  def group_id_options
+    # In reality, each group shall include at least 2 components so that the maximum
+    # group number is half of size. 
+    #@size = self.part_numbers.size
+    #[""] + Array.new(@size.even?? @size.div(2):@size.div(2)+1) {|i| i+1}
+    [""] + Array.new(self.part_numbers.size.div(2)) {|i| i+1}
+  end
+
+  def preference_options
+    [""] + Array.new(self.part_numbers.size) {|i| i+1}
   end
 
   def check_and_delete_children
@@ -83,6 +96,10 @@ class ComponentCategory < ActiveRecord::Base
       return false
       end
     end
+  end
+
+  def end_leaves
+    self.subtree.select{|node| node.end_node?}
   end
 
   scope :level0_eq, lambda {|id| ComponentCategory.find(id).subtree unless id.nil?} 

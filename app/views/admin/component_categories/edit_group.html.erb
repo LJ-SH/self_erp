@@ -1,26 +1,26 @@
 <%= semantic_form_for [:admin, @component_category], :url => set_group_admin_component_category_path do |f| %>
-  <table border="0" cellspacing="0" cellpadding="0">
+  <table border="0" cellspacing="0" cellpadding="0" class="index_table">
     <thead>
       <tr>
-        <th><%= I18n.t 'activerecord.attributes.part_number.name' %></th>
         <th><%= I18n.t 'activerecord.attributes.part_number.code' %></th>
-        <th><%= I18n.t 'activerecord.attributes.part_number.vendor_code' %></th>
-        <th><%= I18n.t 'activerecord.attributes.part_number.status' %></th>  
+        <th><%= I18n.t 'activerecord.attributes.part_number.component_category_id' %></th>
         <th><%= I18n.t 'activerecord.attributes.part_number.supplier' %></th>
-        <th><%= I18n.t 'activerecord.attributes.part_number.replaceable' %></th>
+        <th><%= I18n.t 'activerecord.attributes.part_number.description' %></th>
+        <th><%= I18n.t 'activerecord.attributes.part_number.status' %></th>  
+        <th><%= I18n.t 'activerecord.attributes.part_number.group_id' %></th>
         <th><%= I18n.t 'activerecord.attributes.part_number.preference' %></th>        
       </tr>
     </thread>            
     <tbody>
       <%= f.fields_for :part_numbers do |part_number|%>
-        <tr>
-          <td><%= part_number.object.name %></td>
-          <td><%= part_number.object.code %></td>
-          <td><%= part_number.object.vendor_code %></td>
-          <td><%= i18n_status_helper(part_number.object.status) %></td>
+        <tr class="<%= cycle("odd", "even") %>">
+          <td><%= link_to "#{part_number.object.code}", admin_part_number_url(part_number.object.id) %></td>
+          <td><%= part_number.object.associated_component_category %></td>
           <td><%= part_number.object.associated_supplier %></td>
-          <td><%= part_number.check_box :replaceable %></td>
-          <td><%= part_number.select :preference, [""]+Array.new(@component_category.part_numbers.size) {|i| i+1} %></td>
+          <td><%= part_number.object.description %></td>
+          <td><%= i18n_status_helper(part_number.object.status) %></td>
+          <td><%= part_number.select :group_id, @component_category.group_id_options %></td>
+          <td><%= part_number.select :preference, @component_category.preference_options %></td>
         </tr>
       <% end %>
     </tbody>
