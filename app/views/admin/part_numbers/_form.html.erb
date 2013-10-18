@@ -1,33 +1,35 @@
 <%= semantic_form_for [:admin, @part_number], :html => {:multipart => true} do |f| %>
-  <%= f.inputs :part_number_component_category_sel do %>
-    <%= f.input :cc_level0, :as => :select, :collection => ComponentCategory.valid_depth0_collection.map{|r| [r.name, r.id]}, :input_html => {:class => "cc_selection"}%>
-    <% if f.object.cc_level0.blank? %>
-      <%= f.input :cc_level1, :as => :select, :collection => [[I18n.t('form.category_sel_tip_option'),""]], :input_html => {:class => "cc_selection"} %>
-    <% else %>
-      <%=f.input :cc_level1, :as => :select, :collection => ComponentCategory.find(f.object.cc_level0).children.map{|r| [r.name, r.id]}, :input_html => {:class => "cc_selection"} %>
-    <% end %>
-    <% if f.object.cc_level1.blank? %>
-      <%= f.input :cc_level2, :as => :select, :collection => [[I18n.t('form.category_sel_tip_option'),""]], :input_html => {:class => "cc_selection"} %>
-    <% else %>
-      <%=f.input :cc_level2, :as => :select, :collection => ComponentCategory.find(f.object.cc_level1).children.map{|r| [r.name, r.id]}, :input_html => {:class => "cc_selection"} %>
-    <% end %> 
-    <% if f.object.cc_level2.blank? %>
-      <%= f.input :component_category_id, :as => :select, :collection => [[I18n.t('form.category_sel_tip_option'),""]], :input_html => {:class => "cc_selection cc_leaf_node"} %>
-    <% else %>
-      <%=f.input :component_category_id, :as => :select, :collection => ComponentCategory.find(f.object.cc_level2).children.map{|r| [r.name, r.id]}, :input_html => {:class => "cc_selection cc_leaf_node"} %>
-    <% end %>
-    <%= f.input :cc_code, :as => :string, :wrapper_html => { :style => "display:none;" } %>
-    <%= f.input :reserved_code, :as => :string, :input_html => {:value => '0000'} %> 
+
+  <%= f.inputs :name => :part_number_component_category_sel, 
+      :for => [:component_category, f.object.component_category || f.object.build_component_category],
+      :disabled => f.object.persisted? do |c| %>
+    <%= render :partial => "admin/component_categories/sel_ancestor_new_form", 
+               :locals => {:f => c, :top_collection => ComponentCategory.valid_depth0_collection,
+                           :form_class => "cc_selection cc_ancestor_node" } %>
+    <%= f.input :component_category_id, :as => :select,
+                :collection => c.object.level2.blank?? [] : 
+                               ComponentCategory.find(c.object.level2).children,
+                :input_html => {:class => "cc_selection cc_leaf_node"},
+                :prompt => I18n.t('helpers.select.category_sel_tip_prompt') %>
+  <% end %>
+
+  <%= f.inputs :name => "hidden areas", :style => "display:none;" do %>
+    <%= f.input :cc_code, :as => :string %>
+    <%= f.input :code, :as => :string%>
   <% end %>
 
   <%= f.inputs :part_number_supplier_sel do %>  
-    <%= f.input :supplier_id, :as => :select, :collection => Supplier.all.map{|r| [r.company_profile.company_name, r.id]}, :include_blank => false %>
+    <%= f.input :supplier_id, :as => :select, :include_blank => false,
+                :collection => f.object.supplier_select_collection %>
     <%= f.input :vendor_code, :as => :string %>    
     <%= f.input :latest_price, :as => :string %>
     <%= f.input :min_amount, :as => :number %>
   <% end %>
 
   <%= f.inputs :part_number_complementary_info do %>
+    <%= f.input :reserved_code, :as => :string, 
+                :input_html => {:value => f.object.reserved_code||'0000',
+                                :disabled => f.object.model_fixed?} %> 
     <%= f.input :description, :as => :string %>
     <li>
       <%= f.label :appendix %>
@@ -39,24 +41,14 @@
     </li>  
   <% end %>
 
-  <%= f.input :code, :as => :string, :wrapper_html => { :style => "display:none;" } %>
-
   <%= f.inputs :part_number_basic_info do %>
-    <% if f.object.new_record? %>
-      <%= f.input :status, :as => :select, :collection => STATUS_DEFINITION[0..0].map { |r| [I18n.t("active_admin.scopes.#{r}"),r]}, :include_blank => false %>
-      <%= f.input :prepared_by, :input_html => {:value => f.object.prepared_by || current_admin_user.email} %>
-    <% else %>
-      <% if @part_number.bApproved %>
-        <%= f.input :status, :as => :select, :collection => STATUS_DEFINITION.drop(1).map { |r| [I18n.t("active_admin.scopes.#{r}"),r]}, :include_blank => false %>
-      <% else %>
-        <% if current_admin_user.admin? %>
-          <%= f.input :status, :as => :select, :collection => STATUS_DEFINITION[0..1].map { |r| [I18n.t("active_admin.scopes.#{r}"),r]}, :include_blank => false %>
-          <%= f.input :approved_by, :input_html => {:value => f.object.approved_by || current_admin_user.email} %> 
-        <% else %>
-          <%= f.input :status, :as => :select, :collection => STATUS_DEFINITION[0..0].map { |r| [I18n.t("active_admin.scopes.#{r}"),r]}, :include_blank => false %>
-        <% end %>
-      <% end %>
-    <% end %>
+    <%= f.input :status, :as => :select, :collection => f.object.status_select_collection.map{|r| [i18n_status_helper(r),r]}, :include_blank => false %>
+    <%= f.input :prepared_by, :input_html => {:value => f.object.prepared_by || current_admin_user.email, 
+                                              :disabled => f.object.display_approved_by?} %>
+    <% if f.object.display_approved_by? %>
+      <%= f.input :approved_by, :input_html => {:value => f.object.approved_by || current_admin_user.email,
+                                                :disabled => f.object.model_fixed?} %>
+    <% end %>                                       
   <% end %>
 
   <% if (f.object.change_histories.empty? || f.object.change_histories.last.persisted?)  %>
@@ -68,4 +60,5 @@
     <%= f.action :submit, :button_html => {:class => "part_number_submit_button"} %>
     <li class="cancel"> <%=link_to t("active_admin.cancel"), {:action => :index} %></li>
   <% end %>
+
 <% end %> 

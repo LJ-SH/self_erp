@@ -1,0 +1,15 @@
+<%= form_tag({:url => fetch_compare_results_admin_bom_path}, :remote => true) do %>
+  <table style="width:60%" border='1'>
+  	<tr>
+  	  <td align="center"> <%= @bom.name %></td>
+  	  <td style="width=5%"> vs </td>
+  	  <td> target bom:&nbsp&nbsp<%= select_tag(:target_bom, options_for_select(Bom.all.reject{|bom| bom.id == @bom.id}.map{|bom| ["#{bom.name}", bom.id]})) %> </td>
+  	</tr>
+  	<tr>
+  	  <td rowspan="3"><%= submit_tag("compare") %></td>
+  	</tr>
+  <table>
+<% end %>
+
+<div id="bom_compare_main_content">
+</div>

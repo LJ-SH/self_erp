@@ -1,0 +1,16 @@
+<%=
+    f.filter :component_category_level0, :as => :select, :input_html => {:class => "search_cc_selection"}, 
+             :collection => Proc.new{ComponentCategory.valid_depth0_collection} 
+    f.filter :component_category_level1, :as => :select, :input_html => {:class => "search_cc_selection"}, 
+             :collection => f.object.component_category_level0_eq.blank?? []: 
+                            Proc.new{ComponentCategory.find(f.object.component_category_level0_eq).children} 
+    f.filter :component_category_level2, :as => :select, :input_html => {:class => "search_cc_selection"}, 
+             :collection => f.object.component_category_level1_eq.blank?? []: 
+                            Proc.new{ComponentCategory.find(f.object.component_category_level1_eq).children}
+    f.filter :component_category_level3, :as => :select, :input_html => {:class => "search_cc_selection"}, 
+             :collection => f.object.component_category_level2_eq.blank?? []: 
+                            Proc.new{ComponentCategory.find(f.object.component_category_level2_eq).children}
+
+    f.filter :supplier, :as => :select, :collection => Proc.new{Supplier.all}
+    f.filter :code, :as => :string
+%>

@@ -15,10 +15,10 @@ ActiveAdmin.register_page "Dashboard" do
       column do
         panel t 'label.part_number_outstanding_inventory' do
           table_for Inventory.part_number.order('quantity_of_surplus desc').limit(10) do
-            column(I18n.t('activerecord.attributes.part_number.code'))   {|inv| inv.item.code } 
-            column(I18n.t('activerecord.attributes.inventory.location')) {|inv| inv.location.display_name } 
-            column(I18n.t('activerecord.attributes.inventory.amount'))   {|inv| number_to_currency inv.quantity_of_surplus*inv.average_price } 
-            column(I18n.t('activerecord.attributes.inventory.duration')) {|inv| distance_of_time_in_words_to_now inv.updated_at } 
+            column(i18n_helper("part_number","code"))   {|inv| inv.item.code } 
+            column(i18n_helper("inventory","location")) {|inv| inv.location.display_name } 
+            column(i18n_helper("inventory","amount"))   {|inv| number_to_currency inv.quantity_of_surplus*inv.average_price } 
+            column(i18n_helper("inventory","duration")) {|inv| distance_of_time_in_words_to_now inv.updated_at } 
           end            
         end        
       end

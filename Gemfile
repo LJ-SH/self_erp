@@ -50,3 +50,5 @@ gem 'carrierwave'
 gem 'jquery-ui-rails'
 
 gem 'enum_column3'
+
+gem 'active_admin_import'

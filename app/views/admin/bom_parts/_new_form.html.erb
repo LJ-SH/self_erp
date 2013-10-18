@@ -1,42 +1,49 @@
-<% if @bom_part.part_number_id.nil? %>
-  <% @part_numbers = PartNumber.page(params[:page]).per(5) %>
-<% else %>
-  <% @part_numbers = PartNumber.same_category_parts(@bom_part.part_number).page(params[:page]).per(5) %>
-<% end %>
-<div id="paginator">
-  <%= paginate @part_numbers %>
-</div> <br></br>
+<div id="new_bom_part_form_part1" >
 
-<table>
-  <thead>
-    <tr>
-      <th>name</th>
-      <th>status</th>
-      <th>supplier</th>
-      <th>description</th>
-    </tr>
-  <thead>
-  <tbody id="part_numbers_collection">
-	<%= render :partial => @part_numbers, :locals => {:selected_id => @bom_part.part_number_id} %>
-  <tbody>
-</table>
+  <% if @bom_part.part_number_id.nil? %>
+    <% @part_numbers = PartNumber.page(params[:page]).per(5) %>
+  <% else %>
+    <% @part_numbers = PartNumber.same_category_parts(@bom_part.part_number).page(params[:page]).per(5) %>
+  <% end %>
 
-<%= semantic_form_for [:admin, @bom, @bom_part] do |f| %>
-  <% if f.object.new_record? %>
+  <div id="paginator">
+    <%= paginate @part_numbers %>
+  </div> 
+
+  <br></br>
+
+  <table>
+    <thead>
+      <tr>
+        <th></th>
+        <th><%= i18n_helper("part_number","name") %></th>
+        <th><%= i18n_helper("part_number","status") %></th>
+        <th><%= i18n_helper("part_number","supplier") %></th>
+        <th><%= i18n_helper("part_number","description") %></th>
+      </tr>
+    <thead>
+    <tbody id="part_numbers_collection">
+      <%= render :partial => @part_numbers, :locals => {:selected_id => @bom_part.part_number_id} %>
+    <tbody>
+  </table>
+
+</div>
+
+<div id="new_bom_part_form_part2">
+
+  <%= semantic_form_for [:admin, @bom, @bom_part] do |f| %>
     <%= f.inputs do %>
-      <%= f.input :part_number_id, :as => :string %>
+      <%= f.input :part_number_id, :as => :string, :wrapper_html => {:style => "display:block"} %>
+      <%= f.input :amount %>
+      <%= f.input :location %>
+      <%= f.input :comments %>
     <% end %>
+
+    <%= f.actions do %>
+      <%= f.action :submit, :button_html => {:class => "part_number_submit_button"} %>
+      <li class="cancel"> <%=link_to t("active_admin.cancel"), {:action => :index} %></li>
+    <% end %>
+
   <% end %>
 
-  <%= f.inputs :name => "Other Info" do %>
-    <%= f.input :amount %>
-	  <%= f.input :location %>
-	  <%= f.input :comments %>
-  <% end %>
-
-  <%= f.actions do %>
-    <%= f.action :submit, :button_html => {:class => "part_number_submit_button"} %>
-    <li class="cancel"> <%=link_to t("active_admin.cancel"), {:action => :index} %></li>
-  <% end %>
-
-<% end %>
+</div>

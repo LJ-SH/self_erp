@@ -1,8 +1,4 @@
 zh-CN:
-  helper:
-    label:
-      part_number:
-        cc_level0:  一级分类
   activerecord:
     models:
       admin_user: 
@@ -115,10 +111,10 @@ zh-CN:
         min_amount: 最小订货量
         description: 元器件描述
         appendix: 附件
-        cc_level0: 一级父类
-        cc_level1: 二级父类
-        cc_level2: 三级父类
-        cc_level3: 四级父类 
+        component_category_level0: 一级父类
+        component_category_level1: 二级父类
+        component_category_level2: 三级父类
+        component_category_level3: 四级父类 
         supplier: 供货商       
         reserved_code: 保留编码（4位数字）
         group_id: 分组
@@ -148,16 +144,15 @@ zh-CN:
         version: 版本号
         total_number_of_categories: 元件种类 
         total_number_of_items:  元件总数
+        parent_bom_id: 父级BOM号
       bom_part:
         id: 编号
         part_number: 元器件
+        part_number_code: 元件代码
+        part_number_name: 元件名称 
         amount: 数量
         comments: 说明
-        location: 位置   
-        cc_level0: 一级父类
-        cc_level1: 二级父类
-        cc_level2: 三级父类
-        cc_level3: 四级父类           
+        location: 位置             
   errors:
     messages:    
       destroy_fails_if_last_admin: 最后一个系统管理员不能被删除
@@ -166,13 +161,16 @@ zh-CN:
       pn_taken: "该元件编码(%{value})已经被使用"
       pn_invalid: 元件编号格式不正确，应为8位类型编码+4位保留字＋3位供货商编码
       pn_preference_taken: "同一分组下元件对应的替换优先级不能相同，(%{value})已经被使用"
-      pn_preference_empty: 元件设置为可以替换时，对应优先级不能为空         
+      pn_preference_empty: 元件设置为可以替换时，对应优先级不能为空    
+      bom_part_location_mismatch: "元件位置号数量和元件总数量不一致"
+      bom_part_location_duplicated: "元件位置号%{location}重复"
+      pn_absence: "元器件不能为空"     
+      email_not_recognize: "电子邮件只能以空格，逗号或分号分割，且需要符合xx@xx.xx格式"
   devise:
     failure:
       invalid: 登录名（用户名或邮箱）或密码错误  
   active_admin:
     edit_group: 设置替代
-    manage_parts: 管理器件
     sidebars:
       help: "帮助"
       parent_bom_info: 元件清单概况
@@ -186,7 +184,9 @@ zh-CN:
       depth3: 四级分类   
       company_active: 经常业务往来
       company_outdated: 不在业务往来
-      company_transient: 很少业务往来  
+      company_transient: 很少业务往来 
+      all: 全部
+      status_in_progress: 准备中 
       status_active: 有效
       status_outdated: 过期
       status_transient: 过渡 
@@ -194,3 +194,8 @@ zh-CN:
       status_in_progress: 准备中
     panels:
       outstanding_inventory: 库存统计
+  helpers:
+    select:
+      category_sel_tip_prompt: 请选择分类类型 
+      parent_bom_id_prompt: 请选择上一级BOM
+      empty_option: 无

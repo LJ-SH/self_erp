@@ -4,6 +4,4 @@ zh-CN:
       level0: 一级分类
       level1: 二级分类
       level2: 三级分类
-      level3: 四级分类 
-  form:
-    category_sel_tip_option: 请选择分类类型      
+      level3: 四级分类

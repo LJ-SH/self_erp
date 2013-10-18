@@ -1,24 +1,16 @@
 <%= form_for @search, :url => collection_path, :as => :q, :builder => ActiveAdmin::Filters::FormBuilder, :html => {method: :get, :class => "filter_form part_number_filter_form"} do |f| %>
 
-  <%= f.input :cc_level0, :as => :select, :collection => collection_ary[0], :selected => level_val_ary[0], :input_html => {:class => "search_cc_selection"} %>
-  <%= f.input :cc_level1, :as => :select, :collection => collection_ary[1], :selected => level_val_ary[1], :input_html => {:class => "search_cc_selection"} %>
-  <%= f.input :cc_level2, :as => :select, :collection => collection_ary[2], :selected => level_val_ary[2], :input_html => {:class => "search_cc_selection"} %>    
-  <%= f.input :cc_level3, :as => :select, :collection => collection_ary[3], :selected => level_val_ary[3], :input_html => {:class => "search_cc_selection"} %>
-
-  <%=   
-    #f.filter :cc_level0, :as => :select, :collection => collection_ary[0], :input_html => {:class => "search_cc_selection"}
-    #f.filter :cc_level1, :as => :select, :collection => collection_ary[1], :input_html => {:class => "search_cc_selection"}
-    #f.filter :cc_level2, :as => :select, :collection => collection_ary[2], :input_html => {:class => "search_cc_selection"}
-    #f.filter :cc_level3, :as => :select, :collection => collection_ary[3], :input_html => {:class => "search_cc_selection"}
-    f.filter :supplier, :as => :select, :collection => Proc.new{Supplier.all}
-    f.filter :code, :as => :string
+  <%=
+    render :partial => "component_category_common", :locals => {:f => f}
     f.filter :approved_by, :as => :select, :collection => Proc.new{PartNumber.uniq.pluck(:approved_by).reject(&:blank?)}
     f.filter :created_at, :as => :date_range
-    f.form_buffers.last %>
+    f.form_buffers.last 
+  %>
 
   <%= content_tag :div, :class => "buttons" do %>
     <%=  f.submit I18n.t('active_admin.filter') %>
     <%=  link_to(I18n.t('active_admin.clear_filters'), "#", :class => "clear_filters_btn") %>
     <%=  hidden_field_tags_for(params, :except => [:q, :page]) %>
   <% end %>
+
 <% end %>  

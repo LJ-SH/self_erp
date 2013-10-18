@@ -1,0 +1,30 @@
+<%= semantic_form_for [:admin, @component_category] do |f| %>
+  <%= f.inputs :component_category_sel_category_type do %>
+    <%= f.input :ancestry_depth, :as => :select, :input_html => {:class => "new_form_component_category_ancestry_depth"},
+                :include_blank => true,
+                :collection => 
+                COMPONENT_CATEGORY_MAP.each_with_index.map { |x,i| [I18n.t("label.component_category.#{x}"),i]} %>    
+    <%= render :partial => "sel_ancestor_new_form", 
+               :locals => {:f => f, :top_collection => ComponentCategory.depth0,
+                           :form_class => "cc_selection"} %>     
+  <% end %>    
+
+  <%= f.inputs :name => "hidden area", :style => "display:none;" do %>
+    <%= f.input :parent_id %> 
+    <%= f.input :updated_by_email, 
+                :input_html => {:value => f.object.updated_by_email || current_admin_user.email} %>
+  <% end %>
+
+  <%= f.inputs :component_category_list_category_details do  %>    
+    <%= f.input :name %>
+    <%= f.input :code, :as => :string%>    
+    <%= f.input :comment %>
+  <% end %>
+  
+  <%= f.actions do %>
+    <%= f.action :submit %>
+    <li class="cancel"> 
+      <%=link_to I18n.t("active_admin.cancel"), component_category_collection_url_help(f.object.ancestry_depth)%>
+    </li>
+  <% end %>
+<% end %>      

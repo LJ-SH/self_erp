@@ -1,0 +1,11 @@
+<%= f.input :level0, :as => :select, :input_html => {:class => form_class},
+            :collection => top_collection, 
+            :prompt => I18n.t('helpers.select.category_sel_tip_prompt') %>
+<%= f.input :level1, :as => :select, :input_html => {:class => form_class},
+            :collection => f.object.level0.blank?? [] 
+                         : ComponentCategory.find(f.object.level0).children,
+            :prompt => I18n.t('helpers.select.category_sel_tip_prompt') %>
+<%= f.input :level2, :as => :select, :input_html => {:class => form_class},
+            :collection => f.object.level1.blank?? [] 
+                         : ComponentCategory.find(f.object.level1).children,
+            :prompt => I18n.t('helpers.select.category_sel_tip_prompt') %> 

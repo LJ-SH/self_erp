@@ -3,7 +3,7 @@ class ComponentCategory < ActiveRecord::Base
   has_ancestry(:cache_depth => true)
   # attr_accessible :title, :body
   attr_accessible :name, :code, :updated_by_email, :parent, :ancestry,:ancestry_depth,
-                  :level0, :level1, :level2, :comment, :part_numbers_attributes
+                  :level0, :level1, :level2, :comment, :part_numbers_attributes, :parent_id
 
   has_many :part_numbers, :dependent => :destroy, :inverse_of => :component_category
   accepts_nested_attributes_for :part_numbers, :allow_destroy => true  
@@ -20,7 +20,7 @@ class ComponentCategory < ActiveRecord::Base
   scope :depth1, where(:ancestry_depth => 1)
   scope :depth2, where(:ancestry_depth => 2)
   scope :depth3, where(:ancestry_depth => 3) 
-  scope :valid_depth0_collection, depth0.select{|c| c.descendants.exists?(:ancestry_depth => 3)}
+  scope :valid_depth0_collection, Proc.new{depth0.select{|c| c.descendants.exists?(:ancestry_depth => 3)}}
 
   attr_accessor :level0, :level1, :level2
 
@@ -85,10 +85,10 @@ class ComponentCategory < ActiveRecord::Base
 
   def check_and_delete_children
     # the below checking is for test purpose
-    if self.ancestry_depth == 3 
-        self.errors.add(:base, :destroy_fails_if_in_use, :categoryname => self.name)
-      return false
-    end   
+    #if self.ancestry_depth == 3 
+    #  self.errors.add(:base, :destroy_fails_if_in_use, :categoryname => self.name)
+    #  return false
+    #end   
     self.children.each do |c|
       unless c.destroy
       self.errors[:base].concat(c.errors[:base]);

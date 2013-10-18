@@ -4,25 +4,11 @@ ActiveAdmin.register ComponentCategory do
   config.sort_order = "id_asc"
   config.batch_actions = false
   config.clear_sidebar_sections!  
-  config.clear_action_items!
-
-  action_item :except => [:new, :show, :edit_group] do
-    if controller.action_methods.include?('new') && authorized?(ActiveAdmin::Auth::CREATE, active_admin_config.resource_class)
-      link_to(I18n.t('active_admin.new_model', :model => active_admin_config.resource_label), new_resource_path)
-    end
-  end
 
   scope :depth0, :default => true
   scope :depth1
   scope :depth2
   scope :depth3
-
-  #ajax related collections
-  collection_action :category_select do
-  	@category_type = params[:category_type]
-  	@component_category = ComponentCategory.new(:ancestry_depth => @category_type,:updated_by_email => current_admin_user.email)
-    render :partial => "form", :object => @component_category
-  end
 
   member_action :edit_group do
     @component_category = ComponentCategory.find(params[:id])
@@ -68,55 +54,122 @@ ActiveAdmin.register ComponentCategory do
   end
 
   form do |f|
-  	render :partial => "form"
+  	#render :partial => "form"
+    if f.object.new_record?
+      render :partial => "new_form"
+    else
+      f.inputs :component_category_sel_category_type, :disabled => true do
+        f.input :ancestry_depth, :as => :select, :collection => [[I18n.t("label.component_category.level#{f.object.ancestry_depth}"), f.object.ancestry_depth]]
+        f.input :level0, :input_html=>{:value => ComponentCategory.find(f.object.level0).name} unless f.object.depth==0
+        f.input :level1, :input_html=>{:value => ComponentCategory.find(f.object.level1).name} unless f.object.level1.nil?
+        f.input :level2, :input_html=>{:value => ComponentCategory.find(f.object.level2).name} unless f.object.level2.nil?
+      end
+
+      f.inputs :component_category_list_category_details do    
+        f.input :name
+        f.input :code, :as => :string   
+        f.input :comment
+        f.input :updated_by_email, :wrapper_html => { :style => "display:none;" },
+                :input_html => {:value => f.object.updated_by_email || current_admin_user.email}
+      end
+
+      f.actions 
+    end    
   end
 
   # customize filter panel
   sidebar :filters, :only => :index do
-   	@collection_ary = Array.new(3,[])
-   	@collection_ary[0] = ComponentCategory.depth0.map{|r| [r.name, r.id]}
-   	@level_val_ary = Array.new(3,"")
-
-   	if params[:q]
-        if params[:q][:level2_eq]
-          @cc = ComponentCategory.find(params[:q][:level2_eq])
-        elsif params[:q][:level1_eq]
-          @cc = ComponentCategory.find(params[:q][:level1_eq])
-        elsif params[:q][:level0_eq]
-          @cc = ComponentCategory.find(params[:q][:level0_eq])
-        end
-        unless @cc.nil?
-          @ids = @cc.path_ids
-          @ids.each_with_index {|id, i|
-            @collection_ary[i+1] = ComponentCategory.find(id).children.map{|r| [r.name, r.id]} unless i==2
-            @level_val_ary[i] = id
-          }
-        end 
-  	end
-   	render :partial => 'search', :locals => {:collection_ary => @collection_ary, :level_val_ary => @level_val_ary}
+    render :partial => 'search'
   end
   
   controller do
     before_filter :pre_action_proc
 
   	def pre_action_proc
-	  case params[:action]
-	    when 'new'
-	      @component_category = ComponentCategory.new(:updated_by_email => current_admin_user.email)
-	    when 'update'
-	      params[:component_category].merge!(:updated_by_email => current_admin_user.email)        
-	    end   		
+  	  case params[:action]
+  	    when 'new'
+  	      #@component_category = ComponentCategory.new(:updated_by_email => current_admin_user.email)
+  	    when 'update'
+  	      #params[:component_category].merge!(:updated_by_email => current_admin_user.email)
+        when 'index'
+          if params[:q]
+            if params[:q][:level2_eq]
+              @cc = ComponentCategory.find(params[:q][:level2_eq])
+              params[:q].delete(:level2_eq)
+            elsif params[:q][:level1_eq]
+              @cc = ComponentCategory.find(params[:q][:level1_eq])
+              params[:q].delete(:level1_eq)          
+            elsif params[:q][:level0_eq]
+              @cc = ComponentCategory.find(params[:q][:level0_eq])
+              params[:q].delete(:level0_eq)          
+            end
+              
+            unless @cc.nil?
+              @ids = @cc.path_ids
+              @ids.each_with_index {|id, i|
+                  params[:q].merge!(:"level#{i}_eq" => id)
+              }
+            end 
+          end          
+  	  end   		
   	end 
 
-	def destroy
-	  @component_category = ComponentCategory.find(params[:id])
+  	def destroy
+  	  @component_category = ComponentCategory.find(params[:id])
       unless @component_category.nil?
         destroy!	    		
-  	    if @component_category.errors[:base].any?
-  	      flash[:error] ||= []
-  	      flash[:error].concat(@component_category.errors[:base]).map! {|msg| "<li>#{msg}</li>".html_safe}
-  	    end	    		
+    	  if @component_category.errors[:base].any?
+    	    flash[:error] ||= []
+          flash[:error].concat(@component_category.errors[:base]).map! {|msg| "<li>#{msg}</li>".html_safe}
+    	  end	    		
       end
     end  	
   end
 end
+
+  #config.clear_action_items!
+
+  #action_item :except => [:new, :show, :edit_group] do
+  #  if controller.action_methods.include?('new') && authorized?(ActiveAdmin::Auth::CREATE, active_admin_config.resource_class)
+  #    link_to(I18n.t('active_admin.new_model', :model => active_admin_config.resource_label), new_resource_path)
+  #  end
+  #end
+
+
+  #ajax related collections
+  #collection_action :category_select do
+  # @category_type = params[:category_type]
+  # @component_category = ComponentCategory.new(:ancestry_depth => @category_type,:updated_by_email => current_admin_user.email)
+  #  render :partial => "form"
+  #end
+
+  # customize filter panel
+  #sidebar :filters, :only => :index do
+  #   @collection_ary = Array.new(3,[])
+  #   @collection_ary[0] = ComponentCategory.depth0.map{|r| [r.name, r.id]}
+  #   @level_val_ary = Array.new(3,"")
+
+  #   if params[:q]
+  #      if params[:q][:level2_eq]
+  #        @cc = ComponentCategory.find(params[:q][:level2_eq])
+  #        params[:q].delete(:level2_eq)
+  #      elsif params[:q][:level1_eq]
+  #        @cc = ComponentCategory.find(params[:q][:level1_eq])
+  #        params[:q].delete(:level1_eq)          
+  #      elsif params[:q][:level0_eq]
+  #        @cc = ComponentCategory.find(params[:q][:level0_eq])
+  #        params[:q].delete(:level0_eq)          
+  #      end
+  #      unless @cc.nil?
+  #        @ids = @cc.path_ids
+  #        @ids.each_with_index {|id, i|
+  #          @collection_ary[i+1] = ComponentCategory.find(id).children.map{|r| [r.name, r.id]} unless i==2
+  #          @level_val_ary[i] = id
+  #          params[:q].merge!(:"level#{i}_eq" => id)
+  #        }
+  #      end 
+  # end
+  #  logger.info "parameter ==================="
+  #  logger.info params[:q]
+  #   render :partial => 'search', :locals => {:collection_ary => @collection_ary, :level_val_ary => @level_val_ary}
+  #end

@@ -1,0 +1,15 @@
+zh-CN:
+  active_admin:
+    import: "导入"
+  active_admin_import:
+    file_format_error: "请检查CSV文件格式"
+    no_file_error: "请选择导入文件"
+    imported:
+      one: "成功导入一个 %{model}"
+      other: "成功导入 %{count} %{plural_model}"
+    failed:
+      one:   "导入失败 － 1 %{model}"
+      other: "导入失败 － %{count} %{plural_model}"
+    import_model: "导入 %{model}"
+    import_btn: "导入"
+    import_btn_disabled: "请等待..."

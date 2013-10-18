@@ -33,7 +33,7 @@ function reorder_child_title(link) {
 // end-of-jQuery-code-for-model supplier ======================================
 
 // start-of-jQuery-code-for-component_category_edit&new_form ===================
-$(document).on('change', '#component_category_ancestry_depth', function() { 
+/*$(document).on('change', '#component_category_ancestry_depth', function() { 
   $.ajax({
     url: "/admin/component_categories/category_select",
     type: "get",
@@ -143,6 +143,52 @@ $(document).on('submit', '#new_component_category', function() {
       ancestry_input.val(level0_element.val()+"/"+level1_element.val()+"/"+level2_element.val());
       return true;
     }
+});*/
+
+$(document).on('change', 'select.new_form_component_category_ancestry_depth', function() { 
+  var sel_idx = $(this).val();
+  if (sel_idx == "") return;
+  $('select.cc_selection').slice(sel_idx).parent('li').hide();
+  $('select.cc_selection:lt('+ sel_idx + ')').parent('li').show();
+});
+
+$(document).ready(function() {
+  if ($('select.new_form_component_category_ancestry_depth').length>0) {
+    var sel_idx = $('select.new_form_component_category_ancestry_depth').val();
+    $('select.cc_selection').slice(sel_idx).parent('li').hide();
+  }
+});
+
+$(document).on('submit', '#new_component_category', function() {  
+  var form = $(this);
+  var depth_input = form.find("select.new_form_component_category_ancestry_depth");
+  var depth_value = depth_input.val();
+  var parent_input = form.find("#component_category_parent_id");
+  var errMsg = "请选择正确的值";
+
+  if (!fn_integer_id_validate(depth_value)) {
+    if($("#new_category_ancestry_depth_err_tip").length == 0) {    
+      var errTip = $('<p class="inline-errors" id="new_category_ancestry_depth_err_tip"></p>').html(errMsg);
+      depth_input.after(errTip);   
+    }
+    return false; 
+  } else {
+    $("#new_category_ancestry_depth_err_tip").remove();
+  }
+
+  if (depth_value == 0) {
+    parent_input.val('');
+  } else {
+    var parent_idx = depth_value-1;
+    if (fn_chk_ancestor(form, depth_value)) {
+      parent_input.val($('select.cc_selection:eq('+parent_idx+')').val());
+    } else {
+      return false;
+    }
+  }  
+
+  $('select.cc_selection').attr("disabled", true);
+  return true;    
 });
 
 function fn_integer_id_validate(value) {
@@ -150,6 +196,24 @@ function fn_integer_id_validate(value) {
   var regExp = new RegExp(/^\d{1,3}$/);  
   return regExp.test(value);
 }
+
+function fn_chk_ancestor(f,depth_value) {
+  var errMsg = "请选择正确的值";
+  var b_rtn = true;
+  f.find('select.cc_selection:lt('+depth_value+')').each(function(index) {
+    if (!fn_integer_id_validate($(this).val())) {
+      if(f.find("#new_category_category_err_tip_level_"+index).length == 0) {  
+        var errTip = $('<p class="inline-errors" id="new_category_category_err_tip_level_'+index+'"></p>').html(errMsg);
+        $(this).after(errTip);
+      }
+      b_rtn = false;
+    } else {
+      $("#new_category_category_err_tip_level_"+index).remove();
+    }
+  });  
+  return b_rtn; 
+}
+
 // end-of-jQuery-code-for-component_category_edit&new_form ===================
 
 // start-of-jQuery-code-for-component_category_search_panel ===================
@@ -159,7 +223,7 @@ $(document).ready(function() {
 // end-of-jQuery-code-for-component_category_search_panel ===================
 
 // start-of-jQuery-code-for-part_number_selection_edit&new_form ===================
-$(document).on('change', 'select.cc_leaf_node', function() {   
+$(document).on('change', 'select.cc_leaf_node', function() {
   $.ajax({
     url: "/component_category_select/cc_code",
     context: this,
@@ -182,6 +246,10 @@ $(document).on('submit', 'form.part_number', function() {
   var reserved_code = form.find("#part_number_reserved_code");
   //var cc_code = form.find("#part_number_cc_code");  
   var errMsg = "请选择正确的值";
+
+  if (!fn_chk_ancestor(form, 4)) {
+    return false;
+  }
 
   var regExp_8digits = new RegExp(/^\d{8}$/);
   if (!regExp_8digits.test(cc_code_val)) {
@@ -219,6 +287,7 @@ $(document).on('submit', 'form.part_number', function() {
   supplier_str = Array(supplier_len>supplier_val.length? (supplier_len-supplier_val.length+1):0).join(0)+supplier_val
   
   form.find("#part_number_code").val(cc_code_val+"-"+reserved_code_val+"-"+supplier_str);
+  form.find("select.cc_ancestor_node").remove();
 });
 
 // end-of-jQuery-code-for-part_number_edit&new_form ===================
@@ -228,7 +297,7 @@ $(document).on('submit', 'form.part_number_filter_form', component_category_end_
 // end-of-jQuery-code-for-part_number_search_form ===================
 
 // start-of-jQuery-code-for-common_component_category_ajax_methods ============
-$(document).on('change', 'select.cc_selection', function() {   
+$(document).on('change', 'select.cc_selection', function() {
   $.ajax({
     url: "/component_category_select/children_collection",
     context: this,
@@ -239,7 +308,7 @@ $(document).on('change', 'select.cc_selection', function() {
       var next_level_index = $('select.cc_selection').index($(this))+1;
       var level = $('select.cc_selection:eq('+ next_level_index + ')');
       level.empty();
-      level.append("<option value=''></option>");       
+      level.append("<option value=''>请选择分类类型</option>");       
       $.each(data, function(index, value) {
         // append an option
         var opt = $('<option/>');
@@ -253,9 +322,9 @@ $(document).on('change', 'select.cc_selection', function() {
       $('select.cc_selection:gt('+next_level_index+')').each(function() {
         var blank_level = $(this);
         blank_level.empty();
-        blank_level.append("<option value=''></option>");
+        //blank_level.append("<option value=''></option>");
         blank_level.append("<option value=''>请选择分类类型</option>");        
-      });         
+      });   
     }
   })
 });
@@ -300,7 +369,7 @@ function component_category_end_node_selection() {
   });
   $('select.search_cc_selection:lt('+level_idx+')').each(function() {
     $(this).attr("disabled", true);
-  });  
+  }); 
 }
 
 /* end-of-jQuery-code-for-common_component_category_ajax_methods ==============
@@ -326,5 +395,14 @@ $(document).ready(function(){
 
 $(document).on('change', 'input.bom_part_part_number_sel[type=radio]', function() {
   $("#bom_part_part_number_id").val($(this).val());
+});
+
+/* start-of-bom-part-number-new form */
+$(document).on('submit', '#new_bom_part', function() {  
+  if ($("input.bom_part_part_number_sel[type=radio]:checked").length == 0) {
+    alert("必须选择一个元器件");
+    return false;
+  }
+  return true;
 });
  

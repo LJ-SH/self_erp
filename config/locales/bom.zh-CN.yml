@@ -1,0 +1,8 @@
+zh-CN:
+  label:
+    bom:
+      change_history_info: BOM更改历史纪录
+  active_admin:
+    manage_parts: 管理器件
+    clone_bom: 复制
+    compare_bom: 比较  

@@ -1,0 +1,9 @@
+$('#part_numbers_collection').empty();
+$('#part_numbers_collection').html("<%= escape_javascript render(:partial => @part_numbers, :locals => {:selected_id => ''}) %>");
+$('#paginator').html("<%= escape_javascript(paginate(@part_numbers, :remote => true).to_s) %>");
+$('form.bom_part_number_filter_form select').each(function() {
+    $(this).attr("disabled", false);
+});
+$('form.bom_part_number_filter_form input').each(function() {
+    $(this).attr("disabled", false);
+});

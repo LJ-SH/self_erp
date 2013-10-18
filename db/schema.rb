@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130708072249) do
+ActiveRecord::Schema.define(:version => 20131006022109) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -68,9 +68,10 @@ ActiveRecord::Schema.define(:version => 20130708072249) do
     t.string   "version"
     t.string   "prepared_by"
     t.string   "approved_by"
-    t.enum     "status",      :limit => [:status_in_progress, :status_pending_approval, :status_active, :status_transient, :status_outdated], :default => :status_in_progress
-    t.datetime "created_at",                                                                                                                                                   :null => false
-    t.datetime "updated_at",                                                                                                                                                   :null => false
+    t.enum     "status",        :limit => [:status_in_progress, :status_pending_approval, :status_active, :status_transient, :status_outdated], :default => :status_in_progress
+    t.datetime "created_at",                                                                                                                                                     :null => false
+    t.datetime "updated_at",                                                                                                                                                     :null => false
+    t.integer  "parent_bom_id"
   end
 
   create_table "change_histories", :force => true do |t|
@@ -142,15 +143,15 @@ ActiveRecord::Schema.define(:version => 20130708072249) do
     t.string   "code",                  :limit => 17
     t.string   "old_code"
     t.string   "vendor_code"
-    t.enum     "status",                :limit => [:status_pending_approval, :status_active, :status_transient, :status_outdated],                               :default => :status_pending_approval
-    t.decimal  "latest_price",                                                                                                     :precision => 8, :scale => 2
+    t.enum     "status",                :limit => [:status_in_progress, :status_pending_approval, :status_active, :status_transient, :status_outdated],                               :default => :status_in_progress
+    t.decimal  "latest_price",                                                                                                                          :precision => 8, :scale => 2
     t.string   "prepared_by"
     t.string   "approved_by"
-    t.integer  "supplier_id",                                                                                                                                                                          :null => false
-    t.integer  "component_category_id",                                                                                                                                                                :null => false
+    t.integer  "supplier_id",                                                                                                                                                                                          :null => false
+    t.integer  "component_category_id",                                                                                                                                                                                :null => false
     t.datetime "created_at"
     t.integer  "preference"
-    t.integer  "min_amount",                                                                                                                                     :default => 1
+    t.integer  "min_amount",                                                                                                                                                          :default => 1
     t.string   "description"
     t.string   "appendix"
     t.integer  "group_id"

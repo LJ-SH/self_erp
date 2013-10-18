@@ -31,23 +31,23 @@ class Ability
     can [:read, :update], AdminUser, :id => user.id    
 
     case user.role
-    when :role_super
-      can :manage, :all
-    when :role_admin       
-      can :manage, AdminUser, :role => ROLE_DEFINITION.drop(1) << nil
-      can :manage, ComponentCategory
-      can :manage, Supplier
-      can :manage, PartNumber
-    when :role_material_controller
-      can :manage, ComponentCategory
-      can [:read], Supplier
-    when :role_dev 
-      can [:read], ComponentCategory
-      can :manage, PartNumber
-      can [:read], Supplier
-    when :role_fin 
-      can [:read], Supplier
-    else
+      when :role_super
+        can :manage, :all
+      when :role_admin       
+        can :manage, AdminUser, :role => ROLE_DEFINITION.drop(1) << nil
+        can :manage, ComponentCategory
+        can :manage, Supplier
+        can :manage, PartNumber
+      when :role_material_controller
+        can :manage, ComponentCategory
+        can [:read], Supplier
+      when :role_dev 
+        can [:read], ComponentCategory
+        can :manage, PartNumber
+        can [:read], Supplier
+      when :role_fin 
+        can [:read], Supplier
+      else
     end  
 
   end

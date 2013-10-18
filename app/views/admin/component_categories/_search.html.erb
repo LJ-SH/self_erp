@@ -1,8 +1,15 @@
 <%= form_for @search, :url => collection_path, :as => :q, :builder => ActiveAdmin::Filters::FormBuilder, :html => {method: :get, :class => "component_category_filter_form filter_form"} do |f| %>
-  <%= f.input :level0, :as => :select, :collection => collection_ary[0], :selected => level_val_ary[0], :input_html => {:class => "search_cc_selection"} %>
-  <%= f.input :level1, :as => :select, :collection => collection_ary[1], :selected => level_val_ary[1], :input_html => {:class => "search_cc_selection"} %>  
-  <%= f.input :level2, :as => :select, :collection => collection_ary[2], :selected => level_val_ary[2], :input_html => {:class => "search_cc_selection"} %>    
-  <%=   
+
+  <%=         
+    f.filter :level0, :as => :select, :collection => Proc.new{ComponentCategory.depth0}, 
+             :input_html => {:class => "search_cc_selection"} 
+    f.filter :level1, :as => :select, :input_html => {:class => "search_cc_selection"},
+             :collection => f.object.level0_eq.blank?? [] 
+                          : Proc.new{ComponentCategory.find(f.object.level0_eq).children}
+    f.filter :level2, :as => :select, :input_html => {:class => "search_cc_selection"},
+             :collection => f.object.level1_eq.blank?? [] 
+                          : Proc.new{ComponentCategory.find(f.object.level1_eq).children}
+
     f.filter :name, :as => :string
     f.filter :updated_by_email, :as => :select, 
              :collection => proc {ComponentCategory.uniq.pluck(:updated_by_email)}

@@ -6,4 +6,4 @@ class TransactionHistory < ActiveRecord::Base
 end
 
 
-Inventory.create!(:item_id => 829, :item_type => 'PartNumber', :average_price => 1.0, :volume_of_surplus => '',:location_type => 'Oem', :location_id => 3)
+#Inventory.create!(:item_id => 829, :item_type => 'PartNumber', :average_price => 1.0, :volume_of_surplus => '',:location_type => 'Oem', :location_id => 3)

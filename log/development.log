@@ -1,0 +1,587 @@
+
+
+Started GET "/admin/boms/import" for 127.0.0.1 at 2013-10-17 21:24:49 +0800
+Processing by Admin::BomsController#import as HTML
+  [1m[35mAdminUser Load (0.3ms)[0m  SELECT `admin_users`.* FROM `admin_users` WHERE `admin_users`.`id` = 1 LIMIT 1
+  Rendered admin/import.html.erb within layouts/active_admin (4.9ms)
+Completed 200 OK in 78ms (Views: 40.9ms | ActiveRecord: 1.5ms)
+
+
+Started GET "/assets/active_admin.css?body=1" for 127.0.0.1 at 2013-10-17 21:24:49 +0800
+Served asset /active_admin.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/active_admin/print.css?body=1" for 127.0.0.1 at 2013-10-17 21:24:49 +0800
+Served asset /active_admin/print.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/active_admin.js" for 127.0.0.1 at 2013-10-17 21:24:49 +0800
+Served asset /active_admin.js - 304 Not Modified (0ms)
+
+
+Started POST "/admin/boms/do_import?bom_id=1" for 127.0.0.1 at 2013-10-17 21:24:57 +0800
+Processing by Admin::BomsController#do_import as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"Iz/3j3RX9ktHOq+Rt9l5I/59DMp3cB/pXf2tlZS3Q2c=", "active_admin_import_model"=>{"file"=>#<ActionDispatch::Http::UploadedFile:0x007fea58e21388 @original_filename="boms-2013-10-17.csv.txt", @content_type="text/plain", @headers="Content-Disposition: form-data; name=\"active_admin_import_model[file]\"; filename=\"boms-2013-10-17.csv.txt\"\r\nContent-Type: text/plain\r\n", @tempfile=#<Tempfile:/var/folders/my/3rlbgj6s7mzbjg05t30f6__00000gn/T/RackMultipart20131017-2024-1imxuqo>>}, "bom_id"=>"1"}
+  [1m[36mAdminUser Load (0.4ms)[0m  [1mSELECT `admin_users`.* FROM `admin_users` WHERE `admin_users`.`id` = 1 LIMIT 1[0m
+Redirected to http://localhost:3000/admin/boms/import
+Completed 302 Found in 7ms (ActiveRecord: 0.4ms)
+
+
+Started GET "/admin/boms/import" for 127.0.0.1 at 2013-10-17 21:24:58 +0800
+Processing by Admin::BomsController#import as HTML
+  [1m[35mAdminUser Load (0.3ms)[0m  SELECT `admin_users`.* FROM `admin_users` WHERE `admin_users`.`id` = 1 LIMIT 1
+  Rendered admin/import.html.erb within layouts/active_admin (3.9ms)
+Completed 200 OK in 41ms (Views: 40.0ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/assets/active_admin.js" for 127.0.0.1 at 2013-10-17 21:24:58 +0800
+Served asset /active_admin.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/active_admin.css?body=1" for 127.0.0.1 at 2013-10-17 21:24:58 +0800
+Served asset /active_admin.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/active_admin/print.css?body=1" for 127.0.0.1 at 2013-10-17 21:24:58 +0800
+Served asset /active_admin/print.css - 304 Not Modified (0ms)
+Connecting to database specified by database.yml
+DEPRECATION WARNING: Active Admin: The csv_column_separator setting is deprecated and will be removed. (called from block in <top (required)> at /Users/apple/projects/self_erp/config/initializers/active_admin.rb:150)
+
+
+Started GET "/admin/boms" for 127.0.0.1 at 2013-10-17 21:33:11 +0800
+Processing by Admin::BomsController#index as HTML
+  [1m[36mAdminUser Load (0.2ms)[0m  [1mSELECT `admin_users`.* FROM `admin_users` WHERE `admin_users`.`id` = 1 LIMIT 1[0m
+  [1m[35m (0.3ms)[0m  SELECT COUNT(*) FROM `boms` 
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM `boms` WHERE `boms`.`status` = 'status_in_progress'[0m
+  [1m[35m (0.3ms)[0m  SELECT COUNT(*) FROM `boms` WHERE `boms`.`status` = 'status_pending_approval'
+  [1m[36m (0.3ms)[0m  [1mSELECT COUNT(*) FROM `boms` WHERE `boms`.`status` = 'status_active'[0m
+  [1m[35m (0.3ms)[0m  SELECT COUNT(*) FROM `boms` WHERE `boms`.`status` = 'status_outdated'
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM `boms` WHERE `boms`.`status` = 'status_transient'[0m
+  [1m[35m (0.3ms)[0m  SELECT COUNT(count_column) FROM (SELECT 1 AS count_column FROM `boms` LIMIT 10 OFFSET 0) subquery_for_count 
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT COUNT(*) FROM `boms` [0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT COUNT(count_column) FROM (SELECT 1 AS count_column FROM `boms` LIMIT 10 OFFSET 0) subquery_for_count 
+  [1m[36mBom Load (0.3ms)[0m  [1mSELECT `boms`.* FROM `boms` ORDER BY `boms`.`id` desc LIMIT 10 OFFSET 0[0m
+  Rendered /usr/local/lib/ruby/gems/2.0.0/gems/activeadmin-0.6.0/app/views/active_admin/resource/index.html.arb (336.7ms)
+Completed 200 OK in 378ms (Views: 343.6ms | ActiveRecord: 5.5ms)
+
+
+Started GET "/assets/active_admin.css?body=1" for 127.0.0.1 at 2013-10-17 21:33:11 +0800
+Served asset /active_admin.css - 304 Not Modified (7ms)
+
+
+Started GET "/assets/active_admin.js" for 127.0.0.1 at 2013-10-17 21:33:11 +0800
+Served asset /active_admin.js - 304 Not Modified (72ms)
+
+
+Started GET "/assets/active_admin/print.css?body=1" for 127.0.0.1 at 2013-10-17 21:33:11 +0800
+Served asset /active_admin/print.css - 304 Not Modified (2ms)
+
+
+Started GET "/admin/boms.csv" for 127.0.0.1 at 2013-10-17 21:33:21 +0800
+Processing by Admin::BomsController#index as CSV
+  [1m[35mAdminUser Load (0.3ms)[0m  SELECT `admin_users`.* FROM `admin_users` WHERE `admin_users`.`id` = 1 LIMIT 1
+DEPRECATION WARNING: Active Admin: The csv_column_separator setting is deprecated and will be removed. (called from __usr_local_lib_ruby_gems_______gems_activeadmin_______app_views_active_admin_resource_index_csv_erb__230505658874714417_70258486299840 at /usr/local/lib/ruby/gems/2.0.0/gems/activeadmin-0.6.0/app/views/active_admin/resource/index.csv.erb:10)
+  [1m[36mBom Load (0.3ms)[0m  [1mSELECT `boms`.* FROM `boms` ORDER BY `boms`.`id` desc LIMIT 10000 OFFSET 0[0m
+  Rendered /usr/local/lib/ruby/gems/2.0.0/gems/activeadmin-0.6.0/app/views/active_admin/resource/index.csv.erb (2.2ms)
+Completed 200 OK in 8ms (Views: 4.2ms | ActiveRecord: 0.6ms)
+
+
+Started GET "/admin/boms/import" for 127.0.0.1 at 2013-10-17 21:33:29 +0800
+Processing by Admin::BomsController#import as HTML
+  [1m[35mAdminUser Load (0.3ms)[0m  SELECT `admin_users`.* FROM `admin_users` WHERE `admin_users`.`id` = 1 LIMIT 1
+  Rendered admin/import.html.erb within layouts/active_admin (13.3ms)
+Completed 200 OK in 53ms (Views: 47.6ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/assets/active_admin/print.css?body=1" for 127.0.0.1 at 2013-10-17 21:33:29 +0800
+Served asset /active_admin/print.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/active_admin.js" for 127.0.0.1 at 2013-10-17 21:33:29 +0800
+Served asset /active_admin.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/active_admin.css?body=1" for 127.0.0.1 at 2013-10-17 21:33:29 +0800
+Served asset /active_admin.css - 304 Not Modified (0ms)
+
+
+Started POST "/admin/boms/do_import?bom_id=1" for 127.0.0.1 at 2013-10-17 21:33:38 +0800
+Processing by Admin::BomsController#do_import as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"Iz/3j3RX9ktHOq+Rt9l5I/59DMp3cB/pXf2tlZS3Q2c=", "active_admin_import_model"=>{"file"=>#<ActionDispatch::Http::UploadedFile:0x007fcca9b6b250 @original_filename="boms-2013-10-17.csv", @content_type="text/csv", @headers="Content-Disposition: form-data; name=\"active_admin_import_model[file]\"; filename=\"boms-2013-10-17.csv\"\r\nContent-Type: text/csv\r\n", @tempfile=#<Tempfile:/var/folders/my/3rlbgj6s7mzbjg05t30f6__00000gn/T/RackMultipart20131017-4955-1eydfxc>>}, "commit"=>"导入", "bom_id"=>"1"}
+  [1m[36mAdminUser Load (0.7ms)[0m  [1mSELECT `admin_users`.* FROM `admin_users` WHERE `admin_users`.`id` = 1 LIMIT 1[0m
+  [1m[35mSQL (0.8ms)[0m  DELETE FROM `boms`
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.5ms)[0m  SHOW VARIABLES like 'max_allowed_packet';
+  [1m[36mClass Create Many Without Validations Or Callbacks (0.3ms)[0m  [1mINSERT INTO `boms` (`name`,`status`,`description`,`created_at`,`updated_at`) VALUES ('d','status_in_progress','','2013-10-17 13:33:38','2013-10-17 13:33:38') ON DUPLICATE KEY UPDATE `boms`.`updated_at`=VALUES(`updated_at`)[0m
+  [1m[35m (0.4ms)[0m  COMMIT
+Redirected to http://localhost:3000/admin/boms
+Completed 302 Found in 18ms (ActiveRecord: 2.8ms)
+
+
+Started GET "/admin/boms" for 127.0.0.1 at 2013-10-17 21:33:38 +0800
+Processing by Admin::BomsController#index as HTML
+  [1m[36mAdminUser Load (0.6ms)[0m  [1mSELECT `admin_users`.* FROM `admin_users` WHERE `admin_users`.`id` = 1 LIMIT 1[0m
+  [1m[35m (0.3ms)[0m  SELECT COUNT(*) FROM `boms` 
+  [1m[36m (0.3ms)[0m  [1mSELECT COUNT(*) FROM `boms` WHERE `boms`.`status` = 'status_in_progress'[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM `boms` WHERE `boms`.`status` = 'status_pending_approval'
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM `boms` WHERE `boms`.`status` = 'status_active'[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM `boms` WHERE `boms`.`status` = 'status_outdated'
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM `boms` WHERE `boms`.`status` = 'status_transient'[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(count_column) FROM (SELECT 1 AS count_column FROM `boms` LIMIT 10 OFFSET 0) subquery_for_count 
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT COUNT(*) FROM `boms` [0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT COUNT(count_column) FROM (SELECT 1 AS count_column FROM `boms` LIMIT 10 OFFSET 0) subquery_for_count 
+  [1m[36mBom Load (0.4ms)[0m  [1mSELECT `boms`.* FROM `boms` ORDER BY `boms`.`id` desc LIMIT 10 OFFSET 0[0m
+  Rendered /usr/local/lib/ruby/gems/2.0.0/gems/activeadmin-0.6.0/app/views/active_admin/resource/index.html.arb (137.3ms)
+Completed 200 OK in 143ms (Views: 137.5ms | ActiveRecord: 2.6ms)
+
+
+Started GET "/assets/active_admin/print.css?body=1" for 127.0.0.1 at 2013-10-17 21:33:39 +0800
+Served asset /active_admin/print.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/active_admin.css?body=1" for 127.0.0.1 at 2013-10-17 21:33:39 +0800
+Served asset /active_admin.css - 304 Not Modified (1ms)
+
+
+Started GET "/assets/active_admin.js" for 127.0.0.1 at 2013-10-17 21:33:39 +0800
+Served asset /active_admin.js - 304 Not Modified (0ms)
+
+
+Started GET "/admin/boms/12/edit" for 127.0.0.1 at 2013-10-17 21:34:17 +0800
+Processing by Admin::BomsController#edit as HTML
+  Parameters: {"id"=>"12"}
+  [1m[35mAdminUser Load (0.3ms)[0m  SELECT `admin_users`.* FROM `admin_users` WHERE `admin_users`.`id` = 1 LIMIT 1
+  [1m[36mBom Load (0.2ms)[0m  [1mSELECT `boms`.* FROM `boms` WHERE `boms`.`id` = 12 LIMIT 1[0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT `boms`.* FROM `boms` WHERE `boms`.`id` = 12 LIMIT 1
+  [1m[36mBom Load (0.3ms)[0m  [1mSELECT `boms`.* FROM `boms` WHERE `boms`.`status` IN ('status_in_progress', 'status_pending_approval', 'status_active')[0m
+  [1m[35m (0.7ms)[0m  SELECT COUNT(*) FROM `change_histories` WHERE `change_histories`.`trackable_obj_id` = 12 AND `change_histories`.`trackable_obj_type` = 'Bom'
+  Rendered /usr/local/lib/ruby/gems/2.0.0/gems/activeadmin-0.6.0/app/views/active_admin/resource/edit.html.arb (149.9ms)
+Completed 200 OK in 160ms (Views: 151.9ms | ActiveRecord: 3.2ms)
+
+
+Started GET "/assets/active_admin.css?body=1" for 127.0.0.1 at 2013-10-17 21:34:17 +0800
+Served asset /active_admin.css - 304 Not Modified (1ms)
+
+
+Started GET "/assets/active_admin/print.css?body=1" for 127.0.0.1 at 2013-10-17 21:34:17 +0800
+Served asset /active_admin/print.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/active_admin.js" for 127.0.0.1 at 2013-10-17 21:34:17 +0800
+Served asset /active_admin.js - 304 Not Modified (0ms)
+
+
+Started PUT "/admin/boms/12" for 127.0.0.1 at 2013-10-17 21:35:36 +0800
+Processing by Admin::BomsController#update as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"Iz/3j3RX9ktHOq+Rt9l5I/59DMp3cB/pXf2tlZS3Q2c=", "bom"=>{"name"=>"中文测试", "parent_bom_id"=>"", "code"=>"", "description"=>"测试中文是否能成功，等级分达卡附近的拉附近地方", "version"=>"1.0", "prepared_by"=>"super@example.com", "status"=>"status_in_progress", "change_histories_attributes"=>{"0"=>{"notes"=>"更改", "updated_by"=>"super@example.com"}}}, "commit"=>"更新元件清单", "id"=>"12"}
+  [1m[36mAdminUser Load (0.4ms)[0m  [1mSELECT `admin_users`.* FROM `admin_users` WHERE `admin_users`.`id` = 1 LIMIT 1[0m
+  [1m[35mBom Load (0.4ms)[0m  SELECT `boms`.* FROM `boms` WHERE `boms`.`id` = 12 LIMIT 1
+  [1m[36m (0.4ms)[0m  [1mBEGIN[0m
+  [1m[35mBom Exists (0.4ms)[0m  SELECT 1 AS one FROM `boms` WHERE (`boms`.`name` = BINARY '中文测试' AND `boms`.`id` != 12) LIMIT 1
+  [1m[36m (0.4ms)[0m  [1mUPDATE `boms` SET `name` = '中文测试', `code` = '', `description` = '测试中文是否能成功，等级分达卡附近的拉附近地方', `version` = '1.0', `prepared_by` = 'super@example.com', `updated_at` = '2013-10-17 13:35:36' WHERE `boms`.`id` = 12[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO `change_histories` (`notes`, `trackable_obj_id`, `trackable_obj_type`, `updated_at`, `updated_by`) VALUES ('更改', 12, 'Bom', '2013-10-17 13:35:36', 'super@example.com')
+  [1m[36m (0.3ms)[0m  [1mCOMMIT[0m
+Redirected to http://localhost:3000/admin/boms/12
+Completed 302 Found in 27ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/admin/boms/12" for 127.0.0.1 at 2013-10-17 21:35:36 +0800
+Processing by Admin::BomsController#show as HTML
+  Parameters: {"id"=>"12"}
+  [1m[35mAdminUser Load (0.4ms)[0m  SELECT `admin_users`.* FROM `admin_users` WHERE `admin_users`.`id` = 1 LIMIT 1
+  [1m[36mBom Load (0.2ms)[0m  [1mSELECT `boms`.* FROM `boms` WHERE `boms`.`id` = 12 LIMIT 1[0m
+  [1m[35mChangeHistory Load (1.0ms)[0m  SELECT `change_histories`.* FROM `change_histories` WHERE `change_histories`.`trackable_obj_id` = 12 AND `change_histories`.`trackable_obj_type` = 'Bom'
+  Rendered /usr/local/lib/ruby/gems/2.0.0/gems/activeadmin-0.6.0/app/views/active_admin/resource/show.html.arb (97.5ms)
+Completed 200 OK in 105ms (Views: 99.4ms | ActiveRecord: 1.6ms)
+
+
+Started GET "/assets/active_admin.css?body=1" for 127.0.0.1 at 2013-10-17 21:35:36 +0800
+Served asset /active_admin.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/active_admin.js" for 127.0.0.1 at 2013-10-17 21:35:36 +0800
+Served asset /active_admin.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/active_admin/print.css?body=1" for 127.0.0.1 at 2013-10-17 21:35:36 +0800
+Served asset /active_admin/print.css - 304 Not Modified (0ms)
+
+
+Started GET "/admin/boms" for 127.0.0.1 at 2013-10-17 21:35:38 +0800
+Processing by Admin::BomsController#index as HTML
+  [1m[36mAdminUser Load (0.3ms)[0m  [1mSELECT `admin_users`.* FROM `admin_users` WHERE `admin_users`.`id` = 1 LIMIT 1[0m
+  [1m[35m (0.3ms)[0m  SELECT COUNT(*) FROM `boms` 
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM `boms` WHERE `boms`.`status` = 'status_in_progress'[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM `boms` WHERE `boms`.`status` = 'status_pending_approval'
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM `boms` WHERE `boms`.`status` = 'status_active'[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM `boms` WHERE `boms`.`status` = 'status_outdated'
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM `boms` WHERE `boms`.`status` = 'status_transient'[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(count_column) FROM (SELECT 1 AS count_column FROM `boms` LIMIT 10 OFFSET 0) subquery_for_count 
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT COUNT(*) FROM `boms` [0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT COUNT(count_column) FROM (SELECT 1 AS count_column FROM `boms` LIMIT 10 OFFSET 0) subquery_for_count 
+  [1m[36mBom Load (0.3ms)[0m  [1mSELECT `boms`.* FROM `boms` ORDER BY `boms`.`id` desc LIMIT 10 OFFSET 0[0m
+  Rendered /usr/local/lib/ruby/gems/2.0.0/gems/activeadmin-0.6.0/app/views/active_admin/resource/index.html.arb (76.5ms)
+Completed 200 OK in 81ms (Views: 76.8ms | ActiveRecord: 2.3ms)
+
+
+Started GET "/assets/active_admin/print.css?body=1" for 127.0.0.1 at 2013-10-17 21:35:38 +0800
+Served asset /active_admin/print.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/active_admin.js" for 127.0.0.1 at 2013-10-17 21:35:38 +0800
+Served asset /active_admin.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/active_admin.css?body=1" for 127.0.0.1 at 2013-10-17 21:35:38 +0800
+Served asset /active_admin.css - 304 Not Modified (1ms)
+
+
+Started GET "/admin/boms.csv" for 127.0.0.1 at 2013-10-17 21:35:40 +0800
+Processing by Admin::BomsController#index as CSV
+  [1m[35mAdminUser Load (0.3ms)[0m  SELECT `admin_users`.* FROM `admin_users` WHERE `admin_users`.`id` = 1 LIMIT 1
+DEPRECATION WARNING: Active Admin: The csv_column_separator setting is deprecated and will be removed. (called from __usr_local_lib_ruby_gems_______gems_activeadmin_______app_views_active_admin_resource_index_csv_erb__230505658874714417_70258486299840 at /usr/local/lib/ruby/gems/2.0.0/gems/activeadmin-0.6.0/app/views/active_admin/resource/index.csv.erb:10)
+  [1m[36mBom Load (0.3ms)[0m  [1mSELECT `boms`.* FROM `boms` ORDER BY `boms`.`id` desc LIMIT 10000 OFFSET 0[0m
+  Rendered /usr/local/lib/ruby/gems/2.0.0/gems/activeadmin-0.6.0/app/views/active_admin/resource/index.csv.erb (1.7ms)
+Completed 200 OK in 7ms (Views: 3.8ms | ActiveRecord: 0.6ms)
+
+
+Started GET "/admin/boms/import" for 127.0.0.1 at 2013-10-17 21:35:46 +0800
+Processing by Admin::BomsController#import as HTML
+  [1m[35mAdminUser Load (0.4ms)[0m  SELECT `admin_users`.* FROM `admin_users` WHERE `admin_users`.`id` = 1 LIMIT 1
+  Rendered admin/import.html.erb within layouts/active_admin (5.1ms)
+Completed 200 OK in 43ms (Views: 40.6ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/assets/active_admin/print.css?body=1" for 127.0.0.1 at 2013-10-17 21:35:46 +0800
+Served asset /active_admin/print.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/active_admin.js" for 127.0.0.1 at 2013-10-17 21:35:46 +0800
+Served asset /active_admin.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/active_admin.css?body=1" for 127.0.0.1 at 2013-10-17 21:35:46 +0800
+Served asset /active_admin.css - 304 Not Modified (0ms)
+
+
+Started POST "/admin/boms/do_import?bom_id=1" for 127.0.0.1 at 2013-10-17 21:35:52 +0800
+Processing by Admin::BomsController#do_import as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"Iz/3j3RX9ktHOq+Rt9l5I/59DMp3cB/pXf2tlZS3Q2c=", "active_admin_import_model"=>{"file"=>#<ActionDispatch::Http::UploadedFile:0x007fcca840a9a8 @original_filename="boms-2013-10-17 (1).csv", @content_type="text/csv", @headers="Content-Disposition: form-data; name=\"active_admin_import_model[file]\"; filename=\"boms-2013-10-17 (1).csv\"\r\nContent-Type: text/csv\r\n", @tempfile=#<Tempfile:/var/folders/my/3rlbgj6s7mzbjg05t30f6__00000gn/T/RackMultipart20131017-4955-pqf8cp>>}, "commit"=>"导入", "bom_id"=>"1"}
+  [1m[36mAdminUser Load (0.3ms)[0m  [1mSELECT `admin_users`.* FROM `admin_users` WHERE `admin_users`.`id` = 1 LIMIT 1[0m
+  [1m[35mSQL (2.2ms)[0m  DELETE FROM `boms`
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mClass Create Many Without Validations Or Callbacks (0.2ms)[0m  INSERT INTO `boms` (`name`,`status`,`description`,`created_at`,`updated_at`) VALUES ('中文测试','status_in_progress','测试中文是否能成功，等级分达卡附近的拉附近地方','2013-10-17 13:35:52','2013-10-17 13:35:52') ON DUPLICATE KEY UPDATE `boms`.`updated_at`=VALUES(`updated_at`)
+  [1m[36m (0.3ms)[0m  [1mCOMMIT[0m
+Redirected to http://localhost:3000/admin/boms
+Completed 302 Found in 9ms (ActiveRecord: 3.1ms)
+
+
+Started GET "/admin/boms" for 127.0.0.1 at 2013-10-17 21:35:52 +0800
+Processing by Admin::BomsController#index as HTML
+  [1m[35mAdminUser Load (0.3ms)[0m  SELECT `admin_users`.* FROM `admin_users` WHERE `admin_users`.`id` = 1 LIMIT 1
+  [1m[36m (0.3ms)[0m  [1mSELECT COUNT(*) FROM `boms` [0m
+  [1m[35m (0.3ms)[0m  SELECT COUNT(*) FROM `boms` WHERE `boms`.`status` = 'status_in_progress'
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM `boms` WHERE `boms`.`status` = 'status_pending_approval'[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM `boms` WHERE `boms`.`status` = 'status_active'
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM `boms` WHERE `boms`.`status` = 'status_outdated'[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM `boms` WHERE `boms`.`status` = 'status_transient'
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(count_column) FROM (SELECT 1 AS count_column FROM `boms` LIMIT 10 OFFSET 0) subquery_for_count [0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT COUNT(*) FROM `boms` 
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT COUNT(count_column) FROM (SELECT 1 AS count_column FROM `boms` LIMIT 10 OFFSET 0) subquery_for_count [0m
+  [1m[35mBom Load (0.3ms)[0m  SELECT `boms`.* FROM `boms` ORDER BY `boms`.`id` desc LIMIT 10 OFFSET 0
+  Rendered /usr/local/lib/ruby/gems/2.0.0/gems/activeadmin-0.6.0/app/views/active_admin/resource/index.html.arb (79.7ms)
+Completed 200 OK in 84ms (Views: 80.0ms | ActiveRecord: 2.3ms)
+
+
+Started GET "/assets/active_admin.css?body=1" for 127.0.0.1 at 2013-10-17 21:35:52 +0800
+Served asset /active_admin.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/active_admin/print.css?body=1" for 127.0.0.1 at 2013-10-17 21:35:52 +0800
+Served asset /active_admin/print.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/active_admin.js" for 127.0.0.1 at 2013-10-17 21:35:52 +0800
+Served asset /active_admin.js - 304 Not Modified (0ms)
+
+
+Started GET "/admin/boms/13/edit" for 127.0.0.1 at 2013-10-17 21:36:04 +0800
+Processing by Admin::BomsController#edit as HTML
+  Parameters: {"id"=>"13"}
+  [1m[36mAdminUser Load (0.3ms)[0m  [1mSELECT `admin_users`.* FROM `admin_users` WHERE `admin_users`.`id` = 1 LIMIT 1[0m
+  [1m[35mBom Load (0.2ms)[0m  SELECT `boms`.* FROM `boms` WHERE `boms`.`id` = 13 LIMIT 1
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT `boms`.* FROM `boms` WHERE `boms`.`id` = 13 LIMIT 1[0m
+  [1m[35mBom Load (0.5ms)[0m  SELECT `boms`.* FROM `boms` WHERE `boms`.`status` IN ('status_in_progress', 'status_pending_approval', 'status_active')
+  [1m[36m (0.8ms)[0m  [1mSELECT COUNT(*) FROM `change_histories` WHERE `change_histories`.`trackable_obj_id` = 13 AND `change_histories`.`trackable_obj_type` = 'Bom'[0m
+  Rendered /usr/local/lib/ruby/gems/2.0.0/gems/activeadmin-0.6.0/app/views/active_admin/resource/edit.html.arb (112.9ms)
+Completed 200 OK in 119ms (Views: 114.4ms | ActiveRecord: 1.9ms)
+
+
+Started GET "/assets/active_admin.css?body=1" for 127.0.0.1 at 2013-10-17 21:36:04 +0800
+Served asset /active_admin.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/active_admin/print.css?body=1" for 127.0.0.1 at 2013-10-17 21:36:04 +0800
+Served asset /active_admin/print.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/active_admin.js" for 127.0.0.1 at 2013-10-17 21:36:04 +0800
+Served asset /active_admin.js - 304 Not Modified (0ms)
+
+
+Started PUT "/admin/boms/13" for 127.0.0.1 at 2013-10-17 21:36:14 +0800
+Processing by Admin::BomsController#update as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"Iz/3j3RX9ktHOq+Rt9l5I/59DMp3cB/pXf2tlZS3Q2c=", "bom"=>{"name"=>"test", "parent_bom_id"=>"", "code"=>"", "description"=>"测试中文是否能成功，等级分达卡附近的拉附近地方", "version"=>"1.0", "prepared_by"=>"super@example.com", "status"=>"status_in_progress", "change_histories_attributes"=>{"0"=>{"notes"=>"updated", "updated_by"=>"super@example.com"}}}, "commit"=>"更新元件清单", "id"=>"13"}
+  [1m[35mAdminUser Load (0.4ms)[0m  SELECT `admin_users`.* FROM `admin_users` WHERE `admin_users`.`id` = 1 LIMIT 1
+  [1m[36mBom Load (0.5ms)[0m  [1mSELECT `boms`.* FROM `boms` WHERE `boms`.`id` = 13 LIMIT 1[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mBom Exists (0.3ms)[0m  [1mSELECT 1 AS one FROM `boms` WHERE (`boms`.`name` = BINARY 'test' AND `boms`.`id` != 13) LIMIT 1[0m
+  [1m[35m (0.3ms)[0m  UPDATE `boms` SET `name` = 'test', `code` = '', `version` = '1.0', `prepared_by` = 'super@example.com', `updated_at` = '2013-10-17 13:36:14' WHERE `boms`.`id` = 13
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO `change_histories` (`notes`, `trackable_obj_id`, `trackable_obj_type`, `updated_at`, `updated_by`) VALUES ('updated', 13, 'Bom', '2013-10-17 13:36:14', 'super@example.com')[0m
+  [1m[35m (0.3ms)[0m  COMMIT
+Redirected to http://localhost:3000/admin/boms/13
+Completed 302 Found in 16ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/admin/boms/13" for 127.0.0.1 at 2013-10-17 21:36:14 +0800
+Processing by Admin::BomsController#show as HTML
+  Parameters: {"id"=>"13"}
+  [1m[36mAdminUser Load (0.3ms)[0m  [1mSELECT `admin_users`.* FROM `admin_users` WHERE `admin_users`.`id` = 1 LIMIT 1[0m
+  [1m[35mBom Load (0.3ms)[0m  SELECT `boms`.* FROM `boms` WHERE `boms`.`id` = 13 LIMIT 1
+  [1m[36mChangeHistory Load (0.9ms)[0m  [1mSELECT `change_histories`.* FROM `change_histories` WHERE `change_histories`.`trackable_obj_id` = 13 AND `change_histories`.`trackable_obj_type` = 'Bom'[0m
+  Rendered /usr/local/lib/ruby/gems/2.0.0/gems/activeadmin-0.6.0/app/views/active_admin/resource/show.html.arb (38.1ms)
+Completed 200 OK in 43ms (Views: 39.2ms | ActiveRecord: 1.6ms)
+
+
+Started GET "/assets/active_admin/print.css?body=1" for 127.0.0.1 at 2013-10-17 21:36:14 +0800
+Served asset /active_admin/print.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/active_admin.js" for 127.0.0.1 at 2013-10-17 21:36:14 +0800
+Served asset /active_admin.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/active_admin.css?body=1" for 127.0.0.1 at 2013-10-17 21:36:14 +0800
+Served asset /active_admin.css - 304 Not Modified (1ms)
+
+
+Started GET "/admin/boms" for 127.0.0.1 at 2013-10-17 21:36:16 +0800
+Processing by Admin::BomsController#index as HTML
+  [1m[35mAdminUser Load (0.3ms)[0m  SELECT `admin_users`.* FROM `admin_users` WHERE `admin_users`.`id` = 1 LIMIT 1
+  [1m[36m (0.3ms)[0m  [1mSELECT COUNT(*) FROM `boms` [0m
+  [1m[35m (0.3ms)[0m  SELECT COUNT(*) FROM `boms` WHERE `boms`.`status` = 'status_in_progress'
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM `boms` WHERE `boms`.`status` = 'status_pending_approval'[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM `boms` WHERE `boms`.`status` = 'status_active'
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM `boms` WHERE `boms`.`status` = 'status_outdated'[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM `boms` WHERE `boms`.`status` = 'status_transient'
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(count_column) FROM (SELECT 1 AS count_column FROM `boms` LIMIT 10 OFFSET 0) subquery_for_count [0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT COUNT(*) FROM `boms` 
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT COUNT(count_column) FROM (SELECT 1 AS count_column FROM `boms` LIMIT 10 OFFSET 0) subquery_for_count [0m
+  [1m[35mBom Load (0.3ms)[0m  SELECT `boms`.* FROM `boms` ORDER BY `boms`.`id` desc LIMIT 10 OFFSET 0
+  Rendered /usr/local/lib/ruby/gems/2.0.0/gems/activeadmin-0.6.0/app/views/active_admin/resource/index.html.arb (130.2ms)
+Completed 200 OK in 136ms (Views: 130.7ms | ActiveRecord: 2.2ms)
+
+
+Started GET "/assets/active_admin.css?body=1" for 127.0.0.1 at 2013-10-17 21:36:16 +0800
+Served asset /active_admin.css - 304 Not Modified (1ms)
+
+
+Started GET "/assets/active_admin.js" for 127.0.0.1 at 2013-10-17 21:36:16 +0800
+Served asset /active_admin.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/active_admin/print.css?body=1" for 127.0.0.1 at 2013-10-17 21:36:16 +0800
+Served asset /active_admin/print.css - 304 Not Modified (0ms)
+
+
+Started GET "/admin/boms/import" for 127.0.0.1 at 2013-10-17 21:36:19 +0800
+Processing by Admin::BomsController#import as HTML
+  [1m[36mAdminUser Load (0.3ms)[0m  [1mSELECT `admin_users`.* FROM `admin_users` WHERE `admin_users`.`id` = 1 LIMIT 1[0m
+  Rendered admin/import.html.erb within layouts/active_admin (5.7ms)
+Completed 200 OK in 40ms (Views: 37.6ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/assets/active_admin.css?body=1" for 127.0.0.1 at 2013-10-17 21:36:19 +0800
+Served asset /active_admin.css - 304 Not Modified (1ms)
+
+
+Started GET "/assets/active_admin.js" for 127.0.0.1 at 2013-10-17 21:36:19 +0800
+Served asset /active_admin.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/active_admin/print.css?body=1" for 127.0.0.1 at 2013-10-17 21:36:19 +0800
+Served asset /active_admin/print.css - 304 Not Modified (0ms)
+
+
+Started POST "/admin/boms/do_import?bom_id=1" for 127.0.0.1 at 2013-10-17 21:36:25 +0800
+Processing by Admin::BomsController#do_import as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"Iz/3j3RX9ktHOq+Rt9l5I/59DMp3cB/pXf2tlZS3Q2c=", "active_admin_import_model"=>{"file"=>#<ActionDispatch::Http::UploadedFile:0x007fcca9c9ea28 @original_filename="boms-2013-10-17 (1).csv", @content_type="text/csv", @headers="Content-Disposition: form-data; name=\"active_admin_import_model[file]\"; filename=\"boms-2013-10-17 (1).csv\"\r\nContent-Type: text/csv\r\n", @tempfile=#<Tempfile:/var/folders/my/3rlbgj6s7mzbjg05t30f6__00000gn/T/RackMultipart20131017-4955-us8q2r>>}, "commit"=>"导入", "bom_id"=>"1"}
+  [1m[35mAdminUser Load (0.3ms)[0m  SELECT `admin_users`.* FROM `admin_users` WHERE `admin_users`.`id` = 1 LIMIT 1
+  [1m[36mSQL (1.8ms)[0m  [1mDELETE FROM `boms`[0m
+  [1m[35m (0.4ms)[0m  BEGIN
+  [1m[36mClass Create Many Without Validations Or Callbacks (0.3ms)[0m  [1mINSERT INTO `boms` (`name`,`status`,`description`,`created_at`,`updated_at`) VALUES ('中文测试','status_in_progress','测试中文是否能成功，等级分达卡附近的拉附近地方','2013-10-17 13:36:25','2013-10-17 13:36:25') ON DUPLICATE KEY UPDATE `boms`.`updated_at`=VALUES(`updated_at`)[0m
+  [1m[35m (0.3ms)[0m  COMMIT
+Redirected to http://localhost:3000/admin/boms
+Completed 302 Found in 9ms (ActiveRecord: 3.0ms)
+
+
+Started GET "/admin/boms" for 127.0.0.1 at 2013-10-17 21:36:25 +0800
+Processing by Admin::BomsController#index as HTML
+  [1m[36mAdminUser Load (0.3ms)[0m  [1mSELECT `admin_users`.* FROM `admin_users` WHERE `admin_users`.`id` = 1 LIMIT 1[0m
+  [1m[35m (0.6ms)[0m  SELECT COUNT(*) FROM `boms` 
+  [1m[36m (0.3ms)[0m  [1mSELECT COUNT(*) FROM `boms` WHERE `boms`.`status` = 'status_in_progress'[0m
+  [1m[35m (0.3ms)[0m  SELECT COUNT(*) FROM `boms` WHERE `boms`.`status` = 'status_pending_approval'
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM `boms` WHERE `boms`.`status` = 'status_active'[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM `boms` WHERE `boms`.`status` = 'status_outdated'
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM `boms` WHERE `boms`.`status` = 'status_transient'[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(count_column) FROM (SELECT 1 AS count_column FROM `boms` LIMIT 10 OFFSET 0) subquery_for_count 
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT COUNT(*) FROM `boms` [0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT COUNT(count_column) FROM (SELECT 1 AS count_column FROM `boms` LIMIT 10 OFFSET 0) subquery_for_count 
+  [1m[36mBom Load (0.3ms)[0m  [1mSELECT `boms`.* FROM `boms` ORDER BY `boms`.`id` desc LIMIT 10 OFFSET 0[0m
+  Rendered /usr/local/lib/ruby/gems/2.0.0/gems/activeadmin-0.6.0/app/views/active_admin/resource/index.html.arb (137.9ms)
+Completed 200 OK in 144ms (Views: 138.6ms | ActiveRecord: 2.6ms)
+
+
+Started GET "/assets/active_admin.css?body=1" for 127.0.0.1 at 2013-10-17 21:36:25 +0800
+Served asset /active_admin.css - 304 Not Modified (2ms)
+
+
+Started GET "/assets/active_admin/print.css?body=1" for 127.0.0.1 at 2013-10-17 21:36:25 +0800
+Served asset /active_admin/print.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/active_admin.js" for 127.0.0.1 at 2013-10-17 21:36:25 +0800
+Served asset /active_admin.js - 304 Not Modified (0ms)
+
+
+Started GET "/admin/boms/14" for 127.0.0.1 at 2013-10-17 21:36:28 +0800
+Processing by Admin::BomsController#show as HTML
+  Parameters: {"id"=>"14"}
+  [1m[35mAdminUser Load (0.3ms)[0m  SELECT `admin_users`.* FROM `admin_users` WHERE `admin_users`.`id` = 1 LIMIT 1
+  [1m[36mBom Load (0.2ms)[0m  [1mSELECT `boms`.* FROM `boms` WHERE `boms`.`id` = 14 LIMIT 1[0m
+  [1m[35mChangeHistory Load (1.4ms)[0m  SELECT `change_histories`.* FROM `change_histories` WHERE `change_histories`.`trackable_obj_id` = 14 AND `change_histories`.`trackable_obj_type` = 'Bom'
+  Rendered /usr/local/lib/ruby/gems/2.0.0/gems/activeadmin-0.6.0/app/views/active_admin/resource/show.html.arb (37.3ms)
+Completed 200 OK in 43ms (Views: 38.1ms | ActiveRecord: 1.9ms)
+
+
+Started GET "/assets/active_admin/print.css?body=1" for 127.0.0.1 at 2013-10-17 21:36:28 +0800
+Served asset /active_admin/print.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/active_admin.css?body=1" for 127.0.0.1 at 2013-10-17 21:36:28 +0800
+Served asset /active_admin.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/active_admin.js" for 127.0.0.1 at 2013-10-17 21:36:29 +0800
+Served asset /active_admin.js - 304 Not Modified (0ms)
+
+
+Started GET "/admin/boms" for 127.0.0.1 at 2013-10-17 21:38:18 +0800
+Processing by Admin::BomsController#index as HTML
+  [1m[36mAdminUser Load (0.4ms)[0m  [1mSELECT `admin_users`.* FROM `admin_users` WHERE `admin_users`.`id` = 1 LIMIT 1[0m
+  [1m[35m (0.3ms)[0m  SELECT COUNT(*) FROM `boms` 
+  [1m[36m (0.3ms)[0m  [1mSELECT COUNT(*) FROM `boms` WHERE `boms`.`status` = 'status_in_progress'[0m
+  [1m[35m (0.3ms)[0m  SELECT COUNT(*) FROM `boms` WHERE `boms`.`status` = 'status_pending_approval'
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM `boms` WHERE `boms`.`status` = 'status_active'[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM `boms` WHERE `boms`.`status` = 'status_outdated'
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM `boms` WHERE `boms`.`status` = 'status_transient'[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(count_column) FROM (SELECT 1 AS count_column FROM `boms` LIMIT 10 OFFSET 0) subquery_for_count 
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT COUNT(*) FROM `boms` [0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT COUNT(count_column) FROM (SELECT 1 AS count_column FROM `boms` LIMIT 10 OFFSET 0) subquery_for_count 
+  [1m[36mBom Load (0.4ms)[0m  [1mSELECT `boms`.* FROM `boms` ORDER BY `boms`.`id` desc LIMIT 10 OFFSET 0[0m
+  Rendered /usr/local/lib/ruby/gems/2.0.0/gems/activeadmin-0.6.0/app/views/active_admin/resource/index.html.arb (147.7ms)
+Completed 200 OK in 154ms (Views: 148.2ms | ActiveRecord: 2.6ms)
+
+
+Started GET "/assets/active_admin.css?body=1" for 127.0.0.1 at 2013-10-17 21:38:18 +0800
+Served asset /active_admin.css - 304 Not Modified (3ms)
+
+
+Started GET "/assets/active_admin.js" for 127.0.0.1 at 2013-10-17 21:38:18 +0800
+Served asset /active_admin.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/active_admin/print.css?body=1" for 127.0.0.1 at 2013-10-17 21:38:18 +0800
+Served asset /active_admin/print.css - 304 Not Modified (0ms)
+
+
+Started GET "/admin/boms/import" for 127.0.0.1 at 2013-10-18 14:58:14 +0800
+Processing by Admin::BomsController#import as HTML
+  [1m[35mAdminUser Load (46.5ms)[0m  SELECT `admin_users`.* FROM `admin_users` WHERE `admin_users`.`id` = 1 LIMIT 1
+  Rendered admin/import.html.erb within layouts/active_admin (110.1ms)
+Completed 200 OK in 551ms (Views: 344.4ms | ActiveRecord: 46.5ms)
+
+
+Started GET "/assets/active_admin.js" for 127.0.0.1 at 2013-10-18 14:58:15 +0800
+Served asset /active_admin.js - 304 Not Modified (1ms)
+
+
+Started GET "/assets/active_admin.css?body=1" for 127.0.0.1 at 2013-10-18 14:58:15 +0800
+Served asset /active_admin.css - 304 Not Modified (3ms)
+
+
+Started GET "/assets/active_admin/print.css?body=1" for 127.0.0.1 at 2013-10-18 14:58:15 +0800
+Served asset /active_admin/print.css - 304 Not Modified (0ms)
+
+
+Started POST "/admin/boms/do_import?bom_id=1" for 127.0.0.1 at 2013-10-18 14:58:28 +0800
+Processing by Admin::BomsController#do_import as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"Iz/3j3RX9ktHOq+Rt9l5I/59DMp3cB/pXf2tlZS3Q2c=", "active_admin_import_model"=>{"file"=>#<ActionDispatch::Http::UploadedFile:0x007fcca9d5e468 @original_filename="boms-2013-10-17.csv", @content_type="text/csv", @headers="Content-Disposition: form-data; name=\"active_admin_import_model[file]\"; filename=\"boms-2013-10-17.csv\"\r\nContent-Type: text/csv\r\n", @tempfile=#<Tempfile:/var/folders/my/3rlbgj6s7mzbjg05t30f6__00000gn/T/RackMultipart20131018-4955-156oztg>>}, "commit"=>"导入", "bom_id"=>"1"}
+  [1m[36mAdminUser Load (1.7ms)[0m  [1mSELECT `admin_users`.* FROM `admin_users` WHERE `admin_users`.`id` = 1 LIMIT 1[0m
+  [1m[35mSQL (11.7ms)[0m  DELETE FROM `boms`
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mClass Create Many Without Validations Or Callbacks (2.4ms)[0m  INSERT INTO `boms` (`name`,`status`,`description`,`created_at`,`updated_at`) VALUES ('d','status_in_progress','','2013-10-18 06:58:28','2013-10-18 06:58:28') ON DUPLICATE KEY UPDATE `boms`.`updated_at`=VALUES(`updated_at`)
+  [1m[36m (0.5ms)[0m  [1mCOMMIT[0m
+Redirected to http://localhost:3000/admin/boms
+Completed 302 Found in 39ms (ActiveRecord: 16.4ms)
+
+
+Started GET "/admin/boms" for 127.0.0.1 at 2013-10-18 14:58:28 +0800
+Processing by Admin::BomsController#index as HTML
+  [1m[35mAdminUser Load (0.4ms)[0m  SELECT `admin_users`.* FROM `admin_users` WHERE `admin_users`.`id` = 1 LIMIT 1
+  [1m[36m (1.5ms)[0m  [1mSELECT COUNT(*) FROM `boms` [0m
+  [1m[35m (0.3ms)[0m  SELECT COUNT(*) FROM `boms` WHERE `boms`.`status` = 'status_in_progress'
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM `boms` WHERE `boms`.`status` = 'status_pending_approval'[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM `boms` WHERE `boms`.`status` = 'status_active'
+  [1m[36m (0.3ms)[0m  [1mSELECT COUNT(*) FROM `boms` WHERE `boms`.`status` = 'status_outdated'[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM `boms` WHERE `boms`.`status` = 'status_transient'
+  [1m[36m (3.3ms)[0m  [1mSELECT COUNT(count_column) FROM (SELECT 1 AS count_column FROM `boms` LIMIT 10 OFFSET 0) subquery_for_count [0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT COUNT(*) FROM `boms` 
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT COUNT(count_column) FROM (SELECT 1 AS count_column FROM `boms` LIMIT 10 OFFSET 0) subquery_for_count [0m
+  [1m[35mBom Load (0.4ms)[0m  SELECT `boms`.* FROM `boms` ORDER BY `boms`.`id` desc LIMIT 10 OFFSET 0
+  Rendered /usr/local/lib/ruby/gems/2.0.0/gems/activeadmin-0.6.0/app/views/active_admin/resource/index.html.arb (113.1ms)
+Completed 200 OK in 119ms (Views: 109.8ms | ActiveRecord: 6.8ms)
+
+
+Started GET "/assets/active_admin.css?body=1" for 127.0.0.1 at 2013-10-18 14:58:28 +0800
+Served asset /active_admin.css - 304 Not Modified (1ms)
+
+
+Started GET "/assets/active_admin/print.css?body=1" for 127.0.0.1 at 2013-10-18 14:58:28 +0800
+Served asset /active_admin/print.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/active_admin.js" for 127.0.0.1 at 2013-10-18 14:58:28 +0800
+Served asset /active_admin.js - 304 Not Modified (0ms)
+
+
+Started GET "/admin/boms/15" for 127.0.0.1 at 2013-10-18 14:58:36 +0800
+Processing by Admin::BomsController#show as HTML
+  Parameters: {"id"=>"15"}
+  [1m[36mAdminUser Load (0.3ms)[0m  [1mSELECT `admin_users`.* FROM `admin_users` WHERE `admin_users`.`id` = 1 LIMIT 1[0m
+  [1m[35mBom Load (0.2ms)[0m  SELECT `boms`.* FROM `boms` WHERE `boms`.`id` = 15 LIMIT 1
+  [1m[36mChangeHistory Load (6.8ms)[0m  [1mSELECT `change_histories`.* FROM `change_histories` WHERE `change_histories`.`trackable_obj_id` = 15 AND `change_histories`.`trackable_obj_type` = 'Bom'[0m
+  Rendered /usr/local/lib/ruby/gems/2.0.0/gems/activeadmin-0.6.0/app/views/active_admin/resource/show.html.arb (54.8ms)
+Completed 200 OK in 63ms (Views: 52.9ms | ActiveRecord: 7.3ms)
+
+
+Started GET "/assets/active_admin.css?body=1" for 127.0.0.1 at 2013-10-18 14:58:36 +0800
+Served asset /active_admin.css - 304 Not Modified (1ms)
+
+
+Started GET "/assets/active_admin/print.css?body=1" for 127.0.0.1 at 2013-10-18 14:58:36 +0800
+Served asset /active_admin/print.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/active_admin.js" for 127.0.0.1 at 2013-10-18 14:58:36 +0800
+Served asset /active_admin.js - 304 Not Modified (0ms)

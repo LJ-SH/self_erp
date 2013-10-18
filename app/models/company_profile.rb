@@ -14,13 +14,15 @@ class CompanyProfile < ActiveRecord::Base
 
   def distribution_list_check
     unless self.distribution_list.nil?
-    	email_ary = self.distribution_list.split(%r{[,; ]\s*})
+    	email_ary = self.distribution_list.strip.split(%r{[,; ]+\s*}).reject{|c| c.empty?}
     	email_ary.each do |e|
     	  regexp = /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i
     	  unless regexp.match(e)
-    	    errors.add(:distribution_list, "email seperated by ' ',',' or ';' only ")
+    	    errors.add(:distribution_list, :email_not_recognize)
+          return
     	  end 
     	end
+      self.distribution_list = email_ary.join(' ')
     end
   end
 

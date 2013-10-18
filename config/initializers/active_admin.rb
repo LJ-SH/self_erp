@@ -146,10 +146,14 @@ ActiveAdmin.setup do |config|
   #
   # Set the CSV builder separator (default is ",")
   # config.csv_column_separator = ','
+  # it's to be deprecated in 0.6.0 and be replaced with below csv_options
+  config.csv_column_separator = ";"
+  
   #
   # Set the CSV builder options (default is {})
   # config.csv_options = {}
-
+  #config.csv_options = {:col_sep => ';'}
+  config.csv_options = {:col_sep => ";", :headers => "\xEF\xBB\xBF"}
 
   # == Menu System
   #
@@ -188,7 +192,6 @@ ActiveAdmin.setup do |config|
   #     admin.download_links = [:xml, :pdf]
   #
   #   end
-
 
   # == Pagination
   #

@@ -7,7 +7,7 @@ zh-CN:
     :reset: '复位 %{model}'
     :required: '必选'
     titles:
-      component_category_sel_category_type: 选择分类级别
+      component_category_sel_category_type: 选择分类级别和父类
       component_category_list_category_details:  填写分类详细信息
       supplier_basic_info: 基本信息 
       part_number_component_category_sel: 选择元件分类

@@ -1,0 +1,27 @@
+<%= semantic_form_for [:admin, @bom, @bom_part], :as => :q, :url => admin_part_numbers_path, :html => {:multipart => true},
+    :method => :get, :remote => true do |f| %>
+
+    <%= f.input :component_category_level0, :as => :select, :collection => ComponentCategory.valid_depth0_collection.map{|r| [r.name, r.id]}, :input_html => {:class => "cc_selection"} %>
+    <% if f.object.cc_level0.blank? %>
+      <%= f.input :component_category_level1, :as => :select, :collection => [[I18n.t('form.category_sel_tip_option'),""]], :input_html => {:class => "cc_selection"} %>
+    <% else %>
+      <%=f.input :component_category_level1, :as => :select, :collection => ComponentCategory.find(f.object.cc_level0).children.map{|r| [r.name, r.id]}, :input_html => {:class => "cc_selection"} %>
+    <% end %>
+    <% if f.object.cc_level1.blank? %>
+      <%= f.input :component_category_level2, :as => :select, :collection => [[I18n.t('form.category_sel_tip_option'),""]], :input_html => {:class => "cc_selection"} %>
+    <% else %>
+      <%=f.input :component_category_level2, :as => :select, :collection => ComponentCategory.find(f.object.cc_level1).children.map{|r| [r.name, r.id]}, :input_html => {:class => "cc_selection"} %>
+    <% end %>
+    <% if f.object.cc_level2.blank? %>
+      <%= f.input :component_category, :as => :select, :collection => [[I18n.t('form.category_sel_tip_option'),""]], :input_html => {:class => "cc_selection cc_leaf_node"} %>
+    <% else %>
+      <%=f.input :component_category, :as => :select, :collection => ComponentCategory.find(f.object.cc_level2).children.map{|r| [r.name, r.id]}, :input_html => {:class => "cc_selection cc_leaf_node"} %>
+    <% end %>        
+    <%= f.input :supplier, :as => :select, :collection => Supplier.all.map{|r| [r.company_profile.company_name, r.id]}, :include_blank => false %> 
+
+  <%= f.actions do %>
+    <li class="filter"><%= f.submit I18n.t('active_admin.filter') %></li>
+  <li class="cancel"> <%=link_to t("active_admin.cancel"), {:action => :index} %></li>
+  <% end %> 
+
+<% end %>
