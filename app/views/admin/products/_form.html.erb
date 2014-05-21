@@ -1,0 +1,15 @@
+<%= semantic_form_for [:admin, @product], :html => {:multipart => true} do |f| %>
+  <%= f.inputs do %>
+    <%= f.input :name, :placeholder => I18n.t('helpers.text_input.product_name_placeholder')  %>
+    <%= f.input :pcb_ver, :placeholder => I18n.t('helpers.text_input.product_pcb_ver_placeholder') %>
+    <%= render :partial =>"/admin/share/bom_appendix", :locals => {:f => f} %> 
+    <%= f.input :sw_appendix %>
+    <%= f.input :tool_appendix %>    
+    <%= f.input :doc_appendix %>
+    <%= f.input :comment %>
+    <%= f.input :updated_by, :input_html => {:value => f.object.updated_by || current_admin_user.email} %>
+  <% end %>
+
+  <%= render :partial =>"/admin/share/action_links", :locals => {:f => f} %> 
+
+<% end %> 

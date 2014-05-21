@@ -27,6 +27,8 @@ class Ability
 
     user ||= AdminUser.new
 
+    alias_action :create, :read, :update, :destroy, :to => :crud
+
     can :read, ActiveAdmin::Page, :name => ["Dashboard", "menu_system_setting", "menu_supplychain", "menu_sales", "menu_rnd"]
     can [:read, :update], AdminUser, :id => user.id    
 
@@ -39,7 +41,7 @@ class Ability
         can :manage, Supplier
         can :manage, PartNumber
       when :role_material_controller
-        can :manage, ComponentCategory
+        can :crud, ComponentCategory
         can [:read], Supplier
       when :role_dev 
         can [:read], ComponentCategory
@@ -47,7 +49,9 @@ class Ability
         can [:read], Supplier
       when :role_fin 
         can [:read], Supplier
-      else
+      else #:role_others
+        can [:read], Bom, :status => [:status_active]
+        can [:read], BomPart, :bom_id => Bom.status_active
     end  
 
   end

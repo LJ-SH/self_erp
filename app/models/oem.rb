@@ -11,6 +11,9 @@ class Oem < ActiveRecord::Base
   has_many :transaction_histories, :as => :location, :dependent => :destroy, :inverse_of => :location
   accepts_nested_attributes_for :transaction_histories, :allow_destroy => true
 
+  has_many :production_orders, :dependent => :destroy, :inverse_of => :oem
+  accepts_nested_attributes_for :production_orders, :allow_destroy => true  
+
   validates :name, :uniqueness => true,  :presence => { :case_sensitive => false }
 
   scope :company_active, where(:status => :company_active)

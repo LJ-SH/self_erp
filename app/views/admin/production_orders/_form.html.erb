@@ -1,0 +1,32 @@
+<%= semantic_form_for [:admin, @production_order], :html => {:multipart => true} do |f| %>
+  <%= f.inputs :production_order_order_information do %>  
+    <%= render :partial => "order_id_with_discovery_action", :locals => {:f => f} %>
+    <%= f.input  :associated_bom, :input_html => {:disabled => 'disabled'} %>
+    <%= f.input  :associated_manufacturing_docs, :input_html => {:disabled => 'disabled'}  %>
+    <%= f.input  :associated_sw_version, :input_html => {:disabled => 'disabled'}  %>
+    <%= f.input  :associated_test_tool_set, :input_html => {:disabled => 'disabled'} %> 
+  <% end %>
+
+  <%= f.inputs :production_order_manufacturing_information do %> 
+    <%= f.input  :bom %>
+    <%= f.input  :oem %>
+    <%= f.input  :production_type, :as => :select, :collection => PRODUCTION_TYPE_DEFINITION %>
+    <%= f.input  :manufacturing_process, :as => :select, :collection => MANUFACTURING_PROCESS_DEFINITION %>
+    <%= f.input  :rf_frequency, :as => :select, :collection => RF_FREQ_DEFINITION %>
+    <%= f.input  :sn_start_no %>
+    <%= f.input  :imei_start_no %>
+    <%= f.input  :volume %>
+    <%= f.input  :no_of_imei %>
+  <% end %>
+
+  <%= f.inputs :production_order_appendix_information do %>
+    <%= f.input  :comments %>
+    <%= render :partial =>"/admin/share/appendix", :locals => {:f => f} %>   
+  <% end %>
+
+  <%= f.inputs :production_order_status_information do %>
+    <%= f.input  :ordered_by %>  
+  <% end %>
+
+  <%= render :partial =>"/admin/share/action_links", :locals => {:f => f} %> 
+<% end %> 

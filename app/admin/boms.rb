@@ -7,35 +7,89 @@ ActiveAdmin.register Bom do
   scope :status_in_progress
   scope :status_pending_approval
   scope :status_active
-  scope :status_outdated
   scope :status_transient
-
-    active_admin_import :validate => false,
-                        :col_sep => ';',
-                        :back => :index ,
-                        :before_import => proc{|importer|  Bom.delete_all},
-                        :batch_size => 1000,
-                        :timestamps => Time.now
-
-  csv do
-    column :name
-    column :status
-    column :description
-  end  
+  scope :status_outdated
 
   member_action :compare_bom do
-    @bom = Bom.find(params[:id])
-    @compare_options = {:result_display => 2, :bom_id => ''}
+    authorize! :compare_bom, Bom
+    @source_bom = Bom.find(params[:id])
+    unless params[:target_bom].nil?
+      @target_bom = Bom.find(params[:target_bom])
+      @columns = Array.new
+      headers = %w(part_number_code part_number_name amount location compare_result)
+
+      @target_bom = Bom.find(params[:target_bom])
+      @columns = Array.new
+      headers = %w(part_number_code part_number_name amount location compare_result)
+      source_pn_id_ary = @source_bom.bom_parts.map(&:part_number_id)
+      target_pn_id_ary = @target_bom.bom_parts.map(&:part_number_id)
+      missing_pn_id_ary = target_pn_id_ary - source_pn_id_ary
+
+      # find out all Part_numbers which exist in target only 
+      missing_bom_part_ary = @target_bom.bom_parts.keep_if{|x| missing_pn_id_ary.include?(x.part_number_id)} 
+      missing_bom_part_ary.each do |bp|
+        #bom_part_tmp = @target_bom.bom_parts.where(:part_number_id => id).first
+        @columns << {headers[0] => bp.part_number.code,
+                   headers[1] => bp.part_number.name,
+                   headers[2] => "", headers[3] => "",
+                   headers[4] => I18n.t("bom.compare.target_bom_only", :target_bom => @target_bom.name, :location => bp.location)}
+      end
+      
+      # find out all Part_numbers which exist in source only
+      surplus_pn_id_ary =  source_pn_id_ary - target_pn_id_ary
+      surplus_bom_part_ary = @source_bom.bom_parts.keep_if{|x| surplus_pn_id_ary.include?(x.part_number_id)}
+      surplus_bom_part_ary.each do |bp|
+        #bom_part_tmp = @source_bom.bom_parts.where(:part_number_id => id).first
+        @columns << {headers[0] => bp.part_number.code,
+                   headers[1] => bp.part_number.name,
+                   headers[2] => bp.amount, headers[3] => bp.location,
+                   headers[4] => I18n.t("bom.compare.source_bom_only", :source_bom => @source_bom.name)}
+      end 
+      
+      # find out all part_numbers which are different in source from in target
+      part_info = %w(part_number_id location)
+      diff_pn_ary = @source_bom.bom_parts.map{|x| x.attributes.values_at(*part_info)} - @target_bom.bom_parts.map{|x| x.attributes.values_at(*part_info)}
+      diff_pn_ary.each do |diff_ary|
+        id = diff_ary[0]
+        next if surplus_pn_id_ary.include?(id)
+        bom_part_tmp = @source_bom.bom_parts.where(:part_number_id => id).first
+        @columns << {headers[0] => bom_part_tmp.part_number.code,
+                   headers[1] => bom_part_tmp.part_number.name,
+                   headers[2] => bom_part_tmp.amount, headers[3] => bom_part_tmp.location,
+                   headers[4] => I18n.t("bom.compare.bom_part_diff", :target_bom => @target_bom.name, :location => @target_bom.bom_parts.where(:part_number_id => id).first.location)} 
+      end      
+      @columns = Kaminari.paginate_array(@columns).page(params[:page]).per(5)
+    end
+    respond_to do |format|
+      format.html
+      format.js 
+      format.csv do
+        csv_output =  CSV.generate({:col_sep => ";"}) do |csv|
+                        csv << headers
+                        @columns.each do |col|
+                          csv << col.values
+                        end
+                      end              
+        send_data csv_output, :filename => "#{@source_bom.name}-vs-#{@target_bom.name}-#{Time.now.to_date.to_s}.csv" 
+      end 
+    end    
   end
 
-  member_action :fetch_compare_results do
-  end
+  #member_action :fetch_compare_results do
+  #  @target_bom = Bom.find(params[:target_bom])
+  #  #@bom_parts = @target_bom.bom_parts.page params[:page]
+  #  @bom_parts = BomPart.scoped.page(params[:page]).per(5)
+  #  respond_to do |format|
+  #    format.js 
+  #    format.csv {send_data @bom_parts.to_csv_result}
+  #  end
+  #end
 
-  index :download_links => [:csv, :pdf] do
+  index :download_links => [:csv, :xml, :json] do 
   	column :name do |bom|
   	  link_to bom.name, admin_bom_bom_parts_path(bom)
   	end
-  	#column :code
+  	column :code
   	column :status, :class => 'set_min_column_width' do |bom|
   	  status_tag(I18n.t("active_admin.scopes.#{bom.status}"))
   	end
@@ -44,37 +98,19 @@ ActiveAdmin.register Bom do
   	column :approved_by
   	column :updated_at
     actions :defaults => true do |resource|
-      link = link_to I18n.t('active_admin.clone_bom'), new_admin_bom_path(:parent_bom_id => resource.id), :class=>"member_link"
-      link += link_to I18n.t('active_admin.compare_bom'), compare_bom_admin_bom_path(:id => resource.id), :class=>"member_link"
+      if can? :compare_bom, Bom
+        link = link_to I18n.t('active_admin.clone_bom'), new_admin_bom_path(:parent_bom_id => resource.id), :class=>"member_link"
+      end
+      if can? :create, Bom 
+        link += link_to I18n.t('active_admin.compare_bom'), compare_bom_admin_bom_path(:id => resource.id), :class=>"member_link"
+      end
       link
-    end      
+    end     
   end  
 
   form do |f|
-  	f.inputs do
-      f.input :name
-      f.input :parent_bom_id, :as => :select, :include_blank => false,
-              :collection => f.object.parent_bom_collection
-      f.input :code
-      f.input :description
-      f.input :version, :input_html => {:value => f.object.version || "1.0"}
-      f.input :prepared_by, :input_html => {:value => f.object.prepared_by || current_admin_user.email, 
-                                            :disabled => f.object.display_approved_by?}
-      if f.object.display_approved_by?
-        f.input :approved_by, :input_html => {:value => f.object.approved_by || current_admin_user.email,
-                                              :disabled => f.object.model_fixed?}
-      end
-      f.input :status, :as => :select, :collection => f.object.status_select_collection.map{|r| [i18n_status_helper(r),r]},
-              :include_blank => false
-    end
-
-    if (f.object.change_histories.empty? || f.object.change_histories.last.persisted?)
-      f.object.change_histories.build(:updated_by => current_admin_user.email)
-    end
-    f.inputs :notes, :updated_by, :name => :bom_change_history, :for =>[:change_histories, f.object.change_histories.last]
-
-    f.actions
-  end 
+    render :partial => "form"
+  end
 
   show do |bom|
     attributes_table do
@@ -96,19 +132,66 @@ ActiveAdmin.register Bom do
 
   filter :name
   filter :approved_by
-  filter :created_at
+  filter :created_at, :as => :date_range
 
   controller do 
-    #rescue_from  NoMethodError do |e|
-    #  flash[:error] = e.to_s
-    #  redirect_to admin_boms_path
-    #end
+    #authorize_resource
 
     def new
+      authorize! [:new], Bom
       if params[:parent_bom_id]
         @bom = Bom.new(:parent_bom_id => params[:parent_bom_id])
       end
       new!
     end
+
+    def index
+      #authorize! [:index], Bom
+      index!
+    end
   end 
 end
+
+      #@target_bom = Bom.find(params[:target_bom])
+      #@columns = Array.new
+      #headers = %w(part_number_code part_number_name amount location compare_result)
+      #
+      #@target_bom = Bom.find(params[:target_bom])
+      #@columns = Array.new
+      #headers = %w(part_number_code part_number_name amount location compare_result)
+      #source_pn_id_ary = @source_bom.bom_parts.map(&:part_number_id)
+      #target_pn_id_ary = @target_bom.bom_parts.map(&:part_number_id)
+      #missing_pn_id_ary = target_pn_id_ary - source_pn_id_ary
+      #
+      ## find out all Part_numbers which exist in target only 
+      #missing_pn_id_ary = @target_bom.bom_parts.map(&:part_number_id) - @source_bom.bom_parts.map(&:part_number_id)
+      #missing_bom_part_ary = @target_bom.bom_parts.dup.keep_if{|x| missing_pn_id_ary.include?(x.part_number_id)} 
+      #missing_bom_part_ary.each do |bp|
+      #  #bom_part_tmp = @target_bom.bom_parts.where(:part_number_id => id).first
+      #  @columns << {headers[0] => bp.part_number.code,
+      #             headers[1] => bp.part_number.name,
+      #             headers[2] => "", headers[3] => "",
+      #             headers[4] => I18n.t("bom.compare.target_bom_only", :target_bom => @target_bom.name, :location => bp.location)}
+      #end
+      #
+      ## find out all Part_numbers in common and filter out all differen components by removing common ones
+      #part_info = %w(part_number_id location)
+      #common_pn_ary = @source_bom.bom_parts.map{|x| x.attributes.values_at(*part_info)} & @target_bom.bom_parts.map{|x| x.attributes.values_at(*part_info)}
+      #common_pn_id_ary = common_pn_ary.map{|x| x[0]}      
+      #diff_bom_part_ary = @source_bom.bom_parts.delete_if{|x| common_pn_id_ary.include?(x.part_number_id)}     
+      #target_pn_id_ary = @target_bom.bom_parts.map(&:part_number_id)    
+      #diff_bom_part_ary.each do |bp|
+      #  if target_pn_id_ary.include?(bp.part_number_id)
+      #    @columns << {headers[0] => bp.part_number.code,
+      #               headers[1] => bp.part_number.name,
+      #               headers[2] => bp.amount, headers[3] => bp.location,
+      #               headers[4] => I18n.t("bom.compare.bom_part_diff", :target_bom => @target_bom.name, 
+      #                              :location => BomPart.where(:part_number_id=>bp.part_number_id, :bom_id => params[:target_bom]).first.location)}          
+      #  else
+      #    @columns << {headers[0] => bp.part_number.code,
+      #               headers[1] => bp.part_number.name,
+      #               headers[2] => bp.amount, headers[3] => bp.location,
+      #               headers[4] => I18n.t("bom.compare.source_bom_only", :source_bom => @source_bom.name)}          
+      #  end
+      #end      
+      #@columns = Kaminari.paginate_array(@columns).page(params[:page]).per(5)

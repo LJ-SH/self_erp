@@ -6,3 +6,12 @@ zh-CN:
     manage_parts: 管理器件
     clone_bom: 复制
     compare_bom: 比较  
+  bom:
+    compare:
+      submit: 比较
+      target_bom: "目标元件清单: "
+      source_bom: "源元件清单: "
+      switch: 交换
+      target_bom_only: "只在%{target_bom}上有，位置在\"%{location}\""
+      source_bom_only: "只在%{source_bom}上有"
+      bom_part_diff: "在%{target_bom}也有，位置在\"%{location}\""

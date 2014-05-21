@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131006022109) do
+ActiveRecord::Schema.define(:version => 20140508143532) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -156,6 +156,53 @@ ActiveRecord::Schema.define(:version => 20131006022109) do
     t.string   "appendix"
     t.integer  "group_id"
   end
+
+  create_table "production_orders", :force => true do |t|
+    t.string   "order_id",                                                                                            :null => false
+    t.enum     "production_type",               :limit => [:TRIAL_PRODUCTION, :MASSIVE_PRODUCTION, :TEST_PRODUCTION]
+    t.enum     "manufacturing_process",         :limit => [:LEAD_FREE, :LEAD, :MIXTURE]
+    t.enum     "rf_frequency",                  :limit => [:GSM_DUAL_BAND, :GSM_QUAD_BAND, :GSM_AND_TDSCDMA]
+    t.integer  "sn_start_no"
+    t.integer  "imei_start_no"
+    t.integer  "volume"
+    t.integer  "no_of_imei"
+    t.string   "associated_bom"
+    t.string   "associated_manufacturing_docs"
+    t.string   "associated_sw_version"
+    t.string   "associated_test_tool_set"
+    t.text     "comments"
+    t.string   "appendix"
+    t.string   "ordered_by"
+    t.datetime "ordered_at"
+    t.integer  "bom_id",                                                                                              :null => false
+    t.integer  "product_id"
+    t.integer  "oem_id",                                                                                              :null => false
+    t.datetime "created_at",                                                                                          :null => false
+    t.datetime "updated_at",                                                                                          :null => false
+  end
+
+  create_table "products", :force => true do |t|
+    t.string   "name"
+    t.string   "pcb_ver"
+    t.string   "bom_appendix"
+    t.string   "sw_appendix"
+    t.string   "tool_appendix"
+    t.string   "doc_appendix"
+    t.string   "comment"
+    t.string   "updated_by"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+  end
+
+  create_table "sessions", :force => true do |t|
+    t.string   "session_id", :null => false
+    t.text     "data"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "sessions", ["session_id"], :name => "index_sessions_on_session_id"
+  add_index "sessions", ["updated_at"], :name => "index_sessions_on_updated_at"
 
   create_table "suppliers", :primary_key => "s_id", :force => true do |t|
     t.string   "name"

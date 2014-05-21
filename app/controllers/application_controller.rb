@@ -14,6 +14,14 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  rescue_from RuntimeError do |exc|
+    redirect_to(:back, {:flash => {:error => exc.message}})
+  end
+
+  rescue_from ActiveRecord::StatementInvalid do |exc|
+    redirect_to(:back, {:flash => {:error => exc.message}})
+  end
+
   def current_ability
     @current_ability ||= Ability.new(current_admin_user)
   end  

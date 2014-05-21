@@ -10,6 +10,7 @@ class BomPart < ActiveRecord::Base
   validates_numericality_of :amount, :greater_than_or_equal_to => 1, :only_integer => true
   validates_presence_of :location
   validates_presence_of :part_number_id, :message => :pn_absence
+  validates_uniqueness_of :part_number_id, :scope => :bom_id
   validate :part_number_location_check
 
   def part_number_location_check

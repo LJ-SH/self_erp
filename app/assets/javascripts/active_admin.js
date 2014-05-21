@@ -1,4 +1,5 @@
 //= require active_admin/base
+//= require i18n/jquery.ui.datepicker-custom
 
 // start-of-jQuery-code-for-model supplier ====================================
 function remove_fields(link) {

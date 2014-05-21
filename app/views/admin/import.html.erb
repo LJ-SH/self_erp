@@ -1,6 +1,6 @@
-    <p>
-       <small> <%= raw(@active_admin_import_model.hint)  %> </small>
-    </p>
+<p>
+  <small> <%= raw(@active_admin_import_model.hint)  %> </small>
+</p>
 <%= semantic_form_for @active_admin_import_model ,  :url => {:action => :do_import, :bom_id => 1}, :html => {:multipart => true} do |f| %>
     <%= f.inputs do %>
     <%= f.input :file, :as=>:file %>

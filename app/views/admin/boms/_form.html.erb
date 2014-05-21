@@ -1,0 +1,15 @@
+<%= semantic_form_for [:admin, @bom], :html => {:multipart => true} do |f| %>
+  <%= f.inputs :basic_info do %>
+    <%= f.input :name %>
+    <%=  f.input :parent_bom_id, :as => :select, :include_blank => false,
+              :collection => f.object.parent_bom_collection  %>
+    <%= f.input :code %>
+    <%= f.input :description %>
+    <%= f.input :version, :input_html => {:value => f.object.version || "1.0"} %>
+  <% end %>
+
+  <%= render :partial =>"/admin/share/status_field", :locals => {:f => f} %>
+
+  <%= render :partial =>"/admin/share/action_links", :locals => {:f => f} %>   
+<% end %> 
+

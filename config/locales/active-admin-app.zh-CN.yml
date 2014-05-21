@@ -27,7 +27,13 @@ zh-CN:
         other: 元件清单    
       bom_part:
         one: 元件清单项
-        other: 元件清单项              
+        other: 元件清单项  
+      product:
+        one: 产品
+        other: 产品 
+      production_order:
+        one: 工单
+        other: 工单           
     attributes:
       admin_user:
         email: "电子邮件"
@@ -145,6 +151,8 @@ zh-CN:
         total_number_of_categories: 元件种类 
         total_number_of_items:  元件总数
         parent_bom_id: 父级BOM号
+        compare_result: 比较结果 
+        compare_details: 差异内容      
       bom_part:
         id: 编号
         part_number: 元器件
@@ -152,7 +160,38 @@ zh-CN:
         part_number_name: 元件名称 
         amount: 数量
         comments: 说明
-        location: 位置             
+        location: 位置   
+      product:
+        name: 产品名
+        pcb_ver: PCB版本
+        bom_appendix: BOM
+        sw_appendix: 软件
+        tool_appendix: 测试工具
+        doc_appendix: 其他材料
+        comment: 备注
+        updated_by: 更新人
+        updated_at: 更新时间
+        created_at: 创建时间
+      production_order:
+        order_id: 工单编号(16或18位)
+        production_type: 贴片目的
+        manufacturing_process: 生产工艺
+        rf_frequency: 产品频段
+        sn_start_no: 序列号起始号
+        imei_start_no: IMEI起始号码
+        volume: 生产数量
+        no_of_imei: IMEI数量
+        associated_bom: BOM文件
+        associated_manufacturing_docs: 生产文件
+        associated_sw_version: 软件版本
+        associated_test_tool_set: 测试工具
+        comments: 备注
+        appendix: 附件图片
+        ordered_by: 下订单人
+        ordered_at: 下订单时间
+        bom: BOM编号
+        oem: 加工厂
+        product_id: 产品型号
   errors:
     messages:    
       destroy_fails_if_last_admin: 最后一个系统管理员不能被删除
@@ -166,6 +205,8 @@ zh-CN:
       bom_part_location_duplicated: "元件位置号%{location}重复"
       pn_absence: "元器件不能为空"     
       email_not_recognize: "电子邮件只能以空格，逗号或分号分割，且需要符合xx@xx.xx格式"
+      product_name_invalid: 格式：1个字母+4个数字(+1个字母)
+      product_pcb_ver_invalid: 格式：1个字母+2个数字
   devise:
     failure:
       invalid: 登录名（用户名或邮箱）或密码错误  
@@ -188,10 +229,15 @@ zh-CN:
       all: 全部
       status_in_progress: 准备中 
       status_active: 有效
-      status_outdated: 过期
+      status_outdated: 失效
       status_transient: 过渡 
       status_pending_approval: 等待审批
       status_in_progress: 准备中
+      status_rnd: 研发阶段
+      status_npi: 试生产
+      status_ga: 正式量产
+      status_eol: 后期维护
+      status_closed: 产品关闭
     panels:
       outstanding_inventory: 库存统计
   helpers:
@@ -199,3 +245,6 @@ zh-CN:
       category_sel_tip_prompt: 请选择分类类型 
       parent_bom_id_prompt: 请选择上一级BOM
       empty_option: 无
+    text_input:
+      product_name_placeholder: "格式：1个字母+4个数字(+1个字母)"
+      product_pcb_ver_placeholder: "格式：1个字母+2个数字"

@@ -3,16 +3,70 @@ ActiveAdmin.register BomPart do
   #config.clear_sidebar_sections! 
   config.comments = false
   belongs_to :bom
+  config.clear_action_items!
 
-   active_admin_import :validate => false,
-                        :col_sep => ',',
-                        :back => :index ,
-                        :before_import => proc{|importer|  resource.delete_all},
-                        :batch_size => 1000,
-                        :template => "admin/bom_parts/import"
+  action_item :only => [:index, :edit, :update] do
+    link_to I18n.t('active_admin.new_model', model: active_admin_config.resource_label), new_resource_path
+  end
 
-  action_item :only => :index do
-    link_to('ddd',admin_boms_path)
+  action_item :only => :show do
+    link_to I18n.t('active_admin.edit_model', model: active_admin_config.resource_label), edit_resource_path(resource)
+  end
+
+  action_item :only => :show do
+    link_to I18n.t('active_admin.delete_model', model: active_admin_config.resource_label), resource_path(resource),
+            method: :delete, data: {confirm: I18n.t('active_admin.delete_confirmation')}
+  end  
+
+  active_admin_import  :back => :index,
+      :validate => true,
+      :timestamps => true,
+      :col_sep => ';',
+      :template => "admin/bom_parts/import",
+      :before_import => Proc.new{|importer| # initialization
+                                            target_bom_id = importer.extra_options["bom_id"]
+                                            BomPart.where(:bom_id => target_bom_id).delete_all
+                                            header = true
+                                            white_list_attr=%w(Part_number_id Amount Location Comments)
+                                            white_list_idx=Array.new(white_list_attr.size)
+                                            file_buffer=""
+                                            File.foreach(importer.file.path) do |line|
+                                              next if line.blank?
+                                              line_ary = line.strip.split(";")
+                                              if header
+                                                next unless line_ary.size > 1
+                                                header = false
+                                                white_list_idx = white_list_attr.map {|x| line_ary.index(x)}
+                                                if white_list_idx.include?(nil)
+                                                  raise I18n.t('active_admin_import.file_format_error')
+                                                end
+                                                file_buffer << [white_list_attr, "Bom_id"].flatten.join(";").concat("\n")
+                                              else
+                                                file_buffer << [line_ary.values_at(*white_list_idx), target_bom_id].flatten.join(";").concat("\n")
+                                              end
+                                            end
+                                            #logger = Logger.new(STDOUT)                                            
+                                            #logger.info 'buffer prepared ready ----------------'
+                                            #logger.info file_buffer
+                                            File.open(importer.file.path, "w+") { |file| file << file_buffer }
+                                },
+      :fetch_extra_options_from_params => ["bom_id"],
+      :resource_class => nil,
+      :resource_label => nil
+      #:headers => true,
+      #:headers_rewrites => {"Part Number" => :part_number_id}
+
+  csv :default => true do
+    column :id
+    column("Bom_id") {|bom_part| bom_part.bom_id}
+    column("Bom") {|bom_part| bom_part.bom.name}
+    column("Part_number_id") {|bom_part| bom_part.part_number_id} 
+    column("Part Number") {|bom_part| bom_part.part_number.name}
+    column :amount
+    column :location
+    column :comments
+    column :created_at
+    column :updated_at
   end 
 
   index do
@@ -65,6 +119,7 @@ ActiveAdmin.register BomPart do
   end
 
   form do |f|
+    #f.semantic_errors *f.object.errors.keys
     if f.object.new_record?
       render :partial => 'new_form'
     else
@@ -96,7 +151,12 @@ ActiveAdmin.register BomPart do
       case params[:action]
         when 'create'
         when 'new'
-        when 'update'      
+        when 'update'     
+        when 'do_import'
+          params[:active_admin_import_model].merge!(:bom_id => params[:bom_id]) unless params[:active_admin_import_model].nil?
+          #logger.info params[:active_admin_import_model]
+          #logger.info params[:bom_id]
+        else 
       end       
     end    
 

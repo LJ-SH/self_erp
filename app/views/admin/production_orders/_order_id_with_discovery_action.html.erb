@@ -1,0 +1,8 @@
+<li class="string input optional stringish" id="production_order_order_id_input">
+  <%= f.label :order_id %>
+  <input id="production_order_order_id" class="input_with_action_link" maxlength="255" name="production_order[order_id]" type="text"/>
+  <%= link_to I18n.t("link.production_order.discover_manufacturing_info"), 
+      {:action => 'discover_associated_docs'},
+      :class => "button", :style => "margin: 0px 10px", :remote => true
+  %>
+</li>

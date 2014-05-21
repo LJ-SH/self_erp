@@ -17,3 +17,10 @@ zh-CN:
       part_number_change_history: 元件更改历史纪录
       part_number_complementary_info: 元件补充信息
       part_number_sel: 选择元器件
+      status_info: 状态信息
+      change_history: 更改历史纪录
+      basic_info: 基本信息    
+      production_order_order_information: 工单订单号、产品信息和相关工具信息
+      production_order_manufacturing_information: 工单生产信息
+      production_order_appendix_information: 工单附注信息
+      production_order_status_information: 工单申请人和状态信息  

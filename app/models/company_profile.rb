@@ -27,6 +27,6 @@ class CompanyProfile < ActiveRecord::Base
   end
 
   def appendix_name
-    self.appendix.nil?? "" : self.appendix.url.split("/").last
+    self.appendix.blank?? "" : self.appendix.url.split("/").last
   end
 end

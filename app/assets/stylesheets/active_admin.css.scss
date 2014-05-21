@@ -33,7 +33,38 @@ body.active_admin form fieldset.child_list {
 body.active_admin form fieldset.new_child_list {
 	margin-bottom: 0px;
 }
-th.set_min_column_width { min-width: 50px;}
+//th.set_min_column_width { min-width: 50px;}
 div#sidebar th {min-width: 30px;}
 div#sidebar td {word-wrap: break-word;}
 div#sidebar table {table-layout: fixed}
+body.active_admin form.filter_form .filter_form_field.filter_date_range input.datepicker[type=text] {
+  width: 100px;
+}
+body.active_admin table.compare_table {
+  width: 60%;
+  margin: 5px auto;
+}
+table td.center_td_40p {
+  text-align: center;
+  width: 40%; 
+  padding: 10px 0;
+}
+table td.center_td_10p {
+  text-align: center;
+  width: 10%;
+  padding: 10px 0; 
+}
+table td.highlighted {
+  background: #efefef;
+}
+td.yellowgreen {
+  background: yellowgreen;
+}
+
+body.active_admin form input.input_with_action_link {
+  width: 60%;
+}
+
+body.active_admin form input[disabled='disabled'] {
+  background-color: rgba(211, 211, 211, 0.64);
+}

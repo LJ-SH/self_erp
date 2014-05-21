@@ -19,10 +19,7 @@
     <li><%= link_to_add_fields_corporate(t('link.corporate.add_new_sign_in'), f, :users)%></li>
 	<% end %>
 
-  <%= f.actions do %>
-    <%= f.action :submit %>
-    <li class="cancel"> <%=link_to t("active_admin.cancel"), {:action => :index} %></li>
-  <% end %>
+  <%= render :partial =>"/admin/share/action_links", :locals => {:f => f} %> 
 <% end %>      
 
 

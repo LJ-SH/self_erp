@@ -1,0 +1,14 @@
+<%= f.inputs :status_info do %>
+  <%= f.input :status, :as => :select, :collection => f.object.status_select_collection.map{|r| [i18n_status_helper(r),r]}, :include_blank => false %>
+  <%= f.input :prepared_by, :input_html => {:value => f.object.prepared_by || current_admin_user.email, 
+                                              :disabled => f.object.display_approved_by?} %>
+  <% if f.object.display_approved_by? %>
+    <%= f.input :approved_by, :input_html => {:value => f.object.approved_by || current_admin_user.email,
+                                                :disabled => f.object.model_fixed?} %>
+  <% end %>                         
+<% end %>
+
+<% if (f.object.change_histories.empty? || f.object.change_histories.last.persisted?)  %>
+  <% f.object.change_histories.build(:updated_by => current_admin_user.email) %>
+<% end %>
+<%= f.inputs :notes, :updated_by, :name => :change_history, :for =>[:change_histories, f.object.change_histories.last] %>   

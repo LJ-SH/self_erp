@@ -1,0 +1,8 @@
+<li>
+  <%= f.label :bom_appendix %>
+  <% if f.object.bom_appendix? %>
+    <%= f.object.bom_appendix_name %> &nbsp&nbsp
+    <%= f.check_box :remove_bom_appendix %> Remove &nbsp&nbsp
+  <% end %>
+  <%= f.file_field :bom_appendix %>
+</li>

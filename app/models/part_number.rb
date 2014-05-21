@@ -1,51 +1,52 @@
-class PartNumber < ActiveRecord::Base
-  ## start of state defintion ==========================================
-  after_initialize do
-    logger.info 'after_initialize is invoked'
-    self.before_transition_state = self.status
-  end 
+#class PartNumber < ActiveRecord::Base
+#  ## start of state defintion ==========================================
+#  after_initialize do
+#    logger.info 'after_initialize is invoked'
+#    self.before_transition_state = self.status
+#  end 
 
-  attr_accessible :prepared_by, :approved_by, :status, :change_histories_attributes
-  attr_accessor :before_transition_state
+#  attr_accessible :prepared_by, :approved_by, :status, :change_histories_attributes
+#  attr_accessor :before_transition_state
 
-  # DEFAULT_STATUS_DEFINITION = [:status_in_progress, :status_pending_approval, :status_active, :status_transient, :status_outdated]
-  @@status_collection = DEFAULT_STATUS_DEFINITION
-  @@status_collection_max_index = @@status_collection.size-1
+#  # DEFAULT_STATUS_DEFINITION = [:status_in_progress, :status_pending_approval, :status_active, :status_transient, :status_outdated]
+#  @@status_collection = DEFAULT_STATUS_DEFINITION
+#  @@status_collection_max_index = @@status_collection.size-1
 
+#  validates_presence_of :prepared_by
+#  validates_presence_of :approved_by, :unless => Proc.new{|bom| @@status_collection[0..1].include?(bom.status)}
+
+#  has_many :change_histories, :as => :trackable_obj, :dependent => :destroy, :inverse_of => :trackable_obj
+#  accepts_nested_attributes_for :change_histories, :allow_destroy => true 
+
+#  def status_select_collection
+#    if self.new_record?
+#      return @@status_collection[0..0]
+#    else 
+#      case before_transition_state
+#        when @@status_collection[0] then @@status_collection[0..1] 
+#        when @@status_collection[1] then @@status_collection[1..2]
+#        when @@status_collection[2] then @@status_collection[2..3]
+#        when @@status_collection[3] then @@status_collection[3..4]  
+#        else @@status_collection[@@status_collection_max_index..@@status_collection_max_index]
+#      end 
+#    end
+#  end
+
+#  def display_approved_by?
+#    @@status_collection[1..4].include?(self.before_transition_state) 
+#  end
+
+#  def model_fixed?
+#    @@status_collection[2..4].include?(self.before_transition_state)
+#  end 
+  ## end of state definition ==============================================
+
+class PartNumber < StatefulObj
   scope :status_active, where(:status => :status_active)
   scope :status_outdated, where(:status => :status_outdated)
   scope :status_transient, where(:status => :status_transient)
   scope :status_pending_approval, where(:status => :status_pending_approval)
   scope :status_in_progress, where(:status => :status_in_progress)
-
-  validates_presence_of :prepared_by
-  validates_presence_of :approved_by, :unless => Proc.new{|bom| @@status_collection[0..1].include?(bom.status)}
-
-  has_many :change_histories, :as => :trackable_obj, :dependent => :destroy, :inverse_of => :trackable_obj
-  accepts_nested_attributes_for :change_histories, :allow_destroy => true 
-
-  def status_select_collection
-    if self.new_record?
-      return @@status_collection[0..0]
-    else 
-      case before_transition_state
-        when @@status_collection[0] then @@status_collection[0..1] 
-        when @@status_collection[1] then @@status_collection[1..2]
-        when @@status_collection[2] then @@status_collection[2..3]
-        when @@status_collection[3] then @@status_collection[3..4]  
-        else @@status_collection[@@status_collection_max_index..@@status_collection_max_index]
-      end 
-    end
-  end
-
-  def display_approved_by?
-    @@status_collection[1..4].include?(self.before_transition_state) 
-  end
-
-  def model_fixed?
-    @@status_collection[2..4].include?(self.before_transition_state)
-  end 
-  ## end of state definition ==============================================
 
   scope :same_category_parts, 
         ->(pn) {pn.group_id.blank?? where(:id => pn.id) : where("group_id = ? and component_category_id = ?", pn.group_id, pn.component_category_id)}
@@ -103,7 +104,7 @@ class PartNumber < ActiveRecord::Base
   end
 
   def appendix_name
-    self.appendix.nil?? "" : self.appendix.url.split("/").last
+    self.appendix.blank?? "" : self.appendix.url.split("/").last
   end
 
   def associated_parts

@@ -1,15 +1,57 @@
-<%= form_tag({:url => fetch_compare_results_admin_bom_path}, :remote => true) do %>
-  <table style="width:60%" border='1'>
+<%= form_tag({:action => :compare_bom}, :remote => false, :method => :get) do %>
+  <table class="compare_table">
   	<tr>
-  	  <td align="center"> <%= @bom.name %></td>
-  	  <td style="width=5%"> vs </td>
-  	  <td> target bom:&nbsp&nbsp<%= select_tag(:target_bom, options_for_select(Bom.all.reject{|bom| bom.id == @bom.id}.map{|bom| ["#{bom.name}", bom.id]})) %> </td>
-  	</tr>
-  	<tr>
-  	  <td rowspan="3"><%= submit_tag("compare") %></td>
+  	  <td class="center_td_40p highlighted"> 
+        <%=I18n.t('bom.compare.source_bom')%>&nbsp;&nbsp;
+        <strong><%= @source_bom.name %></strong>
+      </td>
+  	  <td class="center_td_10p">
+        <strong>
+          <% unless @target_bom.nil? %>
+            <a href="<%= compare_bom_admin_bom_path(:id => @target_bom.id, :target_bom => @source_bom.id)%>">
+              <%= I18n.t('bom.compare.switch')%>
+            </a>      
+          <% else %>
+            VS
+          <% end %>
+        </strong>
+      </td>
+  	  <td class="center_td_40p highlighted"> 
+        <%=I18n.t('bom.compare.target_bom')%>&nbsp;&nbsp; 
+        <%= select_tag(:target_bom, 
+               options_for_select((Bom.all - [@source_bom]).map{|bom| ["#{bom.name}", bom.id]},
+                                  @target_bom.nil?? '':@target_bom.id)) %> 
+      </td>
+      <td class="center_td_10p"><%= submit_tag(I18n.t("bom.compare.submit")) %></td>
   	</tr>
   <table>
 <% end %>
 
 <div id="bom_compare_main_content">
+
+    <table class="index_table" paginator="true">
+      <thead>
+        <tr>
+          <th><%= PartNumber.human_attribute_name(:code) %></th>
+          <th><%= PartNumber.human_attribute_name(:name) %></th>
+          <th><%= BomPart.human_attribute_name(:amount) %></th>
+          <th><%= BomPart.human_attribute_name(:location) %></th>  
+          <th><%= Bom.human_attribute_name(:compare_result) %></th>                          
+        </tr>
+      </thead>
+      <tbody id="bom_parts">
+        <%= render(:partial => "column", :collection => @columns) unless @columns.nil? %>
+      </tbody>
+    </table>
+
+    <div id="paginator" class="pagination">
+      <%= paginate(@columns, :remote => true) unless @columns.nil? %>
+    </div>   
+
+    <div id="pagination_information" class="pagination_information">
+    </div>
+ 
+    <div id="download_links" class="download_links">
+      <%= [I18n.t('active_admin.download'), (link_to "CSV", {:format => :csv, :target_bom => @target_bom})].flatten.join("&nbsp;").html_safe unless @columns.nil? %>
+    </div>
 </div>
