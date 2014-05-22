@@ -5,7 +5,7 @@ class ProductionOrder < ActiveRecord::Base
                   :appendix_name, :appendix, :remove_appendix
   attr_accessor :appendix, :file
 
-  belongs_to :product, :inverse_of => :production_orders
+  #belongs_to :product, :inverse_of => :production_orders
   belongs_to :oem, :inverse_of => :production_orders
   belongs_to :bom, :inverse_of => :production_orders
 

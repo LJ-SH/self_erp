@@ -1,0 +1,2 @@
+Connecting to database specified by database.yml
+DEPRECATION WARNING: Active Admin: The csv_column_separator setting is deprecated and will be removed. (called from block in <top (required)> at /Users/apple/projects/rails/self_erp/config/initializers/active_admin.rb:150)
