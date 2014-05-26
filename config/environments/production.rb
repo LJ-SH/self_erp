@@ -8,7 +8,10 @@ SelfErp::Application.configure do  # Settings specified here will take precedenc
   config.action_controller.perform_caching = true
 
   # Disable Rails's static asset server (Apache or nginx will already do this)
-  config.serve_static_assets = false
+  # config.serve_static_assets = false
+  
+  # note if the server is webbrick then the value shall be true
+  config.serve_static_assets = true
 
   # Compress JavaScripts and CSS
   config.assets.compress = true
@@ -46,6 +49,7 @@ SelfErp::Application.configure do  # Settings specified here will take precedenc
 
   # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
   # config.assets.precompile += %w( search.js )
+  config.assets.precompile += %w(active_admin.css.scss welcome.css.scss active_admin.js welcome.js.coffee i18n/jquery.ui.datepicker-custom.js)
 
   # Disable delivery errors, bad email addresses will be ignored
   # config.action_mailer.raise_delivery_errors = false

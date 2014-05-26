@@ -11,7 +11,7 @@
 development:
   adapter: mysql2
   encoding: utf8
-  database: self_erp_dev
+  database: mini_erp_dev
   host: localhost
   username: root
   password: '123456'
@@ -28,7 +28,7 @@ test:
 production:
   adapter: mysql2
   encoding: utf8
-  database: self_erp_dev
+  database: mini_erp_prod
   host: localhost
   username: root
   password: '123456'
