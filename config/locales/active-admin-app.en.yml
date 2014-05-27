@@ -1,0 +1,250 @@
+en:
+  activerecord:
+    models:
+      admin_user: 
+        one: "用户管理"
+        other: "用户管理"
+      component_category:
+        one: '元件分类'
+        other: '元件分类'   
+      supplier:
+        one: '供货商'
+        other: '供货商'    
+      supply_agent:
+        one: '供货代理'
+        other: '供货代理'  
+      customer:
+        one: '客户'
+        other: '客户' 
+      oem:
+        one: '代工厂'
+        other: '代工厂'     
+      part_number:
+        one: 元器件
+        other: 元器件  
+      bom:
+        one: 元件清单
+        other: 元件清单    
+      bom_part:
+        one: 元件清单项
+        other: 元件清单项  
+      product:
+        one: 产品
+        other: 产品 
+      production_order:
+        one: 工单
+        other: 工单           
+    attributes:
+      admin_user:
+        email: "Email"
+        password: "Password"
+        password_confirmation: "Password Confirmation"
+        current_sign_in_at: "Current_Sign_In_At"
+        role:  "Role"
+        user_name: "User_Name"
+        last_sign_in_at:  "Last_Sign_In_At"
+        sign_in_count:  "Sign_in_Count"
+        tlogin: "Login_Name"
+        organization:  Company_Name
+        telephone:  Telephone      
+      component_category:
+        name: 名称
+        comment: 备注
+        updated_by_email: 最近更新帐号
+        updated_at:  更新时间
+        code:  编号(2位数字)
+        ancestry: 父类信息
+        ancestry_depth: 分类类别
+        level0: 一级父类
+        level1: 二级父类
+        level2: 三级父类
+        level3: 四级父类          
+        actions:  操作     
+      supplier:
+        name: 登陆名
+        status: 状态
+        company_name: 公司名称
+        contact:  公司联系人  
+        email: 电子邮件         
+        company_desc: 公司简介    
+      supply_agent:
+        name: 登陆名
+        status: 状态
+        company_name: 公司名称
+        contact:  公司联系人  
+        email: 电子邮件         
+        company_desc: 公司简介 
+      customer:
+        name: 登陆名
+        status: 状态
+        company_name: 公司名称
+        contact:  公司联系人  
+        email: 电子邮件         
+        company_desc: 公司简介 
+      oem:
+        name: 登陆名
+        status: 状态
+        company_name: 公司名称
+        contact:  公司联系人  
+        email: 电子邮件         
+        company_desc: 公司简介                                
+      company_profile:
+        company_name: 公司名称
+        company_addr: 公司地址
+        postcode: 公司邮编
+        company_desc: 公司简介
+        contact:  公司联系人
+        primary_phone: 公司联系电话
+        secondary_phone: 备用联系电话
+        distribution_list: 邮件列表
+        appendix: 公司附件  
+      user:
+        email: "电子邮件"
+        password: "密码"
+        password_confirmation: "再次确认密码"    
+      part_number:
+        name: 元器件名称
+        code: 元器件编码
+        old_code: 旧元器件编码
+        vendor_code: 元器件供货商编码
+        status: 状态
+        latest_price: 最新价格
+        prepared_by: 准备人
+        approved_by: 批准人
+        component_category_id: 元器件所属分类
+        created_at: 创建日期
+        preference: 替代优先级
+        min_amount: 最小订货量
+        description: 元器件描述
+        appendix: 附件
+        component_category_level0: 一级父类
+        component_category_level1: 二级父类
+        component_category_level2: 三级父类
+        component_category_level3: 四级父类 
+        supplier: 供货商       
+        reserved_code: 保留编码（4位数字）
+        group_id: 分组
+        inventories: 库存
+        supplier_id: 供应商
+      change_history:
+        notes: 更改说明
+        updated_by: 更改人
+        updated_at: 更改时间
+      inventory:
+        item: 库存品
+        location: 地点
+        quantity_of_surplus: 余量
+        quantity_of_in_manufacturing: 生产备料
+        volume_of_stock: 库存量
+        amount: 金额
+        duration: 持续时间
+      bom:
+        name: 名称
+        code: 编号
+        description: 描述
+        status: 状态
+        prepared_by: 准备人
+        approved_by: 批准人
+        created_at: 创建时间
+        updated_at: 更新时间
+        version: 版本号
+        total_number_of_categories: 元件种类 
+        total_number_of_items:  元件总数
+        parent_bom_id: 父级BOM号
+        compare_result: 比较结果 
+        compare_details: 差异内容      
+      bom_part:
+        id: 编号
+        part_number: 元器件
+        part_number_code: 元件代码
+        part_number_name: 元件名称 
+        amount: 数量
+        comments: 说明
+        location: 位置   
+      product:
+        name: 产品名
+        pcb_ver: PCB版本
+        bom_appendix: BOM
+        sw_appendix: 软件
+        tool_appendix: 测试工具
+        doc_appendix: 其他材料
+        comment: 备注
+        updated_by: 更新人
+        updated_at: 更新时间
+        created_at: 创建时间
+      production_order:
+        order_id: 工单编号(16或18位)
+        production_type: 贴片目的
+        manufacturing_process: 生产工艺
+        rf_frequency: 产品频段
+        sn_start_no: 序列号起始号
+        imei_start_no: IMEI起始号码
+        volume: 生产数量
+        no_of_imei: IMEI数量
+        associated_bom: BOM文件
+        associated_manufacturing_docs: 生产文件
+        associated_sw_version: 软件版本
+        associated_test_tool_set: 测试工具
+        comments: 备注
+        appendix: 附件图片
+        ordered_by: 下订单人
+        ordered_at: 下订单时间
+        bom: BOM编号
+        oem: 加工厂
+        product_id: 产品型号
+  errors:
+    messages:    
+      destroy_fails_if_last_admin: 最后一个系统管理员不能被删除
+      destroy_fails_if_in_use:  "(子)模型-%{categoryname}-正在被使用"
+      destroy_fails_if_children_exist: "子节点-%{childname}-不能被删除"   
+      pn_taken: "该元件编码(%{value})已经被使用"
+      pn_invalid: 元件编号格式不正确，应为8位类型编码+4位保留字＋3位供货商编码
+      pn_preference_taken: "同一分组下元件对应的替换优先级不能相同，(%{value})已经被使用"
+      pn_preference_empty: 元件设置为可以替换时，对应优先级不能为空    
+      bom_part_location_mismatch: "元件位置号数量和元件总数量不一致"
+      bom_part_location_duplicated: "元件位置号%{location}重复"
+      pn_absence: "元器件不能为空"     
+      email_not_recognize: "电子邮件只能以空格，逗号或分号分割，且需要符合xx@xx.xx格式"
+      product_name_invalid: 格式：1个字母+4个数字(+1个字母)
+      product_pcb_ver_invalid: 格式：1个字母+2个数字
+  devise:
+    failure:
+      invalid: 登录名（用户名或邮箱）或密码错误  
+  active_admin:
+    edit_group: 设置替代
+    sidebars:
+      help: "帮助"
+      parent_bom_info: 元件清单概况
+      corporate_basic_info: 公司基本信息
+      part_number_complementary_info: 其他相关信息
+      part_number_filter: 元器件挑选
+    scopes:
+      depth0: 一级分类
+      depth1: 二级分类      
+      depth2: 三级分类
+      depth3: 四级分类   
+      company_active: 经常业务往来
+      company_outdated: 不在业务往来
+      company_transient: 很少业务往来 
+      all: 全部
+      status_in_progress: 准备中 
+      status_active: 有效
+      status_outdated: 失效
+      status_transient: 过渡 
+      status_pending_approval: 等待审批
+      status_in_progress: 准备中
+      status_rnd: 研发阶段
+      status_npi: 试生产
+      status_ga: 正式量产
+      status_eol: 后期维护
+      status_closed: 产品关闭
+    panels:
+      outstanding_inventory: 库存统计
+  helpers:
+    select:
+      category_sel_tip_prompt: 请选择分类类型 
+      parent_bom_id_prompt: 请选择上一级BOM
+      empty_option: 无
+    text_input:
+      product_name_placeholder: "格式：1个字母+4个数字(+1个字母)"
+      product_pcb_ver_placeholder: "格式：1个字母+2个数字"

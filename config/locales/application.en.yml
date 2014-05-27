@@ -1,0 +1,24 @@
+en:
+  self_erp: "Self Enterprise Mgmt System"
+  menu_supplychain: "Supply_Chain"
+  menu_sales: "Sales"
+  menu_inventory: "Inventory"
+  menu_rnd: "RND"
+  menu_system_setting: "System_Setting"
+  active_admin:
+    access_denied:
+      message:  "No Access Permission"  
+  sign_in:
+    placeholder:
+      login_hint: "Please input name or email"
+      password_hint: "Please input your password"
+  role:
+    :role_super: "Super Admin"        
+    :role_admin:   "Administrator"
+    :role_dev: "R&D Staff"
+    :role_fin: "Financial Staff" 
+    :role_plm: "Product Line Manager"
+    :role_sales: "Account Manager"
+    :role_material_controller: "Inventory Auditor"
+    :role_service: "Post Service"
+    :role_others: "Others" 

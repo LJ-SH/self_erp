@@ -19,3 +19,4 @@ Migrating to DeviseCreateAdminUsers (20130422012252)
   [1m[36m (0.2ms)[0m  [1mROLLBACK[0m
 Connecting to database specified by database.yml
 Connecting to database specified by database.yml
+Connecting to database specified by database.yml
